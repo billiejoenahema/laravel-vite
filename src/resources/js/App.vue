@@ -2,6 +2,6 @@
 
 <template>
   <main>
-    <h2>Laravel Vite</h2>
+    <router-view />
   </main>
 </template>
