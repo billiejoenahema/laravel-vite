@@ -1,7 +1,7 @@
+import { store } from '@/store/index';
+import Login from '@/views/Login.vue';
+import Top from '@/views/Top.vue';
 import { createRouter, createWebHistory } from 'vue-router';
-import { store } from '../store/index';
-import Login from '../views/Login.vue';
-import Top from '../views/Top.vue';
 
 const routes = [
   {

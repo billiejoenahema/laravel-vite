@@ -1,6 +1,6 @@
 <script setup>
-import router from '../router';
-import { store } from '../store';
+import router from '@/router';
+import { store } from '@/store';
 
 const logout = async () => {
   if (confirm('ログアウトしますか？')) {

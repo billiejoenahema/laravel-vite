@@ -1,8 +1,8 @@
 <script setup>
+import InvalidFeedback from '@/components/InvalidFeedback';
 import { computed, onMounted, reactive } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import InvalidFeedback from '../components/InvalidFeedback';
 
 const store = useStore();
 const router = useRouter();
