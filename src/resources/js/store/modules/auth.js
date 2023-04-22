@@ -22,7 +22,7 @@ const getters = {
 const actions = {
   async login({ commit }, data) {
     await axios
-      .get('http://localhost:8081/sanctum/csrf-cookie')
+      .get(`${import.meta.env.VITE_API_URL}/sanctum/csrf-cookie`)
       .then(async (res) => {
         await axios
           .post('/login', data)
