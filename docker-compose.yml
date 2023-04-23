@@ -21,5 +21,16 @@ services:
     volumes:
       - db-store:/var/lib/mysql
 
+  mailhog:
+    image: mailhog/mailhog:latest
+    ports:
+      - 8025:8025
+    environment:
+      MH_STORAGE: maildir
+      MH_MAILDIR_PATH: /tmp
+    volumes:
+      - maildir:/tmp
+
 volumes:
   db-store:
+  maildir:
