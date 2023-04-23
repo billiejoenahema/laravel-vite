@@ -1,5 +1,5 @@
 <script setup>
-import InputText from '@/components/InputText';
+import InputText from '@/components/InputText.vue';
 import { computed, reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
