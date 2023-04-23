@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature\Feature\Auth;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Artisan;
 use Tests\TestCase;
 
-class LoginTest extends TestCase
+final class LoginTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -15,7 +17,7 @@ class LoginTest extends TestCase
     /**
      * テスト前の共通処理
      */
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 

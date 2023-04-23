@@ -20,3 +20,4 @@ yarn-error.log
 src/public/js/app.js
 src/public/css/app.css
 src/public/mix-manifest.json
+/.php-cs-fixer.cache
