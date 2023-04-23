@@ -55,18 +55,22 @@ const forgotPassword = async () => {
             autocomplete="on"
             inputmode="text"
           />
-          <button class="sign-in" @click.prevent.stop="login()">Sign in</button>
+          <button class="sign-in" @click.prevent.stop="login()">
+            ログイン
+          </button>
         </p>
         <div class="d-flex justify-content-between align-items-center">
           <a href="#" @click.prevent.stop="isForgotPassword = true"
-            >forgot password</a
+            >パスワードを忘れた方はこちら</a
           >
         </div>
       </template>
       <template v-else>
         <div class="d-flex justify-content-between align-items-center">
-          <button @click.prevent="forgotPassword()">Reset password</button>
-          <a href="#" @click.prevent="isForgotPassword = false">back</a>
+          <button @click.prevent="forgotPassword()">パスワードを再設定</button>
+          <a href="#" @click.prevent="isForgotPassword = false"
+            >ログイン画面に戻る</a
+          >
         </div>
       </template>
     </form>
