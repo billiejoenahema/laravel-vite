@@ -1,5 +1,6 @@
 import { store } from '@/store/index';
 import Login from '@/views/Login.vue';
+import PasswordReset from '@/views/PasswordReset.vue';
 import Top from '@/views/Top.vue';
 import { createRouter, createWebHistory } from 'vue-router';
 
@@ -7,10 +8,16 @@ const routes = [
   {
     path: '/',
     component: Top,
+    meta: { isPublic: false },
   },
   {
     path: '/login',
     component: Login,
+    meta: { isPublic: true },
+  },
+  {
+    path: '/password-reset',
+    component: PasswordReset,
     meta: { isPublic: true },
   },
 ];
