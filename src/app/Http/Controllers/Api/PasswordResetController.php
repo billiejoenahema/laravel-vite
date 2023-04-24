@@ -21,7 +21,6 @@ final class PasswordResetController extends Controller
     public function __invoke(ResetPasswordRequest $request)
     {
         $credentials = $request->only(['email', 'token', 'password']);
-        info($credentials);
         $status = Password::reset($credentials, function (User $user, string $password) {
             $user->password = bcrypt($password);
             $user->save();
