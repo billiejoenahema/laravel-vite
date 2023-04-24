@@ -1,5 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
+use App\Http\Controllers\Api\PasswordForgotController;
+use App\Http\Controllers\Api\PasswordResetController;
 use App\Http\Controllers\Api\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -13,6 +17,10 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+
+// パスワードリセット
+Route::post('/forgot-password', PasswordForgotController::class);
+Route::post('/reset-password', PasswordResetController::class);
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
 

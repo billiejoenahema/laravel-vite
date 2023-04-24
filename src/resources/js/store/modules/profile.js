@@ -19,7 +19,7 @@ const getters = {
     return state.data?.id > 0;
   },
   hasErrors(state) {
-    return Object.keys(state.errors).length > 0;
+    return Object.keys(state.errors)?.length > 0;
   },
   errors(state) {
     return state.errors ?? {};

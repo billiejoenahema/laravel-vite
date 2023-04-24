@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
+
+use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 final class AuthServiceProvider extends ServiceProvider
@@ -23,6 +25,10 @@ final class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        $this->registerPolicies();
+
+        ResetPassword::createUrlUsing(function ($user, string $token) {
+            return env('HOME_URL') . '/password-reset?email=' . $user->email . '&token=' . $token;
+        });
     }
 }
