@@ -1,4 +1,5 @@
 import { store } from '@/store/index';
+import CustomerIndex from '@/views/Customers/Index.vue';
 import Login from '@/views/Login.vue';
 import PasswordReset from '@/views/PasswordReset.vue';
 import Top from '@/views/Top.vue';
@@ -8,6 +9,11 @@ const routes = [
   {
     path: '/',
     component: Top,
+    meta: { isPublic: false },
+  },
+  {
+    path: '/customers',
+    component: CustomerIndex,
     meta: { isPublic: false },
   },
   {

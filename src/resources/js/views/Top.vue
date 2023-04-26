@@ -13,5 +13,7 @@ const logout = async () => {
 
 <template>
   <h2>Top Page</h2>
-  <button type="button" @click="logout">ログアウト</button>
+  <button class="btn btn-primary" type="button" @click="logout">
+    ログアウト
+  </button>
 </template>
