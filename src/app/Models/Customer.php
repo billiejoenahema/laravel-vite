@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * App\Models\Customer
@@ -64,4 +66,27 @@ class Customer extends Model
         'street',
         'avatar',
     ];
+
+    /**
+     * 紐づくユーザーを取得
+     *
+     * @return BelongsTo
+     *
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
+     * メールアドレスの取得
+     *
+     * @return \Illuminate\Database\Eloquent\Casts\Attribute
+     */
+    protected function email(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->user->email,
+        );
+    }
 }
