@@ -1,63 +1,14 @@
 <script setup>
 import Pagination from '@/components/Pagination.vue';
 import SortIcon from '@/components/SortIcon.vue';
-import { reactive, ref } from 'vue';
+import { store } from '@/store/index';
+import { computed, onMounted, reactive, ref } from 'vue';
 
-// onMounted(async () => {
-//   await store.dispatch('customers/get', params);
-// });
-const users = [
-  {
-    id: 1,
-    name: 'user1',
-    email: 'user1@example.com',
-    phone: '01012345678',
-    birth_date: '2000/01/01',
-  },
-  {
-    id: 1,
-    name: 'user2',
-    email: 'user2@example.com',
-    phone: '02012345678',
-    birth_date: '2000/02/02',
-  },
-  {
-    id: 1,
-    name: 'user3',
-    email: 'user3@example.com',
-    phone: '03012345678',
-    birth_date: '2000/03/03',
-  },
-];
-const links = [
-  {
-    url: null,
-    active: false,
-    label: '&laquo; 前',
-  },
-  {
-    url: 'http://localhost:8081/customers?page=1',
-    active: true,
-    label: '1',
-  },
-  {
-    url: 'http://localhost:8081/customers?page=2',
-    active: false,
-    label: '2',
-  },
-  {
-    url: 'http://localhost:8081/customers?page=3',
-    active: false,
-    label: '3',
-  },
-  {
-    url: null,
-    active: false,
-    label: '次 &raquo;',
-  },
-];
-// const links = computed(() => store.dispatch('customers/links'));
-// const meta = computed(() => store.dispatch('customers/meta'));
+onMounted(async () => {
+  await store.dispatch('customers/get', params);
+});
+const users = computed(() => store.getters['customers/data']);
+const meta = computed(() => store.getters['customers/meta']);
 const activeSortKey = ref('');
 
 const defaultParams = {
@@ -81,7 +32,7 @@ const sort = (sortValue) => {
     params.sort_value = sortValue;
   }
   params.page = 1;
-  // store.dispatch('customers/get', params)
+  store.dispatch('customers/get', params);
 };
 
 const showDetail = (id) => {
@@ -91,7 +42,7 @@ const showDetail = (id) => {
 const changePage = (page = null) => {
   if (page) {
     params.page = page;
-    // store.dispatch('customers/get', params)
+    store.dispatch('customers/get', params);
   }
 };
 </script>
@@ -149,5 +100,5 @@ const changePage = (page = null) => {
       </tr>
     </tbody>
   </table>
-  <Pagination :links="links" @change="changePage" />
+  <Pagination :links="meta?.links" @change="changePage" />
 </template>

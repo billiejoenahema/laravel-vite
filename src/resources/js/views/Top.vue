@@ -16,4 +16,5 @@ const logout = async () => {
   <button class="btn btn-primary" type="button" @click="logout">
     ログアウト
   </button>
+  <router-link to="/customers">顧客一覧</router-link>
 </template>
