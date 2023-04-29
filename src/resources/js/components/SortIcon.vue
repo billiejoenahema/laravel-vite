@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 const props = defineProps({
-  ascending: {
+  isAsc: {
     type: Boolean,
     required: false,
     default: '',
@@ -21,7 +21,7 @@ const icon = computed(() => {
   if (props.activeSortKey !== props.label) {
     return 'sort';
   }
-  if (props.ascending) {
+  if (props.isAsc) {
     return 'sort-up';
   } else {
     return 'sort-down';
@@ -30,14 +30,11 @@ const icon = computed(() => {
 </script>
 
 <template>
-  <font-awesome-icon class="sort-direction-" :icon="icon" />
+  <font-awesome-icon class="sort-direction" :icon="icon" />
 </template>
 
 <style scoped>
-.sort-direction-icon-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0 8px;
+.sort-direction {
+  cursor: pointer;
 }
 </style>

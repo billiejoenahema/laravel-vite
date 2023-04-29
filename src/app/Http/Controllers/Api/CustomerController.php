@@ -21,6 +21,13 @@ class CustomerController extends Controller
     public function index(IndexRequest $request): AnonymousResourceCollection
     {
         $query = Customer::query()->with(['user']);
+
+        $direction = $request->getSortDirection();
+        $column = $request->getSortColumn();
+
+        // ソート
+        $query->sortByColumn($column, $direction);
+
         $customers = $query->paginate(self::PER_PAGE);
 
         return CustomerResource::collection($customers);

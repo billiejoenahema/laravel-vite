@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Attribute;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -43,6 +44,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder|Customer whereStreet($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Customer whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Customer whereUserId($value)
+ * @property-read \App\Models\User|null $user
+ * @method static \Database\Factories\CustomerFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|Customer sortByColumn($column, $order)
  * @mixin \Eloquent
  */
 class Customer extends Model
@@ -88,5 +92,29 @@ class Customer extends Model
         return Attribute::make(
             get: fn () => $this->user->email,
         );
+    }
+
+    /**
+     * 指定のカラムでソートするスコープ
+     *
+     * @param Builder|Customer $query
+     * @param string $column
+     * @param string $order
+     * @return Builder|Customer
+     */
+    public function scopeSortByColumn($query, $column, $order): Builder|Customer
+    {
+        $columns = [
+            'id',
+            'name',
+            'gender',
+            'phone',
+            'pref',
+        ];
+        if (in_array($column, $columns, false)) {
+            $query->orderByRaw("{$column} is null asc")->orderBy($column, $order);
+        }
+
+        return $query;
     }
 }

@@ -25,4 +25,42 @@ class IndexRequest extends FormRequest
             //
         ];
     }
+
+    /**
+     * ソート対象のカラムを返す。nullならデフォルト値の'id'を返す。
+     *
+     * @return string
+     */
+    public function getSortColumn(): string
+    {
+        $columns = [
+            'id',
+            'name',
+            'gender',
+            'phone',
+            'pref',
+        ];
+
+        $key = array_search($this->sort_value, $columns);
+
+        if (!$key) {
+            return 'id';
+        }
+
+        return $columns[$key];
+    }
+
+    /**
+     * ソートの方向を返す。
+     *
+     * @return string
+     */
+    public function getSortDirection(): string
+    {
+        if ($this->is_asc === 'true') {
+            return 'asc';
+        } else {
+            return 'desc';
+        }
+    }
 }
