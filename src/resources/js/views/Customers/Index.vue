@@ -52,7 +52,15 @@ const changePage = (page = null) => {
   <table class="table table-striped">
     <thead class="table-dark">
       <tr class="sticky-top">
-        <th scope="col" @click="sort('name')">
+        <th class="column-id" scope="col" @click="sort('id')">
+          ID
+          <SortIcon
+            :isAsc="params.is_asc"
+            :active-sort-key="activeSortKey"
+            :label="'id'"
+          />
+        </th>
+        <th class="column-name" scope="col" @click="sort('name')">
           氏名
           <SortIcon
             :isAsc="params.is_asc"
@@ -96,7 +104,8 @@ const changePage = (page = null) => {
     </thead>
     <tbody>
       <tr v-for="user in users" :id="user.id" @click="showDetail(user.id)">
-        <th scope="row">{{ user.name }}</th>
+        <th scope="row">{{ user.id }}</th>
+        <td>{{ user.name }}</td>
         <td>{{ user.gender }}</td>
         <td>{{ user.phone }}</td>
         <td>{{ user.birth_date }}</td>
