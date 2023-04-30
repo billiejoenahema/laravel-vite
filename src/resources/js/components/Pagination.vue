@@ -18,8 +18,8 @@ const linkLabel = (label) => {
 </script>
 
 <template>
-  <nav class="pagination-nav" aria-label="...">
-    <ul class="pagination">
+  <nav class="navigation" aria-label="...">
+    <ul class="pagination justify-content-center">
       <li
         v-for="link in links"
         class="page-item"
@@ -39,10 +39,6 @@ const linkLabel = (label) => {
 </template>
 
 <style>
-.pagination-nav {
-  display: flex;
-  justify-content: center;
-}
 .page-link {
   user-select: none;
 }

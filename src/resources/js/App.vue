@@ -1,7 +1,7 @@
 <script setup></script>
 
 <template>
-  <main>
+  <main class="container-md">
     <router-view />
   </main>
 </template>
