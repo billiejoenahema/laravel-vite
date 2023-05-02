@@ -15,6 +15,7 @@ const hasErrors = computed(() => store.getters['auth/hasErrors']);
 const isForgotPassword = ref(false);
 
 const login = async () => {
+  store.commit('auth/setErrors', {});
   await store.dispatch('auth/login', user);
   if (!hasErrors.value) {
     router.push('/');
@@ -27,11 +28,11 @@ const forgotPassword = async () => {
 
 <template>
   <div class="login-form">
-    <form class="column">
+    <form>
       <div class="invalid-feedback" v-if="hasErrors">
         メールアドレスまたはパスワードに誤りがあります。
       </div>
-      <p class="column">
+      <div class="mb-3">
         <label for="login-email">Email</label>
         <InputText
           v-model="user.email"
@@ -42,9 +43,9 @@ const forgotPassword = async () => {
           autocomplete="on"
           inputmode="email"
         />
-      </p>
+      </div>
       <template v-if="!isForgotPassword">
-        <p class="column">
+        <div class="mb-3">
           <label for="login-password">Password</label>
           <InputText
             v-model="user.password"
@@ -55,11 +56,11 @@ const forgotPassword = async () => {
             autocomplete="on"
             inputmode="text"
           />
-          <button class="sign-in" @click.prevent.stop="login()">
+        </div>
+        <div class="d-flex justify-content-between align-items-center">
+          <button class="btn btn-primary mb-3" @click.prevent.stop="login()">
             ログイン
           </button>
-        </p>
-        <div class="d-flex justify-content-between align-items-center">
           <a href="#" @click.prevent.stop="isForgotPassword = true"
             >パスワードを忘れた方はこちら</a
           >
@@ -67,7 +68,9 @@ const forgotPassword = async () => {
       </template>
       <template v-else>
         <div class="d-flex justify-content-between align-items-center">
-          <button @click.prevent="forgotPassword()">パスワードを再設定</button>
+          <button class="btn btn-primary" @click.prevent="forgotPassword()">
+            パスワードを再設定
+          </button>
           <a href="#" @click.prevent="isForgotPassword = false"
             >ログイン画面に戻る</a
           >
@@ -76,3 +79,13 @@ const forgotPassword = async () => {
     </form>
   </div>
 </template>
+
+<style scoped>
+.login-form {
+  max-width: 400px;
+  margin: auto;
+}
+.invalid-feedback {
+  display: block;
+}
+</style>

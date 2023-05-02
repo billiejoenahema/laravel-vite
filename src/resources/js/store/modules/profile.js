@@ -12,10 +12,7 @@ const getters = {
   data(state) {
     return state.data;
   },
-  profile(state) {
-    return Object.entries(state.data).length > 0;
-  },
-  loggedIn(state) {
+  isLoggedIn(state) {
     return state.data?.id > 0;
   },
   hasErrors(state) {
@@ -51,7 +48,7 @@ const actions = {
     setLoading(commit, false);
   },
   async getIfNeeded({ dispatch, getters }) {
-    if (getters.loggedIn) return;
+    if (getters.isLoggedIn) return;
     await dispatch('get');
   },
   async post({ commit }, data) {

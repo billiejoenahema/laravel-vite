@@ -39,11 +39,11 @@ const router = createRouter({
 router.beforeEach(async (to, _from, next) => {
   await store.dispatch('profile/getIfNeeded');
 
-  const loggedIn = store.getters['profile/loggedIn'];
-  if (loggedIn && to.path === '/login') {
+  const isLoggedIn = store.getters['profile/isLoggedIn'];
+  if (isLoggedIn && to.path === '/login') {
     // ログイン中にログインページにアクセスしたらトップページにリダイレクトさせる
     next('/');
-  } else if (!to.meta.isPublic && !loggedIn) {
+  } else if (!to.meta.isPublic && !isLoggedIn) {
     // ログインせずに非公開ページにアクセスしたらログインページにリダイレクトさせる
     next('/login');
   } else {
