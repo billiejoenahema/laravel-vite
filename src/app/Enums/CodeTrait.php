@@ -40,4 +40,14 @@ trait CodeTrait
     {
         return array_column(self::cases(), 'value');
     }
+
+    /**
+     * スカラー値の配列からランダムに1つ値を返す。
+     *
+     * @return string|int
+     */
+    public static function randomValue(): string|int
+    {
+        return self::values()[array_rand(self::values())];
+    }
 }
