@@ -10,6 +10,10 @@ onMounted(async () => {
 const users = computed(() => store.getters['customers/data']);
 const meta = computed(() => store.getters['customers/meta']);
 const activeSortKey = ref('');
+const genderTextValue = computed(() => store.getters['consts/genderTextValue']);
+const prefectureTextValue = computed(
+  () => store.getters['consts/prefectureTextValue']
+);
 
 const defaultParams = {
   search_column: '',
@@ -106,10 +110,10 @@ const changePage = (page = null) => {
       <tr v-for="user in users" :id="user.id" @click="showDetail(user.id)">
         <th scope="row">{{ user.id }}</th>
         <td>{{ user.name }}</td>
-        <td>{{ user.gender }}</td>
+        <td>{{ genderTextValue(user.gender) }}</td>
         <td>{{ user.phone }}</td>
         <td>{{ user.birth_date }}</td>
-        <td>{{ user.pref }}</td>
+        <td>{{ prefectureTextValue(user.pref) }}</td>
       </tr>
     </tbody>
   </table>

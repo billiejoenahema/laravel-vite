@@ -27,6 +27,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     // ログインユーザー情報
     Route::get('/profile', ProfileController::class);
+
+    // 定数
+    Route::get('/const', fn () => config('const'));
+
     // 顧客
     Route::get('/customers', [CustomerController::class, 'index']);
 });
