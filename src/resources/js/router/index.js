@@ -47,7 +47,7 @@ router.beforeEach(async (to, _from, next) => {
     // ログインせずに非公開ページにアクセスしたらログインページにリダイレクトさせる
     next('/login');
   } else {
-    // store.dispatch('consts/getIfNeeded');
+    store.dispatch('consts/getIfNeeded');
     next();
   }
 });
