@@ -109,6 +109,7 @@ class Customer extends Model
             'name',
             'gender',
             'phone',
+            'birth_date',
             'pref',
         ];
         if (in_array($column, $columns, false)) {

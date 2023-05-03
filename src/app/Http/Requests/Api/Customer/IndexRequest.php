@@ -38,6 +38,7 @@ class IndexRequest extends FormRequest
             'name',
             'gender',
             'phone',
+            'birth_date',
             'pref',
         ];
 
