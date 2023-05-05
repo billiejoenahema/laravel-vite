@@ -2,12 +2,13 @@
 import Pagination from '@/components/Pagination.vue';
 import SortIcon from '@/components/SortIcon.vue';
 import { store } from '@/store/index';
+import { formatDate } from '@/utils/formatter';
 import { computed, onMounted, reactive, ref } from 'vue';
 
 onMounted(async () => {
   await store.dispatch('customers/get', params);
 });
-const users = computed(() => store.getters['customers/data']);
+const customers = computed(() => store.getters['customers/data']);
 const meta = computed(() => store.getters['customers/meta']);
 const activeSortKey = ref('');
 const genderTextValue = computed(() => store.getters['consts/genderTextValue']);
@@ -104,18 +105,52 @@ const changePage = (page = null) => {
             :label="'pref'"
           />
         </th>
+        <th scope="col" @click="sort('created_at')">
+          登録日
+          <SortIcon
+            :isAsc="params.is_asc"
+            :active-sort-key="activeSortKey"
+            :label="'created_at'"
+          />
+        </th>
+        <th scope="col" @click="sort('updated_at')">
+          更新日
+          <SortIcon
+            :isAsc="params.is_asc"
+            :active-sort-key="activeSortKey"
+            :label="'updated_at'"
+          />
+        </th>
       </tr>
     </thead>
     <tbody>
-      <tr v-for="user in users" :id="user.id" @click="showDetail(user.id)">
-        <th scope="row">{{ user.id }}</th>
-        <td>{{ user.name }}</td>
-        <td>{{ genderTextValue(user.gender) }}</td>
-        <td>{{ user.phone }}</td>
-        <td>{{ user.birth_date }}</td>
-        <td>{{ prefectureTextValue(user.pref) }}</td>
+      <tr
+        v-for="customer in customers"
+        :id="customer.id"
+        @click="showDetail(customer.id)"
+      >
+        <th class="align-middle" scope="row">{{ customer.id }}</th>
+        <td class="align-middle">
+          <img :src="customer.avatar" class="avatar me-2" />{{ customer.name }}
+        </td>
+        <td class="align-middle">{{ genderTextValue(customer.gender) }}</td>
+        <td class="align-middle">{{ customer.phone }}</td>
+        <td class="align-middle">{{ formatDate(customer.birth_date) }}</td>
+        <td class="align-middle">{{ prefectureTextValue(customer.pref) }}</td>
+        <td class="align-middle">{{ formatDate(customer.created_at) }}</td>
+        <td class="align-middle">{{ formatDate(customer.updated_at) }}</td>
       </tr>
     </tbody>
   </table>
   <Pagination :links="meta?.links" @change="changePage" />
 </template>
+
+<style scoped>
+.column-id {
+  width: 48px;
+}
+.avatar {
+  height: 32px;
+  border-radius: 50%;
+}
+</style>
