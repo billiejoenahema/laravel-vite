@@ -13,7 +13,7 @@ const changePage = (url = null) => {
   emit('change', page);
 };
 const linkLabel = (label) => {
-  return label.replace('&laquo; 前', '<<').replace('次 &raquo;', '>>');
+  return label.replace('&laquo;', '«').replace('&raquo;', '»');
 };
 </script>
 
@@ -30,9 +30,7 @@ const linkLabel = (label) => {
         :tabindex="link.url === null ? '-1' : ''"
         @click.prevent="changePage(link.url)"
       >
-        <a href="#" class="page-link">
-          <code>{{ linkLabel(link.label) }}</code>
-        </a>
+        <a href="#" class="page-link"> {{ linkLabel(link.label) }} </a>
       </li>
     </ul>
   </nav>
