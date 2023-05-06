@@ -22,7 +22,7 @@ final class CustomerFactory extends Factory
         return [
             'name' => $this->faker->name(),
             'phone' => $this->faker->phoneNumber(),
-            'gender' => array_rand(Gender::values()),
+            'gender' => Gender::randomValue(),
             'birth_date' => $this->faker->date('Y-m-d', 'yesterday'),
             'postal_code' => $this->faker->postcode(),
             'pref' => $this->faker->numberBetween(1, 47),
