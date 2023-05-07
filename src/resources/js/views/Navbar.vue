@@ -16,11 +16,14 @@ const logout = async () => {
 <template>
   <nav class="navbar sticky-top navbar-dark bg-dark mb-3">
     <div class="container-fluid">
-      <router-link to="/">Laravel Vite</router-link>
+      <router-link to="/"
+        ><div title="トップページ">Laravel Vite</div></router-link
+      >
       <font-awesome-icon
         v-if="isLoggedIn"
         class="right-from-bracket-icon icon text-primary"
         icon="right-from-bracket"
+        title="ログアウト"
         @click="logout"
       />
     </div>
