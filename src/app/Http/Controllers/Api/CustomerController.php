@@ -42,11 +42,15 @@ class CustomerController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * 指定の顧客を取得する。
+     * @param Customer $customer
+     * @return CustomerResource
      */
-    public function show(string $id)
+    public function show(Customer $customer): CustomerResource
     {
-        //
+        $customer->load(['user']);
+
+        return new CustomerResource($customer);
     }
 
     /**
