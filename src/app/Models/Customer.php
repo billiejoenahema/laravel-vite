@@ -2,7 +2,8 @@
 
 namespace App\Models;
 
-use Attribute;
+use App\Enums\Prefecture;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -72,7 +73,18 @@ class Customer extends Model
     ];
 
     /**
-     * 紐づくユーザーを取得
+     * モデルの配列フォームに追加するアクセサ
+     *
+     * @var array
+     */
+    protected $appends = [
+        'address',
+        'age',
+        'pref_text_value',
+    ];
+
+    /**
+     * 所有するユーザー
      *
      * @return BelongsTo
      *
@@ -83,9 +95,7 @@ class Customer extends Model
     }
 
     /**
-     * メールアドレスの取得
-     *
-     * @return \Illuminate\Database\Eloquent\Casts\Attribute
+     * 所有するユーザーのメールアドレスを取得
      */
     protected function email(): Attribute
     {
@@ -95,12 +105,51 @@ class Customer extends Model
     }
 
     /**
+     * 郵便番号を操作
+     */
+    protected function postalCodeWithHyphen(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => substr($this->postal_code, 0, 3) . "-" . substr($this->postal_code, 3),
+        );
+    }
+
+    /**
+     * 都道府県コードから都道府県名を取得
+     */
+    protected function prefTextValue(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => Prefecture::tryFrom($this->pref)?->text(),
+        );
+    }
+
+    /**
+     * 住所を取得
+     */
+    protected function address(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => '〒' . $this->postal_code_with_hyphen . ' ' .  Prefecture::tryFrom($this->pref)?->text() . $this->city . $this->street,
+        );
+    }
+
+    /**
+     * 生年月日から現在の年齢を取得
+     */
+    protected function age(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => now()->diffInYears($this->birth_date),
+        );
+    }
+
+    /**
      * 指定のカラムでソートするスコープ
      *
      * @param Builder|Customer $query
      * @param string $column
      * @param string $order
-     * @return Builder|Customer
      */
     public function scopeSortByColumn($query, $column, $order): Builder|Customer
     {
