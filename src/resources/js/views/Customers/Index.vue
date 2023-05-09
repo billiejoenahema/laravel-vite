@@ -39,11 +39,6 @@ const sort = (sortValue) => {
   params.page = 1;
   store.dispatch('customers/get', params);
 };
-
-const showDetail = (id) => {
-  console.log({ id });
-  // router.push(`/customers/${id}`);
-};
 const changePage = (page = null) => {
   if (page) {
     params.page = page;
@@ -124,14 +119,13 @@ const changePage = (page = null) => {
       </tr>
     </thead>
     <tbody>
-      <tr
-        v-for="customer in customers"
-        :id="customer.id"
-        @click="showDetail(customer.id)"
-      >
+      <tr v-for="customer in customers" :id="customer.id">
         <th class="align-middle" scope="row">{{ customer.id }}</th>
         <td class="align-middle">
-          <img :src="customer.avatar" class="avatar me-2" />{{ customer.name }}
+          <img :src="customer.avatar" class="avatar me-2" /><router-link
+            :to="`/customers/` + customer.id"
+            >{{ customer.name }}</router-link
+          >
         </td>
         <td class="align-middle">{{ genderTextValue(customer.gender) }}</td>
         <td class="align-middle">{{ customer.phone }}</td>
