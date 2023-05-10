@@ -11,10 +11,6 @@ onMounted(async () => {
 const customers = computed(() => store.getters['customers/data']);
 const meta = computed(() => store.getters['customers/meta']);
 const activeSortKey = ref('');
-const genderTextValue = computed(() => store.getters['consts/genderTextValue']);
-const prefectureTextValue = computed(
-  () => store.getters['consts/prefectureTextValue']
-);
 
 const defaultParams = {
   search_column: '',
@@ -66,6 +62,14 @@ const changePage = (page = null) => {
             :isAsc="params.is_asc"
             :active-sort-key="activeSortKey"
             :label="'name'"
+          />
+        </th>
+        <th scope="col" @click="sort('age')">
+          年齢
+          <SortIcon
+            :isAsc="params.is_asc"
+            :active-sort-key="activeSortKey"
+            :label="'age'"
           />
         </th>
         <th scope="col" @click="sort('gender')">
@@ -127,10 +131,11 @@ const changePage = (page = null) => {
             >{{ customer.name }}</router-link
           >
         </td>
-        <td class="align-middle">{{ genderTextValue(customer.gender) }}</td>
+        <td class="align-middle">{{ customer.age }}</td>
+        <td class="align-middle">{{ customer.gender_value }}</td>
         <td class="align-middle">{{ customer.phone }}</td>
         <td class="align-middle">{{ formatDate(customer.birth_date) }}</td>
-        <td class="align-middle">{{ prefectureTextValue(customer.pref) }}</td>
+        <td class="align-middle">{{ customer.pref_value }}</td>
         <td class="align-middle">{{ formatDate(customer.created_at) }}</td>
         <td class="align-middle">{{ formatDate(customer.updated_at) }}</td>
       </tr>

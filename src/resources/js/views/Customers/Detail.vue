@@ -1,4 +1,5 @@
 <script setup>
+import { formatDate } from '@/utils/formatter';
 import { computed } from 'vue';
 import router from '../../router';
 import { store } from '../../store';
@@ -6,7 +7,6 @@ import { store } from '../../store';
 const customerId = router.currentRoute.value?.params?.id;
 store.dispatch('customer/get', customerId);
 const customer = computed(() => store.getters['customer/data']);
-const genderTextValue = computed(() => store.getters['consts/genderTextValue']);
 </script>
 
 <template>
@@ -30,7 +30,7 @@ const genderTextValue = computed(() => store.getters['consts/genderTextValue']);
     </div>
     <div class="row">
       <label class="col-3">性別</label>
-      <span class="col-9">{{ genderTextValue(customer.gender) }}</span>
+      <span class="col-9">{{ customer.gender_value }}</span>
     </div>
     <div class="row">
       <label class="col-3">電話番号</label>
@@ -38,7 +38,7 @@ const genderTextValue = computed(() => store.getters['consts/genderTextValue']);
     </div>
     <div class="row">
       <label class="col-3">生年月日</label>
-      <span class="col-9">{{ customer.birth_date }}</span>
+      <span class="col-9">{{ formatDate(customer.birth_date) }}</span>
     </div>
     <div class="row">
       <label class="col-3">住所</label>
@@ -46,11 +46,11 @@ const genderTextValue = computed(() => store.getters['consts/genderTextValue']);
     </div>
     <div class="row">
       <label class="col-3">登録日</label>
-      <span class="col-9">{{ customer.created_at }}</span>
+      <span class="col-9">{{ formatDate(customer.created_at) }}</span>
     </div>
     <div class="row">
       <label class="col-3">更新日</label>
-      <span class="col-9">{{ customer.updated_at }}</span>
+      <span class="col-9">{{ formatDate(customer.updated_at) }}</span>
     </div>
   </div>
 </template>

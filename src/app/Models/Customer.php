@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\Gender;
 use App\Enums\Prefecture;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Contracts\Database\Eloquent\Builder;
@@ -80,7 +81,8 @@ class Customer extends Model
     protected $appends = [
         'address',
         'age',
-        'pref_text_value',
+        'gender_value',
+        'pref_value',
     ];
 
     /**
@@ -115,9 +117,19 @@ class Customer extends Model
     }
 
     /**
-     * 都道府県コードから都道府県名を取得
+     * 性別を取得
      */
-    protected function prefTextValue(): Attribute
+    protected function genderValue(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => Gender::tryFrom($this->gender)?->text(),
+        );
+    }
+
+    /**
+     * 都道府県名を取得
+     */
+    protected function prefValue(): Attribute
     {
         return Attribute::make(
             get: fn () => Prefecture::tryFrom($this->pref)?->text(),

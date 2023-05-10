@@ -8,20 +8,8 @@ const getters = {
   data(state) {
     return state.data ?? [];
   },
-  genderTextValue: (state) => (id) => {
-    const item = state.data.GENDER?.find((v) => {
-      return v.id == id;
-    });
-    return item?.name ?? '';
-  },
   genderFormOptions(state) {
     return state.data?.GENDER;
-  },
-  prefectureTextValue: (state) => (id) => {
-    const item = state.data.PREFECTURE?.find((v) => {
-      return v.id == id;
-    });
-    return item?.name ?? '';
   },
   prefectureFormOptions(state) {
     return state.data?.PREFECTURE;
