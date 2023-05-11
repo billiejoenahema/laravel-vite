@@ -1,3 +1,16 @@
 $primary: #fca35a;
 
 @import '~bootstrap/scss/bootstrap';
+.table,
+.table-striped > tbody > tr:nth-of-type(odd) > * {
+  color: white;
+}
+thead > tr > th {
+  cursor: pointer;
+}
+thead > tr > th:hover {
+  opacity: 0.9;
+}
+tbody > tr:hover {
+  background: rgb(67, 75, 83);
+}
