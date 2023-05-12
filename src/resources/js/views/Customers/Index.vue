@@ -48,14 +48,6 @@ const changePage = (page = null) => {
   <table class="table table-striped">
     <thead class="table-dark">
       <tr class="sticky-top">
-        <th class="column-id" scope="col" @click="sort('id')">
-          ID
-          <SortIcon
-            :isAsc="params.is_asc"
-            :active-sort-key="activeSortKey"
-            :label="'id'"
-          />
-        </th>
         <th class="column-name" scope="col" @click="sort('name')">
           氏名
           <SortIcon
@@ -123,11 +115,10 @@ const changePage = (page = null) => {
       </tr>
     </thead>
     <tbody>
-      <tr v-for="customer in customers" :id="customer.id">
-        <th class="align-middle" scope="row">{{ customer.id }}</th>
+      <tr v-for="customer in customers" :id="customer.ulid">
         <td class="align-middle">
           <img :src="customer.avatar" class="avatar me-2" /><router-link
-            :to="`/customers/` + customer.id"
+            :to="`/customers/` + customer.ulid"
             >{{ customer.name }}</router-link
           >
         </td>
@@ -145,9 +136,6 @@ const changePage = (page = null) => {
 </template>
 
 <style scoped>
-.column-id {
-  width: 48px;
-}
 .avatar {
   height: 32px;
   border-radius: 50%;

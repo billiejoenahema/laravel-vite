@@ -22,6 +22,8 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable()->comment('メール認証日時');
             $table->string('password')->comment('パスワード');
             $table->rememberToken();
+
+            $table->softDeletes();
             $table->timestamps();
         });
     }

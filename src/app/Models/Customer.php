@@ -9,6 +9,7 @@ use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * App\Models\Customer
@@ -49,11 +50,24 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property-read \App\Models\User|null $user
  * @method static \Database\Factories\CustomerFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Customer sortByColumn($column, $order)
+ * @property string $ulid ULID
+ * @method static \Illuminate\Database\Eloquent\Builder|Customer onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Customer whereUlid($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Customer withTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Customer withoutTrashed()
  * @mixin \Eloquent
  */
 class Customer extends Model
 {
     use HasFactory;
+    use SoftDeletes;
+
+    // HasUlids という trait を使うと、主キーを ULID としてよしなに扱ってくれます。
+    // ULIDの自動生成やオートインクリメント関連の誤爆防止などをしてくれます。
+    use \Illuminate\Database\Eloquent\Concerns\HasUlids;
+
+    public $table = 'customers';
+    protected $primaryKey = 'ulid';
 
     /**
      * The attributes that are mass assignable.
@@ -166,7 +180,7 @@ class Customer extends Model
     public function scopeSortByColumn($query, $column, $order): Builder|Customer
     {
         $columns = [
-            'id',
+            'ulid',
             'name',
             'gender',
             'phone',

@@ -4,7 +4,7 @@ import { computed } from 'vue';
 import router from '../../router';
 import { store } from '../../store';
 
-const customerId = router.currentRoute.value?.params?.id;
+const customerId = router.currentRoute.value?.params?.ulid;
 store.dispatch('customer/get', customerId);
 const customer = computed(() => store.getters['customer/data']);
 </script>
@@ -14,7 +14,7 @@ const customer = computed(() => store.getters['customer/data']);
   <div class="customer-detail">
     <div class="row">
       <label class="col-3">顧客ID</label>
-      <span class="col-9">{{ customer.id }}</span>
+      <span class="col-9">{{ customer.ulid }}</span>
     </div>
     <div class="row">
       <label class="col-3">氏名</label>

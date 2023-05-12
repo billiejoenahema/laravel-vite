@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('customers', function (Blueprint $table) {
             $table->comment('顧客');
 
-            $table->id();
+            $table->ulid('ulid')->comment('ULID')->primary();
             $table->foreignId('user_id')->nullable()->comment('ユーザーID')->index();
             $table->string('name')->nullable()->comment('氏名');
             $table->string('name_kana')->nullable()->comment('ふりがな');
