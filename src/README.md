@@ -21,7 +21,7 @@
 - Base image
   - mysql/mysql-server:8.0
 - architecture
-  - Laravel 10
+  - Laravel 10.0
   - Vue 3.2
   - Vuex
   - Vue-router
