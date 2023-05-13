@@ -34,7 +34,7 @@ class IndexRequest extends FormRequest
     public function getSortColumn(): string
     {
         $columns = [
-            'ulid',
+            'id',
             'name',
             'gender',
             'phone',
@@ -45,7 +45,7 @@ class IndexRequest extends FormRequest
         $key = array_search($this->sort_value, $columns);
 
         if (!$key) {
-            return 'ulid';
+            return 'id';
         }
 
         return $columns[$key];

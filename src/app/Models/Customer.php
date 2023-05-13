@@ -50,7 +50,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property-read \App\Models\User|null $user
  * @method static \Database\Factories\CustomerFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Customer sortByColumn($column, $order)
- * @property string $ulid ULID
+ * @property string $id ULID
  * @method static \Illuminate\Database\Eloquent\Builder|Customer onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Customer whereUlid($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Customer withTrashed()
@@ -67,7 +67,7 @@ class Customer extends Model
     use \Illuminate\Database\Eloquent\Concerns\HasUlids;
 
     public $table = 'customers';
-    protected $primaryKey = 'ulid';
+    protected $primaryKey = 'id';
 
     /**
      * The attributes that are mass assignable.
@@ -180,7 +180,7 @@ class Customer extends Model
     public function scopeSortByColumn($query, $column, $order): Builder|Customer
     {
         $columns = [
-            'ulid',
+            'id',
             'name',
             'gender',
             'phone',

@@ -1,21 +1,21 @@
 <script setup>
-import Pagination from '@/components/Pagination.vue';
-import SortIcon from '@/components/SortIcon.vue';
-import { store } from '@/store/index';
-import { formatDate } from '@/utils/formatter';
-import { computed, onMounted, reactive, ref } from 'vue';
+import Pagination from "@/components/Pagination.vue";
+import SortIcon from "@/components/SortIcon.vue";
+import { store } from "@/store/index";
+import { formatDate } from "@/utils/formatter";
+import { computed, onMounted, reactive, ref } from "vue";
 
 onMounted(async () => {
-  await store.dispatch('customers/get', params);
+  await store.dispatch("customers/get", params);
 });
-const customers = computed(() => store.getters['customers/data']);
-const meta = computed(() => store.getters['customers/meta']);
-const activeSortKey = ref('');
+const customers = computed(() => store.getters["customers/data"]);
+const meta = computed(() => store.getters["customers/meta"]);
+const activeSortKey = ref("");
 
 const defaultParams = {
-  search_column: '',
-  search_value: '',
-  sort_value: '',
+  search_column: "",
+  search_value: "",
+  sort_value: "",
   is_asc: true,
 };
 const params = reactive({
@@ -33,12 +33,12 @@ const sort = (sortValue) => {
     params.sort_value = sortValue;
   }
   params.page = 1;
-  store.dispatch('customers/get', params);
+  store.dispatch("customers/get", params);
 };
 const changePage = (page = null) => {
   if (page) {
     params.page = page;
-    store.dispatch('customers/get', params);
+    store.dispatch("customers/get", params);
   }
 };
 </script>
@@ -115,10 +115,10 @@ const changePage = (page = null) => {
       </tr>
     </thead>
     <tbody>
-      <tr v-for="customer in customers" :id="customer.ulid">
+      <tr v-for="customer in customers" :id="customer.id">
         <td class="align-middle">
           <img :src="customer.avatar" class="avatar me-2" /><router-link
-            :to="`/customers/` + customer.ulid"
+            :to="`/customers/` + customer.id"
             >{{ customer.name }}</router-link
           >
         </td>
