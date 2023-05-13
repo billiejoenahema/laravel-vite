@@ -1,10 +1,10 @@
 <script setup>
+import InputSelect from "@/components/InputSelect.vue";
+import InputSelectPrefecture from "@/components/InputSelectPrefecture.vue";
+import InputText from "@/components/InputText.vue";
 import { onMounted, reactive } from "vue";
 import router from "../../router";
 import { store } from "../../store";
-import InputText from "@/components/InputText.vue";
-import InputSelect from "@/components/InputSelect.vue";
-import InputSelectPrefecture from "@/components/InputSelectPrefecture.vue";
 
 const customer = reactive({
   id: null,
@@ -48,11 +48,7 @@ onMounted(async () => {
         <label for="customerName" class="col-form-label">氏名</label>
       </div>
       <div class="col-8">
-        <InputText
-          id="customerName"
-          class="form-control"
-          v-model="customer.name"
-        />
+        <InputText id="customerName" v-model="customer.name" />
       </div>
     </div>
     <div class="row align-items-center mb-3">
@@ -60,11 +56,7 @@ onMounted(async () => {
         <label for="customerNameKana" class="col-form-label">ふりがな</label>
       </div>
       <div class="col-8">
-        <InputText
-          id="customerNameKana"
-          class="form-control"
-          v-model="customer.name_kana"
-        />
+        <InputText id="customerNameKana" v-model="customer.name_kana" />
       </div>
     </div>
     <div class="row align-items-center mb-3">
@@ -72,11 +64,7 @@ onMounted(async () => {
         <label for="customerAge" class="col-form-label">年齢</label>
       </div>
       <div class="col-2">
-        <InputText
-          id="customerAge"
-          class="form-control"
-          v-model="customer.age"
-        />
+        <InputText id="customerAge" v-model="customer.age" />
       </div>
     </div>
     <div class="row align-items-center mb-3">
@@ -86,7 +74,6 @@ onMounted(async () => {
       <div class="col-3">
         <InputSelect
           id="customerAge"
-          class-value="form-select-lg"
           :options="genderFormOptions"
           v-model="customer.gender"
         />
@@ -97,12 +84,7 @@ onMounted(async () => {
         <label for="customerPhone" class="col-form-label">電話番号</label>
       </div>
       <div class="col-8">
-        <InputText
-          id="customerPhone"
-          class="form-control"
-          type="tel"
-          v-model="customer.phone"
-        />
+        <InputText id="customerPhone" type="tel" v-model="customer.phone" />
       </div>
     </div>
     <div class="row align-items-center mb-3">
@@ -112,7 +94,6 @@ onMounted(async () => {
       <div class="col-8">
         <InputText
           id="customerBirthDate"
-          class="form-control"
           type="date"
           v-model="customer.birth_date"
         />
@@ -123,11 +104,7 @@ onMounted(async () => {
         <label for="customerPostalCode" class="col-form-label">郵便番号</label>
       </div>
       <div class="col-3">
-        <InputText
-          id="customerPostalCode"
-          class="form-control"
-          v-model="customer.postal_code"
-        />
+        <InputText id="customerPostalCode" v-model="customer.postal_code" />
       </div>
     </div>
     <div class="row align-items-center mb-3">
@@ -135,11 +112,7 @@ onMounted(async () => {
         <label for="customerPref" class="col-form-label">都道府県</label>
       </div>
       <div class="col-3">
-        <InputSelectPrefecture
-          id="customerPref"
-          class-value="form-select-lg"
-          v-model="customer.pref"
-        />
+        <InputSelectPrefecture id="customerPref" v-model="customer.pref" />
       </div>
     </div>
     <div class="row align-items-center mb-3">
@@ -147,11 +120,7 @@ onMounted(async () => {
         <label for="customerCity" class="col-form-label">市区町村</label>
       </div>
       <div class="col-8">
-        <InputText
-          id="customerCity"
-          class="form-control"
-          v-model="customer.city"
-        />
+        <InputText id="customerCity" v-model="customer.city" />
       </div>
     </div>
     <div class="row align-items-center mb-3">
@@ -159,11 +128,7 @@ onMounted(async () => {
         <label for="customerStreet" class="col-form-label">番地</label>
       </div>
       <div class="col-8">
-        <InputText
-          id="customerStreet"
-          class="form-control"
-          v-model="customer.street"
-        />
+        <InputText id="customerStreet" v-model="customer.street" />
       </div>
     </div>
     <div class="row align-items-center mb-3">
@@ -171,11 +136,7 @@ onMounted(async () => {
         <label for="customerCreatedAt" class="col-form-label">登録日</label>
       </div>
       <div class="col-8">
-        <InputText
-          id="customerCreatedAt"
-          class="form-control"
-          v-model="customer.created_at"
-        />
+        <InputText id="customerCreatedAt" v-model="customer.created_at" />
       </div>
     </div>
     <div class="row align-items-center mb-3">
@@ -183,11 +144,7 @@ onMounted(async () => {
         <label for="customerUpdatedAt" class="col-form-label">更新日</label>
       </div>
       <div class="col-8">
-        <InputText
-          id="customerUpdatedAt"
-          class="form-control"
-          v-model="customer.updated_at"
-        />
+        <InputText id="customerUpdatedAt" v-model="customer.updated_at" />
       </div>
     </div>
   </div>
