@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Customer\IndexRequest;
+use App\Http\Requests\Api\Customer\SaveRequest;
 use App\Http\Resources\Api\CustomerResource;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Symfony\Component\HttpFoundation\Response;
 
 class CustomerController extends Controller
 {
@@ -54,11 +56,19 @@ class CustomerController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * 指定の顧客を更新する。
+     *
+     * @param SaveRequest $request
      */
-    public function update(Request $request, string $id)
+    public function update(SaveRequest $request, Customer $customer)
     {
-        //
+        $data = $request->all();
+
+        DB::transaction(function () use ($data, $customer) {
+            $customer->fill($data)->save();
+        });
+
+        return response()->json(Response::HTTP_OK);
     }
 
     /**
