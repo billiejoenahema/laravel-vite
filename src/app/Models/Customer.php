@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\Gender;
 use App\Enums\Prefecture;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -167,6 +168,26 @@ class Customer extends Model
     {
         return Attribute::make(
             get: fn () => now()->diffInYears($this->birth_date),
+        );
+    }
+
+    /**
+     * 登録日を操作
+     */
+    protected function createdAt(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => Carbon::parse($value)->format('Y/m/d H:i:s'),
+        );
+    }
+
+    /**
+     * 更新日を操作
+     */
+    protected function updatedAt(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => Carbon::parse($value)->format('Y/m/d H:i:s'),
         );
     }
 
