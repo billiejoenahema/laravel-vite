@@ -71,7 +71,7 @@ class Customer extends Model
     protected $primaryKey = 'id';
 
     /**
-     * The attributes that are mass assignable.
+     * 複数代入可能な属性
      *
      * @var array<int, string>
      */
