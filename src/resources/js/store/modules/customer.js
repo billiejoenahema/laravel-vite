@@ -40,6 +40,18 @@ const actions = {
       });
     setLoading(commit, false);
   },
+  async patch({ commit }, data) {
+    setLoading(commit, true);
+    await axios
+      .patch(`/api/customers/${data.id}`, data)
+      .then(() => {
+        commit('setErrors', {});
+      })
+      .catch((err) => {
+        commit('setErrors', err.response.data.errors);
+      });
+    setLoading(commit, false);
+  },
 };
 
 const mutations = {
