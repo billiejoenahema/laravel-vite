@@ -5,6 +5,7 @@ import customer from './modules/customer';
 import customers from './modules/customers';
 import loading from './modules/loading';
 import profile from './modules/profile';
+import toast from './modules/toast';
 
 export const store = createStore({
   modules: {
@@ -14,5 +15,6 @@ export const store = createStore({
     customers,
     loading,
     profile,
+    toast,
   },
 });
