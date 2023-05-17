@@ -69,7 +69,7 @@ class CustomerController extends Controller
             $customer->fill($data)->save();
         });
 
-        return response()->json(['message' => '更新しました。'], Response::HTTP_OK);
+        return response()->json(['message' => '更新しました'], Response::HTTP_OK);
     }
 
     /**
