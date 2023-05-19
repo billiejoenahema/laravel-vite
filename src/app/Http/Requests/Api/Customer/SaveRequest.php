@@ -4,6 +4,7 @@ namespace App\Http\Requests\Api\Customer;
 
 use App\Enums\Gender;
 use App\Enums\Prefecture;
+use App\helpers\Converter;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -28,7 +29,7 @@ class SaveRequest extends FormRequest
             'name' => 'required|string|max:50',
             'name_kana' => 'nullable|string|max:50',
             'birth_date' => 'nullable|date:Y-m-d',
-            'phone' => 'nullable|string|max:20|regex:/^[0-9-]+$/',
+            'phone' => 'nullable|string|max:20|regex:/^[0-9]+$/',
             'gender' => ['required', 'string', Rule::in(Gender::values())],
             'postal_code' => 'nullable|string|size:7|regex:/^[0-9]+$/',
             'pref' => ['nullable', Rule::in(Prefecture::values())],
@@ -68,5 +69,19 @@ class SaveRequest extends FormRequest
             'phone.regex' => '電話番号は数字とハイフンのみで入力してください。',
             'postal_code.regex' => '郵便番号は数字のみで入力してください。',
         ];
+    }
+
+    /**
+     * バリーデーションのためにデータを準備
+     *
+     * @return void
+     */
+    protected function prepareForValidation()
+    {
+        // 郵便番号、電話番号のハイフンを取り除く
+        $this->merge([
+            'phone' => Converter::removeHyphen($this->phone),
+            'postal_code' => Converter::removeHyphen($this->postal_code),
+        ]);
     }
 }
