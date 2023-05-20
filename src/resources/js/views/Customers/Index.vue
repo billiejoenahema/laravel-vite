@@ -1,21 +1,21 @@
 <script setup>
-import Pagination from "@/components/Pagination.vue";
-import SortIcon from "@/components/SortIcon.vue";
-import { store } from "@/store/index";
-import { formatDate } from "@/utils/formatter";
-import { computed, onMounted, reactive, ref } from "vue";
+import Pagination from '@/components/Pagination.vue';
+import SortIcon from '@/components/SortIcon.vue';
+import { store } from '@/store/index';
+import { formatDate } from '@/utils/formatter';
+import { computed, onMounted, reactive, ref } from 'vue';
 
 onMounted(async () => {
-  await store.dispatch("customers/get", params);
+  await store.dispatch('customers/get', params);
 });
-const customers = computed(() => store.getters["customers/data"]);
-const meta = computed(() => store.getters["customers/meta"]);
-const activeSortKey = ref("");
+const customers = computed(() => store.getters['customers/data']);
+const meta = computed(() => store.getters['customers/meta']);
+const activeSortKey = ref('');
 
 const defaultParams = {
-  search_column: "",
-  search_value: "",
-  sort_value: "",
+  search_column: '',
+  search_value: '',
+  sort_value: '',
   is_asc: true,
 };
 const params = reactive({
@@ -33,12 +33,12 @@ const sort = (sortValue) => {
     params.sort_value = sortValue;
   }
   params.page = 1;
-  store.dispatch("customers/get", params);
+  store.dispatch('customers/get', params);
 };
 const changePage = (page = null) => {
   if (page) {
     params.page = page;
-    store.dispatch("customers/get", params);
+    store.dispatch('customers/get', params);
   }
 };
 </script>

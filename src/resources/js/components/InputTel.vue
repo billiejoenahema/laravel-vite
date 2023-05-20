@@ -1,16 +1,16 @@
 <script setup>
-import { computed, ref } from "vue";
+import { computed, ref } from 'vue';
 const props = defineProps({
   autocomplete: {
-    default: "on",
+    default: 'on',
     required: false,
     type: [String],
     validator(value) {
-      return ["on", "off"].includes(value);
+      return ['on', 'off'].includes(value);
     },
   },
   classValue: {
-    default: "",
+    default: '',
     required: false,
     type: String,
   },
@@ -20,25 +20,25 @@ const props = defineProps({
     type: Boolean,
   },
   helperText: {
-    default: "",
+    default: '',
     required: false,
     type: String,
   },
   id: {
-    default: "",
+    default: '',
     required: true,
     type: String,
   },
   inputtingPlaceholder: {
-    default: "off",
+    default: 'off',
     required: false,
     type: String,
     validator(value) {
-      return ["on", "off"].includes(value);
+      return ['on', 'off'].includes(value);
     },
   },
   invalidFeedback: {
-    default: "",
+    default: '',
     required: false,
     type: String,
   },
@@ -48,42 +48,40 @@ const props = defineProps({
     type: [String, Number],
   },
   modelValue: {
-    default: "",
+    default: '',
     required: false,
     type: [String, Number],
   },
   placeholder: {
-    default: "",
+    default: '',
     required: false,
     type: String,
   },
 });
-const inputCorrectness = ref("");
-const emit = defineEmits(["update:modelValue"]);
+const inputCorrectness = ref('');
+const emit = defineEmits(['update:modelValue']);
 const updateModelValue = (e) => {
-  emit("update:modelValue", e.target.value);
+  emit('update:modelValue', e.target.value);
 };
 const inputClassName = computed(() => {
-  return props.inputtingPlaceholder === "on"
+  return props.inputtingPlaceholder === 'on'
     ? `${props.classValue} ${inputCorrectness.value} show-inputting-placeholder`
     : `${props.classValue} ${inputCorrectness.value}`;
 });
 const showInputtingPlaceholder = computed(
-  () => props.inputtingPlaceholder === "on" && props.modelValue
+  () => props.inputtingPlaceholder === 'on' && props.modelValue
 );
 // 正しい入力値かどうかを判定する
-//   半角数字のみ許可 /[0-9]/g
-//   数字のみ許可 /[０-９0-9]/g
-//   数字とハイフンのみ許可 /[０-９0-9-－]/g
+//   半角数字のみ許可 /^[0-9]+$/g
+//   数字のみ許可 /^[０-９0-9]+$/g
+//   数字とハイフンのみ許可 /^[０-９0-9-－ー−―‐ｰ—₋]+$/g
 const determineInputValue = (e) => {
-  if (e.target.value === "") {
-    inputCorrectness.value = "";
+  if (e.target.value === '') {
+    inputCorrectness.value = '';
     return;
   }
-  const regex = /[０-９0-9-－]/g;
-  inputCorrectness.value = regex.test(e.target.value)
-    ? "is-valid"
-    : "is-invalid";
+  const regex = /^[０-９0-9-－ー−―‐ｰ—₋]+$/g;
+  inputCorrectness.value = regex.test(e.target.value) ? '' : 'is-invalid';
 };
 </script>
 
@@ -92,7 +90,7 @@ const determineInputValue = (e) => {
     <input
       :aria-describedby="`${id}HelpBlock`"
       :autocomplete="autocomplete"
-      class="form-control border-dark"
+      class="form-control"
       :class="inputClassName"
       :disabled="disabled"
       :id="id"
@@ -112,7 +110,7 @@ const determineInputValue = (e) => {
     </div>
     <div class="invalid-feedback">
       <div v-if="inputCorrectness === 'is-invalid' && !invalidFeedback">
-        半角数字とハイフンのみで入力してください。
+        数字とハイフンのみで入力してください。
       </div>
       {{ invalidFeedback }}
     </div>
