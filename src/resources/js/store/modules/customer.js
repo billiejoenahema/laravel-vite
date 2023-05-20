@@ -46,7 +46,15 @@ const actions = {
       .patch(`/api/customers/${data.id}`, data)
       .then((res) => {
         commit('setErrors', {});
-        commit('overlay/setData', res.data.message, { root: true });
+        commit(
+          'overlay/setData',
+          {
+            message: res.message ?? res.data.message,
+            status: res.status,
+          },
+          { root: true }
+        );
+        commit('setData', res);
       })
       .catch((err) => {
         commit('setErrors', err.response.data.errors);

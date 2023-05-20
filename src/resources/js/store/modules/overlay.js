@@ -1,7 +1,11 @@
 const TIMEOUT = 3000;
+const initialData = {
+  message: '',
+  status: '',
+};
 
 const state = {
-  data: '',
+  data: { ...initialData },
 };
 
 const getters = {
@@ -14,7 +18,7 @@ const mutations = {
   setData(state, data) {
     state.data = data;
     setTimeout(() => {
-      state.data = '';
+      state.data = { ...initialData };
     }, TIMEOUT);
   },
 };

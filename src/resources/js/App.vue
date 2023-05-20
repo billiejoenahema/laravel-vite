@@ -6,13 +6,13 @@ import { computed } from 'vue';
 import { store } from './store';
 
 const loading = computed(() => store.getters['loading/loading']);
-const message = computed(() => store.getters['overlay/data']);
+const data = computed(() => store.getters['overlay/data']);
 </script>
 
 <template>
   <main>
     <Navbar />
-    <Overlay :message="message" />
+    <Overlay :data="data" />
     <CircleDotLoader :loading="loading" />
     <div class="container-md">
       <router-view />

@@ -1,16 +1,25 @@
 <script setup>
-defineProps({
-  message: {
-    type: String,
-    default: '',
+const props = defineProps({
+  data: {
+    type: Object,
+    default: () => {},
   },
 });
+const bgColor = () => {
+  if (props.data?.status === 200) {
+    return 'bg-success';
+  }
+  if (props.data?.status === 500) {
+    return 'bg-danger';
+  }
+  return '';
+};
 </script>
 
 <template>
-  <div class="overlay" v-if="message">
+  <div class="overlay" v-if="data.message">
     <h1>
-      <span class="badge bg-secondary">{{ message }}</span>
+      <span :class="'badge ' + bgColor()">{{ data.message }}</span>
     </h1>
   </div>
 </template>
