@@ -20,3 +20,7 @@ tbody > tr:hover {
     background: #212529;
     border: 1px solid #ced4da;
 }
+.page-item > a,
+.disabled > .page-link {
+    background: #212529;
+}
