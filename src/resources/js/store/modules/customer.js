@@ -49,7 +49,7 @@ const actions = {
         commit(
           'overlay/setData',
           {
-            message: res.message ?? res.data.message,
+            message: res.data.message,
             status: res.status,
           },
           { root: true }
@@ -57,6 +57,14 @@ const actions = {
         commit('setData', res);
       })
       .catch((err) => {
+        commit(
+          'overlay/setData',
+          {
+            message: 'エラー',
+            status: err.response.status,
+          },
+          { root: true }
+        );
         commit('setErrors', err.response.data.errors);
       });
     setLoading(commit, false);
