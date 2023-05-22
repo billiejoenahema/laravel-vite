@@ -42,7 +42,7 @@ class IndexRequest extends FormRequest
             'pref',
         ];
 
-        $key = array_search($this->sort_value, $columns);
+        $key = array_search($this->sort_key, $columns);
 
         if (!$key) {
             return 'id';

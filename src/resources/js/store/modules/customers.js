@@ -4,11 +4,9 @@ const setLoading = (commit, bool) =>
   commit('loading/setLoading', bool, { root: true });
 
 const defaultParams = {
-  column: '',
+  sort_key: 'id',
   is_asc: true,
-  keyword: '',
-  filter: '',
-  created_at_from: null,
+  page: 1,
 };
 
 const state = {

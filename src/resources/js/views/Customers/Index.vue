@@ -3,48 +3,47 @@ import Pagination from '@/components/Pagination.vue';
 import SortIcon from '@/components/SortIcon.vue';
 import { store } from '@/store/index';
 import { formatDate } from '@/utils/formatter';
-import { computed, onMounted, reactive, ref } from 'vue';
+import { computed, onMounted } from 'vue';
 
 onMounted(async () => {
-  await store.dispatch('customers/get', params);
+  await fetchData();
 });
 const customers = computed(() => store.getters['customers/data']);
 const meta = computed(() => store.getters['customers/meta']);
-const activeSortKey = ref('');
+const params = computed(() => store.getters['customers/params']);
 
-const defaultParams = {
-  search_column: '',
-  search_value: '',
-  sort_value: '',
-  is_asc: true,
+const fetchData = () => {
+  store.dispatch('customers/get', params.value);
 };
-const params = reactive({
-  ...defaultParams,
-  page: 1,
-});
-
-const sort = (sortValue) => {
-  activeSortKey.value = sortValue;
-  if (params.sort_value.includes(sortValue)) {
-    params.is_asc = !params.is_asc;
+const resetParams = () => {
+  store.commit('customers/resetParams');
+  fetchData();
+};
+const sort = (value) => {
+  if (params.value.sort_key === value) {
+    params.value.is_asc = !params.value.is_asc;
   } else {
-    params.is_asc = true;
-    Object.assign(params, { ...defaultParams });
-    params.sort_value = sortValue;
+    params.value.is_asc = true;
+    params.value.sort_key = value;
   }
-  params.page = 1;
-  store.dispatch('customers/get', params);
+  params.value.page = 1;
+  fetchData();
 };
 const changePage = (page = null) => {
   if (page) {
-    params.page = page;
-    store.dispatch('customers/get', params);
+    params.value.page = page;
+    fetchData();
   }
 };
 </script>
 
 <template>
   <h2>顧客一覧</h2>
+  <div class="d-flex justify-content-end">
+    <button type="button" class="btn btn-secondary" @click="resetParams">
+      リセット
+    </button>
+  </div>
   <table class="table table-striped">
     <thead class="table-dark">
       <tr class="sticky-top">
@@ -52,7 +51,7 @@ const changePage = (page = null) => {
           氏名
           <SortIcon
             :isAsc="params.is_asc"
-            :active-sort-key="activeSortKey"
+            :active-sort-key="params.sort_key"
             :label="'name'"
           />
         </th>
@@ -60,7 +59,7 @@ const changePage = (page = null) => {
           年齢
           <SortIcon
             :isAsc="params.is_asc"
-            :active-sort-key="activeSortKey"
+            :active-sort-key="params.sort_key"
             :label="'age'"
           />
         </th>
@@ -68,7 +67,7 @@ const changePage = (page = null) => {
           性別
           <SortIcon
             :isAsc="params.is_asc"
-            :active-sort-key="activeSortKey"
+            :active-sort-key="params.sort_key"
             :label="'gender'"
           />
         </th>
@@ -76,7 +75,7 @@ const changePage = (page = null) => {
           電話番号
           <SortIcon
             :isAsc="params.is_asc"
-            :active-sort-key="activeSortKey"
+            :active-sort-key="params.sort_key"
             :label="'phone'"
           />
         </th>
@@ -84,7 +83,7 @@ const changePage = (page = null) => {
           生年月日
           <SortIcon
             :isAsc="params.is_asc"
-            :active-sort-key="activeSortKey"
+            :active-sort-key="params.sort_key"
             :label="'birth_date'"
           />
         </th>
@@ -92,7 +91,7 @@ const changePage = (page = null) => {
           都道府県
           <SortIcon
             :isAsc="params.is_asc"
-            :active-sort-key="activeSortKey"
+            :active-sort-key="params.sort_key"
             :label="'pref'"
           />
         </th>
@@ -100,7 +99,7 @@ const changePage = (page = null) => {
           登録日
           <SortIcon
             :isAsc="params.is_asc"
-            :active-sort-key="activeSortKey"
+            :active-sort-key="params.sort_key"
             :label="'created_at'"
           />
         </th>
@@ -108,7 +107,7 @@ const changePage = (page = null) => {
           更新日
           <SortIcon
             :isAsc="params.is_asc"
-            :active-sort-key="activeSortKey"
+            :active-sort-key="params.sort_key"
             :label="'updated_at'"
           />
         </th>

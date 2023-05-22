@@ -1,8 +1,10 @@
 <script setup>
 import InputSelect from '@/components/InputSelect.vue';
 import InputSelectPrefecture from '@/components/InputSelectPrefecture.vue';
+import InputTel from '@/components/InputTel.vue';
 import InputText from '@/components/InputText.vue';
-import { computed, onMounted, reactive, ref } from 'vue';
+import { formatDate } from '@/utils/formatter.js';
+import { computed, onMounted, onUnmounted, reactive, ref } from 'vue';
 import router from '../../router';
 import { store } from '../../store';
 
@@ -24,6 +26,10 @@ const customer = reactive({
 const customerId = router.currentRoute.value?.params?.id;
 const genderFormOptions = ref([]);
 const hasErrors = computed(() => store.getters['customer/hasErrors']);
+const invalidFeedback = computed(
+  () => store.getters['customer/invalidFeedback']
+);
+const isInvalid = computed(() => store.getters['customer/isInvalid']);
 onMounted(async () => {
   await store.dispatch('customer/get', customerId);
   Object.assign(customer, store.getters['customer/data']);
@@ -32,13 +38,11 @@ onMounted(async () => {
     store.getters['consts/genderFormOptions']
   );
 });
-const invalidFeedback = computed(
-  () => store.getters['customer/invalidFeedback']
-);
-const isInvalid = computed(() => store.getters['customer/isInvalid']);
+onUnmounted(() => store.commit('customer/setErrors', {}));
 const update = async () => {
   await store.dispatch('customer/patch', customer);
   if (hasErrors) return;
+  Object.assign(customer, store.getters['customer/data']);
 };
 </script>
 
@@ -64,8 +68,8 @@ const update = async () => {
           <InputText
             id="customerName"
             :class-value="isInvalid('name')"
-            input-counter="on"
             :invalid-feedback="invalidFeedback('name')"
+            input-counter="on"
             :maxlength="50"
             v-model="customer.name"
           />
@@ -78,6 +82,8 @@ const update = async () => {
         <div class="col-8">
           <InputText
             id="customerNameKana"
+            :class-value="isInvalid('name_kana')"
+            :invalid-feedback="invalidFeedback('name_kana')"
             input-counter="on"
             :maxlength="50"
             v-model="customer.name_kana"
@@ -111,7 +117,15 @@ const update = async () => {
           <label for="customerPhone" class="col-form-label">電話番号</label>
         </div>
         <div class="col-8">
-          <InputText id="customerPhone" type="tel" v-model="customer.phone" />
+          <InputTel
+            id="customerPhone"
+            :class-value="isInvalid('phone')"
+            :invalid-feedback="invalidFeedback('phone')"
+            type="tel"
+            autocomplete="on"
+            maxlength="15"
+            v-model="customer.phone"
+          />
         </div>
       </div>
       <div class="row align-items-center mb-3">
@@ -121,6 +135,8 @@ const update = async () => {
         <div class="col-8">
           <InputText
             id="customerBirthDate"
+            :class-value="isInvalid('birth_date')"
+            :invalid-feedback="invalidFeedback('birth_date')"
             type="date"
             v-model="customer.birth_date"
           />
@@ -133,7 +149,12 @@ const update = async () => {
           >
         </div>
         <div class="col-3">
-          <InputText id="customerPostalCode" v-model="customer.postal_code" />
+          <InputText
+            id="customerPostalCode"
+            :class-value="isInvalid('postal_code')"
+            :invalid-feedback="invalidFeedback('postal_code')"
+            v-model="customer.postal_code"
+          />
         </div>
       </div>
       <div class="row align-items-center mb-3">
@@ -149,7 +170,12 @@ const update = async () => {
           <label for="customerCity" class="col-form-label">市区町村</label>
         </div>
         <div class="col-8">
-          <InputText id="customerCity" v-model="customer.city" />
+          <InputText
+            id="customerCity"
+            :class-value="isInvalid('city')"
+            :invalid-feedback="invalidFeedback('city')"
+            v-model="customer.city"
+          />
         </div>
       </div>
       <div class="row align-items-center mb-3">
@@ -157,7 +183,12 @@ const update = async () => {
           <label for="customerStreet" class="col-form-label">番地</label>
         </div>
         <div class="col-8">
-          <InputText id="customerStreet" v-model="customer.street" />
+          <InputText
+            id="customerStreet"
+            :class-value="isInvalid('street')"
+            :invalid-feedback="invalidFeedback('street')"
+            v-model="customer.street"
+          />
         </div>
       </div>
       <div class="row align-items-center mb-3">
@@ -166,7 +197,7 @@ const update = async () => {
         </div>
         <div class="col-8">
           <div id="customerId" class="form-control border-0">
-            {{ customer.created_at }}
+            {{ formatDate(customer.created_at) }}
           </div>
         </div>
       </div>
@@ -176,7 +207,7 @@ const update = async () => {
         </div>
         <div class="col-8">
           <div id="customerId" class="form-control border-0">
-            {{ customer.updated_at }}
+            {{ formatDate(customer.updated_at) }}
           </div>
         </div>
       </div>
