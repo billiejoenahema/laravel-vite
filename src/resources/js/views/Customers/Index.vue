@@ -1,9 +1,11 @@
 <script setup>
+import InputText from '@/components/InputText.vue';
 import Pagination from '@/components/Pagination.vue';
 import SortIcon from '@/components/SortIcon.vue';
 import { store } from '@/store/index';
 import { formatDate } from '@/utils/formatter';
-import { computed, onMounted } from 'vue';
+import SearchModal from '@/views/Customers/SearchModal.vue';
+import { computed, onMounted, ref } from 'vue';
 
 onMounted(async () => {
   await fetchData();
@@ -11,6 +13,12 @@ onMounted(async () => {
 const customers = computed(() => store.getters['customers/data']);
 const meta = computed(() => store.getters['customers/meta']);
 const params = computed(() => store.getters['customers/params']);
+const modalShow = ref(false);
+const hasErrors = computed(() => store.getters['customer/hasErrors']);
+const invalidFeedback = computed(
+  () => store.getters['customer/invalidFeedback']
+);
+const isInvalid = computed(() => store.getters['customer/isInvalid']);
 
 const fetchData = () => {
   store.dispatch('customers/get', params.value);
@@ -29,6 +37,11 @@ const sort = (value) => {
   params.value.page = 1;
   fetchData();
 };
+const search = () => {
+  console.log('search!');
+  fetchData();
+  if (hasErrors) return;
+};
 const changePage = (page = null) => {
   if (page) {
     params.value.page = page;
@@ -39,7 +52,34 @@ const changePage = (page = null) => {
 
 <template>
   <h2>顧客一覧</h2>
-  <div class="d-flex justify-content-end">
+  <button
+    type="button"
+    class="btn btn-info"
+    data-bs-toggle="modal"
+    data-bs-target="#searchModal"
+    @click="modalShow = true"
+  >
+    絞り込み検索
+  </button>
+  <SearchModal
+    id="searchModal"
+    :class-value="modalShow === true ? 'show' : ''"
+    @cancel="modalShow = false"
+    @submit="search"
+  >
+    <form>
+      <div>
+        <label for="searchValueName" class="col-form-label">氏名</label>
+        <InputText
+          id="searchValueName"
+          :class-value="isInvalid('name')"
+          :invalid-feedback="invalidFeedback('name')"
+          v-model="params.search_value.name"
+        />
+      </div>
+    </form>
+  </SearchModal>
+  <div class="d-flex justify-content-end mb-3">
     <button type="button" class="btn btn-secondary" @click="resetParams">
       リセット
     </button>
