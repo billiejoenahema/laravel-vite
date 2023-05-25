@@ -192,6 +192,22 @@ class Customer extends Model
     }
 
     /**
+     * 検索条件
+     *
+     * @param Builder|Customer $query
+     * @param IndexRequest $request
+     * @return Builder|Customer
+     */
+    public function scopeSearchCondition($query, $request): Builder|Customer
+    {
+        if ($request['search_value.name']) {
+            $query->where('name', 'like', "%{$request['search_value.name']}%");
+        }
+
+        return $query;
+    }
+
+    /**
      * 指定のカラムでソートするスコープ
      *
      * @param Builder|Customer $query

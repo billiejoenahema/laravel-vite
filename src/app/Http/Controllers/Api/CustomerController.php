@@ -25,6 +25,9 @@ class CustomerController extends Controller
     {
         $query = Customer::query()->with(['user']);
 
+        // 検索
+        $query->searchCondition($request);
+
         $direction = $request->getSortDirection();
         $column = $request->getSortColumn();
 
