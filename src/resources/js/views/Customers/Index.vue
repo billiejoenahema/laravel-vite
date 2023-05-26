@@ -37,11 +37,6 @@ const sort = (value) => {
   params.value.page = 1;
   fetchData();
 };
-const search = () => {
-  console.log('search!');
-  fetchData();
-  if (hasErrors) return;
-};
 const changePage = (page = null) => {
   if (page) {
     params.value.page = page;
@@ -65,7 +60,7 @@ const changePage = (page = null) => {
     id="searchModal"
     :class-value="modalShow === true ? 'show' : ''"
     @cancel="modalShow = false"
-    @submit="search"
+    @submit="fetchData"
   >
     <form>
       <div>
