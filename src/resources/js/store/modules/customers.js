@@ -3,16 +3,11 @@ import axios from 'axios';
 const setLoading = (commit, bool) =>
   commit('loading/setLoading', bool, { root: true });
 
-const defaultSearchValue = {
-  name: '',
-  email: '',
-  phone: '',
-};
 const defaultParams = {
   sort_key: 'id',
   is_asc: true,
   page: 1,
-  search_value: { ...defaultSearchValue },
+  search_value: {},
 };
 
 const state = {
@@ -80,7 +75,7 @@ const mutations = {
   },
   resetParams(state) {
     state.errors = {};
-    defaultParams.search_value = { ...defaultSearchValue };
+    defaultParams.search_value = {};
     state.params = { ...defaultParams };
   },
 };

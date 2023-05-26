@@ -203,6 +203,18 @@ class Customer extends Model
         if ($request['search_value.name']) {
             $query->where('name', 'like', "%{$request['search_value.name']}%");
         }
+        if ($request['search_value.name_kana']) {
+            $query->where('name_kana', 'like', "%{$request['search_value.name_kana']}%");
+        }
+        if ($request['search_value.phone']) {
+            $query->where('phone', 'like', "%{$request['search_value.phone']}%");
+        }
+        if ($request['search_value.postal_code']) {
+            $query->where('postal_code', 'like', "%{$request['search_value.postal_code']}%");
+        }
+        if ($request['search_value.pref']) {
+            $query->where('pref', 'like', "%{$request['search_value.pref']}%");
+        }
 
         return $query;
     }
