@@ -1,4 +1,5 @@
 <script setup>
+import InputSelectPrefecture from '@/components/InputSelectPrefecture.vue';
 import InputText from '@/components/InputText.vue';
 import Pagination from '@/components/Pagination.vue';
 import SortIcon from '@/components/SortIcon.vue';
@@ -14,7 +15,6 @@ const customers = computed(() => store.getters['customers/data']);
 const meta = computed(() => store.getters['customers/meta']);
 const params = computed(() => store.getters['customers/params']);
 const modalShow = ref(false);
-const hasErrors = computed(() => store.getters['customer/hasErrors']);
 const invalidFeedback = computed(
   () => store.getters['customer/invalidFeedback']
 );
@@ -62,7 +62,7 @@ const changePage = (page = null) => {
     @cancel="modalShow = false"
     @submit="fetchData"
   >
-    <form>
+    <form class="row">
       <div>
         <label for="searchValueName" class="col-form-label">氏名</label>
         <InputText
@@ -70,6 +70,42 @@ const changePage = (page = null) => {
           :class-value="isInvalid('name')"
           :invalid-feedback="invalidFeedback('name')"
           v-model="params.search_value.name"
+        />
+      </div>
+      <div>
+        <label for="searchValueNameKana" class="col-form-label">ふりがな</label>
+        <InputText
+          id="searchValueNameKana"
+          :class-value="isInvalid('name_kana')"
+          :invalid-feedback="invalidFeedback('name_kana')"
+          v-model="params.search_value.name_kana"
+        />
+      </div>
+      <div>
+        <label for="searchValuePhone" class="col-form-label">電話番号</label>
+        <InputText
+          id="searchValuePhone"
+          :class-value="isInvalid('phone')"
+          :invalid-feedback="invalidFeedback('phone')"
+          v-model="params.search_value.phone"
+        />
+      </div>
+      <div>
+        <label for="searchValuePostalCode" class="col-form-label"
+          >郵便番号</label
+        >
+        <InputText
+          id="searchValuePostalCode"
+          :class-value="isInvalid('postal_code')"
+          :invalid-feedback="invalidFeedback('postal_code')"
+          v-model="params.search_value.postal_code"
+        />
+      </div>
+      <div>
+        <label for="searchValuePref" class="col-form-label">都道府県</label>
+        <InputSelectPrefecture
+          id="searchValuePref"
+          v-model="params.search_value.pref"
         />
       </div>
     </form>

@@ -3,7 +3,7 @@ $primary: #fca35a;
 @import '~bootstrap/scss/bootstrap';
 .table,
 .table-striped > tbody > tr:nth-of-type(odd) > * {
-  color: white;
+  color: #ced4da;
 }
 thead > tr > th {
   cursor: pointer;
@@ -17,7 +17,7 @@ tbody > tr:hover {
 .form-control,
 .form-control:focus,
 .form-select {
-  color: white;
+  color: #ced4da;
   background: #212529;
   border: 1px solid #ced4da;
 }
