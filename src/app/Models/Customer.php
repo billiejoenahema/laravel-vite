@@ -206,6 +206,9 @@ class Customer extends Model
         if ($request['search_value.name_kana']) {
             $query->where('name_kana', 'like', "%{$request['search_value.name_kana']}%");
         }
+        if ($request['search_value.gender']) {
+            $query->where('gender', 'like', "%{$request['search_value.gender']}%");
+        }
         if ($request['search_value.phone']) {
             $query->where('phone', 'like', "%{$request['search_value.phone']}%");
         }

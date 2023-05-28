@@ -92,21 +92,21 @@ const update = async () => {
       </div>
       <div class="row align-items-center mb-3">
         <div class="col-2">
-          <label for="customerId" class="col-form-label">年齢</label>
+          <label for="customerAge" class="col-form-label">年齢</label>
         </div>
         <div class="col-8">
-          <div id="customerId" class="form-control border-0">
+          <div id="customerAge" class="form-control border-0">
             {{ customer.age }}
           </div>
         </div>
       </div>
       <div class="row align-items-center mb-3">
         <div class="col-2">
-          <label for="customerAge" class="col-form-label">性別</label>
+          <label for="customerGender" class="col-form-label">性別</label>
         </div>
         <div class="col-3">
           <InputSelect
-            id="customerAge"
+            id="customerGender"
             :options="genderFormOptions"
             v-model="customer.gender"
           />
