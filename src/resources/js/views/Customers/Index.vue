@@ -1,4 +1,5 @@
 <script setup>
+import InputSelect from '@/components/InputSelect.vue';
 import InputSelectPrefecture from '@/components/InputSelectPrefecture.vue';
 import InputText from '@/components/InputText.vue';
 import Pagination from '@/components/Pagination.vue';
@@ -19,6 +20,7 @@ const invalidFeedback = computed(
   () => store.getters['customer/invalidFeedback']
 );
 const isInvalid = computed(() => store.getters['customer/isInvalid']);
+const genderFormOptions = computed(() => store.getters['consts/genderFormOptions']);
 
 const fetchData = () => {
   store.dispatch('customers/get', params.value);
@@ -114,6 +116,15 @@ const changePage = (page = null) => {
     </form>
   </SearchModal>
   <div class="d-flex justify-content-end mb-3">
+    <button
+      type="button"
+      class="btn btn-info me-3"
+      data-bs-toggle="modal"
+      data-bs-target="#searchModal"
+      @click="modalShow = true"
+    >
+      絞り込み検索
+    </button>
     <button type="button" class="btn btn-secondary" @click="resetParams">
       リセット
     </button>
@@ -206,6 +217,68 @@ const changePage = (page = null) => {
     </tbody>
   </table>
   <Pagination :links="meta?.links" @change="changePage" />
+    <SearchModal
+    id="searchModal"
+    :class-value="modalShow === true ? 'show' : ''"
+    @cancel="modalShow = false"
+    @submit="fetchData"
+  >
+    <form class="row">
+      <div>
+        <label for="searchValueName" class="col-form-label">氏名</label>
+        <InputText
+          id="searchValueName"
+          :class-value="isInvalid('name')"
+          :invalid-feedback="invalidFeedback('name')"
+          v-model="params.search_value.name"
+        />
+      </div>
+      <div>
+        <label for="searchValueNameKana" class="col-form-label">ふりがな</label>
+        <InputText
+          id="searchValueNameKana"
+          :class-value="isInvalid('name_kana')"
+          :invalid-feedback="invalidFeedback('name_kana')"
+          v-model="params.search_value.name_kana"
+        />
+      </div>
+      <div>
+          <label for="searchValueGender" class="col-form-label">性別</label>
+          <InputSelect
+            id="searchValueGender"
+            :options="genderFormOptions"
+            v-model="params.search_value.gender"
+          />
+      </div>
+      <div>
+        <label for="searchValuePhone" class="col-form-label">電話番号</label>
+        <InputText
+          id="searchValuePhone"
+          :class-value="isInvalid('phone')"
+          :invalid-feedback="invalidFeedback('phone')"
+          v-model="params.search_value.phone"
+        />
+      </div>
+      <div>
+        <label for="searchValuePostalCode" class="col-form-label"
+          >郵便番号</label
+        >
+        <InputText
+          id="searchValuePostalCode"
+          :class-value="isInvalid('postal_code')"
+          :invalid-feedback="invalidFeedback('postal_code')"
+          v-model="params.search_value.postal_code"
+        />
+      </div>
+      <div>
+        <label for="searchValuePref" class="col-form-label">都道府県</label>
+        <InputSelectPrefecture
+          id="searchValuePref"
+          v-model="params.search_value.pref"
+        />
+      </div>
+    </form>
+  </SearchModal>
 </template>
 
 <style scoped>

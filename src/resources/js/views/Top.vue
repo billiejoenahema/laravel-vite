@@ -6,6 +6,8 @@ const pref = ref(13);
 
 <template>
   <h2>Top Page</h2>
-  <router-link to="/customers">顧客一覧</router-link>
+  <div class="mb-3">
+    <router-link to="/customers">顧客一覧</router-link>
+  </div>
   <InputSelectPrefecture id="prefecture" v-model="pref" />
 </template>
