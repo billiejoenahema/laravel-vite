@@ -1,4 +1,5 @@
 <script setup>
+import InputSelect from '@/components/InputSelect.vue';
 import InputSelectPrefecture from '@/components/InputSelectPrefecture.vue';
 import InputText from '@/components/InputText.vue';
 import Pagination from '@/components/Pagination.vue';
@@ -19,6 +20,7 @@ const invalidFeedback = computed(
   () => store.getters['customer/invalidFeedback']
 );
 const isInvalid = computed(() => store.getters['customer/isInvalid']);
+const genderFormOptions = computed(() => store.getters['consts/genderFormOptions']);
 
 const fetchData = () => {
   store.dispatch('customers/get', params.value);
@@ -47,7 +49,7 @@ const changePage = (page = null) => {
 
 <template>
   <h2>顧客一覧</h2>
-  <div class="d-flex justify-content-end">
+  <div class="d-flex justify-content-end mb-3">
     <button
       type="button"
       class="btn btn-info me-3"
@@ -173,6 +175,14 @@ const changePage = (page = null) => {
           :invalid-feedback="invalidFeedback('name_kana')"
           v-model="params.search_value.name_kana"
         />
+      </div>
+      <div>
+          <label for="searchValueGender" class="col-form-label">性別</label>
+          <InputSelect
+            id="searchValueGender"
+            :options="genderFormOptions"
+            v-model="params.search_value.gender"
+          />
       </div>
       <div>
         <label for="searchValuePhone" class="col-form-label">電話番号</label>
