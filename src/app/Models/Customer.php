@@ -215,6 +215,14 @@ class Customer extends Model
         if ($request['search_value.pref']) {
             $query->where('pref', 'like', "%{$request['search_value.pref']}%");
         }
+        if ($request['search_value.age_from']) {
+            $date = $request->getBirthDateValueByAgeFrom();
+            $query->whereDate('birth_date', '<=', $date);
+        }
+        if ($request['search_value.age_to']) {
+            $date = $request->getBirthDateValueByAgeTo();
+            $query->whereDate('birth_date', '>=', $date);
+        }
 
         return $query;
     }
