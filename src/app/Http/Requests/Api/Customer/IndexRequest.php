@@ -64,4 +64,24 @@ class IndexRequest extends FormRequest
             return 'desc';
         }
     }
+
+    /**
+     * 入力値（年齢）から生年月日を絞り込むfromの値を返す。
+     *
+     * @return string
+     */
+    public function getBirthDateValueByAgeFrom(): string
+    {
+        return now()->subYears($this->search_value['age_from'])->format('Y-m-d');
+    }
+
+    /**
+     * 入力値（年齢）から生年月日を絞り込むtoの値を返す。
+     *
+     * @return string
+     */
+    public function getBirthDateValueByAgeTo(): string
+    {
+        return now()->subYears($this->search_value['age_to'])->format('Y-m-d');
+    }
 }
