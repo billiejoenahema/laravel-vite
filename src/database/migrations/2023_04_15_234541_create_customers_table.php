@@ -22,10 +22,11 @@ return new class extends Migration
             $table->char('gender', 2)->nullable()->comment('性別');
             $table->date('birth_date')->nullable()->comment('生年月日');
             $table->char('postal_code', 7)->nullable()->comment('郵便番号');
-            $table->char('pref', 2)->nullable()->comment('都道府県');
+            $table->integer('pref')->nullable()->comment('都道府県');
             $table->string('city')->nullable()->comment('市区町村');
             $table->string('street')->nullable()->comment('番地');
             $table->string('avatar')->nullable()->comment('アイコン画像URL');
+            $table->string('note')->nullable()->comment('備考');
 
             $table->softDeletes();
             $table->timestamps();
