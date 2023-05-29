@@ -250,6 +250,11 @@ class Customer extends Model
         if (in_array($column, $columns, false)) {
             $query->orderByRaw("{$column} is null asc")->orderBy($column, $order);
         }
+        if ($column === 'age') {
+            // 生年月日でソートするためソート方向を反転させる
+            $order = $order === 'asc' ? 'desc' : 'asc';
+            $query->orderByRaw("birth_date is null asc")->orderBy('birth_date', $order);
+        }
 
         return $query;
     }

@@ -20,7 +20,9 @@ const invalidFeedback = computed(
   () => store.getters['customer/invalidFeedback']
 );
 const isInvalid = computed(() => store.getters['customer/isInvalid']);
-const genderFormOptions = computed(() => store.getters['consts/genderFormOptions']);
+const genderFormOptions = computed(
+  () => store.getters['consts/genderFormOptions']
+);
 
 const fetchData = () => {
   store.dispatch('customers/get', params.value);
@@ -217,7 +219,7 @@ const changePage = (page = null) => {
     </tbody>
   </table>
   <Pagination :links="meta?.links" @change="changePage" />
-    <SearchModal
+  <SearchModal
     id="searchModal"
     :class-value="modalShow === true ? 'show' : ''"
     @cancel="modalShow = false"
@@ -243,12 +245,12 @@ const changePage = (page = null) => {
         />
       </div>
       <div>
-          <label for="searchValueGender" class="col-form-label">性別</label>
-          <InputSelect
-            id="searchValueGender"
-            :options="genderFormOptions"
-            v-model="params.search_value.gender"
-          />
+        <label for="searchValueGender" class="col-form-label">性別</label>
+        <InputSelect
+          id="searchValueGender"
+          :options="genderFormOptions"
+          v-model="params.search_value.gender"
+        />
       </div>
       <div>
         <label for="searchValuePhone" class="col-form-label">電話番号</label>

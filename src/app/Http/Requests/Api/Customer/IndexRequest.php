@@ -36,6 +36,7 @@ class IndexRequest extends FormRequest
         $columns = [
             'id',
             'name',
+            'age',
             'gender',
             'phone',
             'birth_date',
