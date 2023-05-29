@@ -31,7 +31,7 @@ class ShowTest extends TestCase
                 'gender' => $customer->gender,
                 'birth_date' => $customer->birth_date,
                 'postal_code' => $customer->postal_code,
-                'pref' => (string) $customer->pref,
+                'pref' => $customer->pref,
                 'city' => $customer->city,
                 'street' => $customer->street,
                 'avatar' => $customer->avatar,
