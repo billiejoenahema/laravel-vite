@@ -1,4 +1,5 @@
 <script setup>
+import BaseModal from '@/components/BaseModal.vue';
 import InputSelect from '@/components/InputSelect.vue';
 import InputSelectPrefecture from '@/components/InputSelectPrefecture.vue';
 import InputText from '@/components/InputText.vue';
@@ -6,7 +7,6 @@ import Pagination from '@/components/Pagination.vue';
 import SortIcon from '@/components/SortIcon.vue';
 import { store } from '@/store/index';
 import { formatDate } from '@/utils/formatter';
-import SearchModal from '@/views/Customers/SearchModal.vue';
 import { computed, onMounted, ref } from 'vue';
 
 onMounted(async () => {
@@ -60,71 +60,8 @@ const changePage = (page = null) => {
   >
     絞り込み検索
   </button>
-  <SearchModal
-    id="searchModal"
-    :class-value="modalShow === true ? 'show' : ''"
-    @cancel="modalShow = false"
-    @submit="fetchData"
-  >
-    <form class="row">
-      <div>
-        <label for="searchValueName" class="col-form-label">氏名</label>
-        <InputText id="searchValueName" v-model="params.search_value.name" />
-      </div>
-      <div>
-        <label for="searchValueNameKana" class="col-form-label">ふりがな</label>
-        <InputText
-          id="searchValueNameKana"
-          v-model="params.search_value.name_kana"
-        />
-      </div>
-      <label for="searchValueAge" class="col-form-label">年齢</label>
-      <div class="d-flex flex-row">
-        <div class="col-2">
-          <InputText
-            id="searchValueAgeFrom"
-            v-model="params.search_value.age_from"
-          />
-        </div>
-        <label class="col-form-label mx-2">歳以上</label>
-        <div class="col-2">
-          <InputText
-            id="searchValueAgeTo"
-            v-model="params.search_value.age_to"
-          />
-        </div>
-        <label class="col-form-label ms-1">歳以下</label>
-      </div>
-      <div>
-        <label for="searchValuePhone" class="col-form-label">電話番号</label>
-        <InputText id="searchValuePhone" v-model="params.search_value.phone" />
-      </div>
-      <div>
-        <label for="searchValuePostalCode" class="col-form-label"
-          >郵便番号</label
-        >
-        <InputText
-          id="searchValuePostalCode"
-          v-model="params.search_value.postal_code"
-        />
-      </div>
-      <div>
-        <label for="searchValuePref" class="col-form-label">都道府県</label>
-        <InputSelectPrefecture
-          id="searchValuePref"
-          v-model="params.search_value.pref"
-        />
-      </div>
-    </form>
-  </SearchModal>
   <div class="d-flex justify-content-end mb-3">
-    <button
-      type="button"
-      class="btn btn-info me-3"
-      data-bs-toggle="modal"
-      data-bs-target="#searchModal"
-      @click="modalShow = true"
-    >
+    <button type="button" class="btn btn-info me-3" @click="modalShow = true">
       絞り込み検索
     </button>
     <button type="button" class="btn btn-secondary" @click="resetParams">
@@ -219,9 +156,11 @@ const changePage = (page = null) => {
     </tbody>
   </table>
   <Pagination :links="meta?.links" @change="changePage" />
-  <SearchModal
+  <BaseModal
     id="searchModal"
     :class-value="modalShow === true ? 'show' : ''"
+    title="絞り込み検索"
+    button-value="検索する"
     @cancel="modalShow = false"
     @submit="fetchData"
   >
@@ -280,7 +219,7 @@ const changePage = (page = null) => {
         />
       </div>
     </form>
-  </SearchModal>
+  </BaseModal>
 </template>
 
 <style scoped>

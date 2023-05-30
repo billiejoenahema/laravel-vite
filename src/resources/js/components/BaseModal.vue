@@ -10,6 +10,16 @@ defineProps({
     required: false,
     default: '',
   },
+  title: {
+    type: String,
+    required: false,
+    default: '',
+  },
+  buttonValue: {
+    type: String,
+    required: false,
+    default: '',
+  },
 });
 const emit = defineEmits(['submit', 'cancel']);
 const close = () => {
@@ -32,7 +42,7 @@ const submit = () => {
     <div class="modal-dialog">
       <div class="modal-content modal-dialog-centered">
         <div class="modal-header">
-          <h5 class="modal-title" :id="id + 'ModalLabel'">絞り込み検索</h5>
+          <h5 class="modal-title" :id="id + 'ModalLabel'">{{ title }}</h5>
           <button
             type="button"
             class="btn-close"
@@ -54,7 +64,7 @@ const submit = () => {
             キャンセル
           </button>
           <button type="button" class="btn btn-primary" @click="submit">
-            検索する
+            {{ buttonValue }}
           </button>
         </div>
       </div>
