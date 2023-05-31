@@ -1,4 +1,5 @@
 <script setup>
+import BaseModal from '@/components/BaseModal.vue';
 import InputSelect from '@/components/InputSelect.vue';
 import InputSelectPrefecture from '@/components/InputSelectPrefecture.vue';
 import InputTel from '@/components/InputTel.vue';
@@ -30,6 +31,7 @@ const invalidFeedback = computed(
   () => store.getters['customer/invalidFeedback']
 );
 const isInvalid = computed(() => store.getters['customer/isInvalid']);
+const modalShow = ref(false);
 onMounted(async () => {
   await store.dispatch('customer/get', customerId);
   Object.assign(customer, store.getters['customer/data']);
@@ -39,6 +41,24 @@ onMounted(async () => {
   );
 });
 onUnmounted(() => store.commit('customer/setErrors', {}));
+
+// ユーザーアイコン画像操作
+const inputFile = ref(null);
+const fileUrl = () => {
+  if (!inputFile.value) return null;
+  return URL.createObjectURL(inputFile.value) ?? '';
+};
+const changeFile = (e) => {
+  inputFile.value = e.target.files[0];
+};
+const updateAvatar = async () => {
+  // upload
+  // update
+  if (hasErrors) return;
+  Object.assign(customer, store.getters['customer/data']);
+};
+
+// 更新
 const update = async () => {
   await store.dispatch('customer/patch', customer);
   if (hasErrors) return;
@@ -50,6 +70,13 @@ const update = async () => {
   <router-link to="/customers">一覧に戻る</router-link>
   <form>
     <div class="customer-detail">
+      <div class="row align-items-center mb-3">
+        <img
+          :src="customer.avatar ?? '/storage/images/default-avatar.png'"
+          class="avatar-thumbnail"
+          @click="modalShow = true"
+        />
+      </div>
       <div class="row align-items-center mb-3">
         <div class="col-2">
           <label for="customerId" class="col-form-label">顧客ID</label>
@@ -216,6 +243,27 @@ const update = async () => {
       更新
     </button>
   </form>
+  <BaseModal
+    id="thumbnailModal"
+    :class-value="modalShow === true ? 'show' : ''"
+    title="ユーザーアイコン画像"
+    button-value="保存する"
+    @cancel="modalShow = false"
+    @submit="updateAvatar"
+  >
+    <div class="d-flex justify-content-center">
+      <img
+        :src="fileUrl() ?? customer.avatar"
+        class="avatar-preview rounded-circle mb-3"
+      />
+    </div>
+    <input
+      type="file"
+      accept="image/*"
+      :value="inputFile"
+      @change="changeFile"
+    />
+  </BaseModal>
 </template>
 
 <style scoped>
