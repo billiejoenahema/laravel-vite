@@ -40,3 +40,15 @@ tbody > tr:hover {
   color: #fca35a;
   cursor: pointer;
 }
+.avatar-thumbnail {
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+  padding: 0;
+  cursor: pointer;
+}
+.avatar-preview {
+  height: 200px;
+  width: 200px;
+  object-fit: cover;
+}
