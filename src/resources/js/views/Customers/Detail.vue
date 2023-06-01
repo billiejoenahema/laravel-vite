@@ -40,7 +40,10 @@ onMounted(async () => {
     store.getters['consts/genderFormOptions']
   );
 });
-onUnmounted(() => store.commit('customer/setErrors', {}));
+onUnmounted(() => {
+  store.commit('customer/setErrors', {});
+  URL.revokeObjectURL(inputFileUrl);
+});
 
 // ユーザーアイコン画像操作
 const inputFile = ref(null);
@@ -52,8 +55,10 @@ const changeFile = (e) => {
   inputFile.value = e.target.files[0];
 };
 const updateAvatar = async () => {
-  // upload
-  // update
+  await store.dispatch('customer/updateAvatar', {
+    id: customerId,
+    file: inputFile.value,
+  });
   if (hasErrors) return;
   Object.assign(customer, store.getters['customer/data']);
 };
@@ -257,12 +262,7 @@ const update = async () => {
         class="avatar-preview rounded-circle mb-3"
       />
     </div>
-    <input
-      type="file"
-      accept="image/*"
-      :value="inputFile"
-      @change="changeFile"
-    />
+    <input type="file" accept="image/*" @change="changeFile" />
   </BaseModal>
 </template>
 
