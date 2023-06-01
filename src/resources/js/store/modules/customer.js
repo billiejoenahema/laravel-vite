@@ -40,6 +40,37 @@ const actions = {
       });
     setLoading(commit, false);
   },
+  async updateAvatar({ commit }, { id, file }) {
+    setLoading(commit, true);
+    const formData = new FormData();
+    formData.append('avatar', file);
+    await axios
+      .post(`/api/customers/${id}/update-avatar`, formData)
+      .then((res) => {
+        commit('setErrors', {});
+        commit(
+          'overlay/setData',
+          {
+            message: res.data.message,
+            status: res.status,
+          },
+          { root: true }
+        );
+        commit('setData', res);
+      })
+      .catch((err) => {
+        commit(
+          'overlay/setData',
+          {
+            message: 'エラー',
+            status: err.response.status,
+          },
+          { root: true }
+        );
+        commit('setErrors', err.response.data.errors);
+      });
+    setLoading(commit, false);
+  },
   async patch({ commit }, data) {
     setLoading(commit, true);
     await axios
