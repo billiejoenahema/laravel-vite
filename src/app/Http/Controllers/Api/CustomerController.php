@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Customer\IndexRequest;
+use App\Http\Requests\Api\Customer\SaveAvatarRequest;
 use App\Http\Requests\Api\Customer\SaveRequest;
 use App\Http\Resources\Api\CustomerResource;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response;
 
 class CustomerController extends Controller
@@ -70,6 +72,27 @@ class CustomerController extends Controller
 
         DB::transaction(function () use ($data, $customer) {
             $customer->fill($data)->save();
+        });
+
+        return response()->json(['message' => '更新しました'], Response::HTTP_OK);
+    }
+
+    /**
+     * 指定顧客のアイコンを更新する。
+     *
+     * @param SaveAvatarRequest $request
+     */
+    public function updateAvatar(SaveAvatarRequest $request, Customer $customer)
+    {
+        $avatar = $request->file('avatar');
+        // 既存のアイコン画像を削除してから新しい画像を保存する
+        if ($customer->avatar) {
+            Storage::disk('public')->delete($customer->avatar);
+        }
+        $path = Storage::disk('public')->put('images', $avatar);
+        DB::transaction(function () use ($customer, $path) {
+            $customer->avatar = $path;
+            $customer->save();
         });
 
         return response()->json(['message' => '更新しました'], Response::HTTP_OK);
