@@ -32,6 +32,7 @@ const invalidFeedback = computed(
 );
 const isInvalid = computed(() => store.getters['customer/isInvalid']);
 const modalShow = ref(false);
+const inputFileRef = ref(null);
 onMounted(async () => {
   await store.dispatch('customer/get', customerId);
   Object.assign(customer, store.getters['customer/data']);
@@ -59,7 +60,10 @@ const updateAvatar = async () => {
     id: customerId,
     file: inputFile.value,
   });
-  if (hasErrors) return;
+  if (hasErrors.value) return;
+  inputFile.value = null;
+  inputFileRef.value.value = null;
+  await store.dispatch('customer/get', customerId);
   Object.assign(customer, store.getters['customer/data']);
 };
 
@@ -253,6 +257,7 @@ const update = async () => {
     :class-value="modalShow === true ? 'show' : ''"
     title="ユーザーアイコン画像"
     button-value="保存する"
+    :disabled="!inputFile"
     @cancel="modalShow = false"
     @submit="updateAvatar"
   >
@@ -262,7 +267,12 @@ const update = async () => {
         class="avatar-preview rounded-circle mb-3"
       />
     </div>
-    <input type="file" accept="image/*" @change="changeFile" />
+    <input
+      type="file"
+      ref="inputFileRef"
+      accept="image/*"
+      @change="changeFile"
+    />
   </BaseModal>
 </template>
 
