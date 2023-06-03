@@ -192,6 +192,16 @@ class Customer extends Model
     }
 
     /**
+     * アイコン画像URLを操作
+     */
+    protected function avatar(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => '/storage/' . $value,
+        );
+    }
+
+    /**
      * 検索条件
      *
      * @param Builder|Customer $query
