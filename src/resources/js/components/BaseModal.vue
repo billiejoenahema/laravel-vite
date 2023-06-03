@@ -10,6 +10,11 @@ defineProps({
     required: false,
     default: '',
   },
+  disabled: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
   title: {
     type: String,
     required: false,
@@ -63,7 +68,12 @@ const submit = () => {
           >
             キャンセル
           </button>
-          <button type="button" class="btn btn-primary" @click="submit">
+          <button
+            type="button"
+            class="btn btn-primary"
+            :disabled="disabled"
+            @click="submit"
+          >
             {{ buttonValue }}
           </button>
         </div>
