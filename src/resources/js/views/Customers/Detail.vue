@@ -76,15 +76,24 @@ const update = async () => {
 </script>
 
 <template>
-  <router-link to="/customers">一覧に戻る</router-link>
+  <div class="mb-3">
+    <router-link to="/customers">一覧に戻る</router-link>
+  </div>
   <form>
     <div class="customer-detail">
       <div class="row align-items-center mb-3">
-        <img
-          :src="customer.avatar ?? '/storage/images/default-avatar.png'"
-          class="avatar-thumbnail"
-          @click="modalShow = true"
-        />
+        <div class="avatar-container">
+          <img
+            :src="customer.avatar ?? '/storage/images/default-avatar.png'"
+            class="avatar-thumbnail"
+            @click="modalShow = true"
+          />
+          <font-awesome-icon
+            class="edit-icon btn p-0 text-primary"
+            icon="edit"
+            @click="modalShow = true"
+          ></font-awesome-icon>
+        </div>
       </div>
       <div class="row align-items-center mb-3">
         <div class="col-2">
@@ -279,5 +288,13 @@ const update = async () => {
 <style scoped>
 .customer-detail {
   max-width: 600px;
+}
+.avatar-container {
+  position: relative;
+}
+.edit-icon {
+  position: absolute;
+  left: 100px;
+  top: 88px;
 }
 </style>
