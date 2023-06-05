@@ -140,12 +140,10 @@ const changePage = (page = null) => {
     <tbody>
       <tr v-for="customer in customers" :id="customer.id">
         <td class="align-middle">
-          <img
-            :src="customer.avatar ?? '/default-icon.png'"
-            class="avatar me-2"
-          /><router-link :to="`/customers/` + customer.id">{{
-            customer.name
-          }}</router-link>
+          <img :src="customer.avatar" class="avatar me-2" /><router-link
+            :to="`/customers/` + customer.id"
+            >{{ customer.name }}</router-link
+          >
         </td>
         <td class="align-middle">{{ customer.age }}</td>
         <td class="align-middle">{{ customer.gender_value }}</td>

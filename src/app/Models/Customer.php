@@ -197,7 +197,7 @@ class Customer extends Model
     protected function avatar(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => $value ? '/storage/' . $value : null,
+            get: fn ($value) => $value ? '/storage/' . $value : '/default-avatar.png',
         );
     }
 

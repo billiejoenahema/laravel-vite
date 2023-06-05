@@ -86,7 +86,7 @@ const update = async () => {
       <div class="row align-items-center mb-3">
         <div class="avatar-container">
           <img
-            :src="customer.avatar ?? '/default-avatar.png'"
+            :src="customer.avatar"
             class="avatar-thumbnail"
             @click="modalShow = true"
           />
