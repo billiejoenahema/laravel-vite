@@ -4,6 +4,7 @@ import InputSelect from '@/components/InputSelect.vue';
 import InputSelectPrefecture from '@/components/InputSelectPrefecture.vue';
 import InputTel from '@/components/InputTel.vue';
 import InputText from '@/components/InputText.vue';
+import InvalidFeedback from '@/components/InvalidFeedback.vue';
 import { formatDate } from '@/utils/formatter.js';
 import { computed, onMounted, onUnmounted, reactive, ref } from 'vue';
 import router from '../../router';
@@ -33,6 +34,8 @@ const invalidFeedback = computed(
 const isInvalid = computed(() => store.getters['customer/isInvalid']);
 const modalShow = ref(false);
 const inputFileRef = ref(null);
+const maxUploadSize = computed(() => store.getters['consts/maxUploadSize']);
+const isFileSizeOver = ref(false);
 onMounted(async () => {
   await store.dispatch('customer/get', customerId);
   Object.assign(customer, store.getters['customer/data']);
@@ -55,6 +58,16 @@ const fileUrl = () => {
 // ファイル選択
 const changeFile = (e) => {
   inputFile.value = e.target.files[0];
+  store.commit('customer/setErrors', {});
+  isFileSizeOver.value = false;
+  // ファイルサイズが大きすぎる場合はエラーメッセージを表示させてボタンを無効化する
+  if (inputFile.value?.size > maxUploadSize.value) {
+    store.commit('customer/setErrors', {
+      avatar: ['10MB以下のファイルを選択してください。'],
+    });
+    isFileSizeOver.value = true;
+    return;
+  }
 };
 // アイコン画像更新
 const updateAvatar = async () => {
@@ -268,7 +281,7 @@ const update = async () => {
     :class-value="modalShow === true ? 'show' : ''"
     title="ユーザーアイコン画像"
     button-value="保存する"
-    :disabled="!inputFile"
+    :disabled="!inputFile || isFileSizeOver"
     @cancel="modalShow = false"
     @submit="updateAvatar"
   >
@@ -279,11 +292,13 @@ const update = async () => {
       />
     </div>
     <input
+      :class="isInvalid('avatar')"
       type="file"
       ref="inputFileRef"
       accept="image/*"
       @change="changeFile"
     />
+    <InvalidFeedback :invalid-feedback="invalidFeedback('avatar')" />
   </BaseModal>
 </template>
 
