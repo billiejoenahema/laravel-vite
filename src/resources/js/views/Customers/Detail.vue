@@ -43,7 +43,7 @@ onMounted(async () => {
 });
 onUnmounted(() => {
   store.commit('customer/setErrors', {});
-  URL.revokeObjectURL(inputFileUrl);
+  URL.revokeObjectURL(inputFile.value);
 });
 
 // ユーザーアイコン画像操作
@@ -52,9 +52,11 @@ const fileUrl = () => {
   if (!inputFile.value) return null;
   return URL.createObjectURL(inputFile.value) ?? '';
 };
+// ファイル選択
 const changeFile = (e) => {
   inputFile.value = e.target.files[0];
 };
+// アイコン画像更新
 const updateAvatar = async () => {
   await store.dispatch('customer/updateAvatar', {
     id: customerId,
@@ -67,7 +69,7 @@ const updateAvatar = async () => {
   Object.assign(customer, store.getters['customer/data']);
 };
 
-// 更新
+// 顧客情報更新
 const update = async () => {
   await store.dispatch('customer/patch', customer);
   if (hasErrors) return;
@@ -84,7 +86,7 @@ const update = async () => {
       <div class="row align-items-center mb-3">
         <div class="avatar-container">
           <img
-            :src="customer.avatar ?? '/storage/images/default-avatar.png'"
+            :src="customer.avatar ?? '/default-avatar.png'"
             class="avatar-thumbnail"
             @click="modalShow = true"
           />

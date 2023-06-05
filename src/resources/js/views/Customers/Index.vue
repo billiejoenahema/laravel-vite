@@ -141,7 +141,7 @@ const changePage = (page = null) => {
       <tr v-for="customer in customers" :id="customer.id">
         <td class="align-middle">
           <img
-            :src="customer.avatar ?? '/storage/images/default-icon.png'"
+            :src="customer.avatar ?? '/default-icon.png'"
             class="avatar me-2"
           /><router-link :to="`/customers/` + customer.id">{{
             customer.name

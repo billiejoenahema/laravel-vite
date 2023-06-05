@@ -28,7 +28,6 @@ final class CustomerFactory extends Factory
             'pref' => $this->faker->numberBetween(1, 47),
             'city' => $this->faker->city(),
             'street' => $this->faker->streetAddress(),
-            'avatar' => 'https://picsum.photos/200',
         ];
     }
 }
