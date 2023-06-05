@@ -14,6 +14,9 @@ const getters = {
   prefectureFormOptions(state) {
     return state.data?.PREFECTURE;
   },
+  maxUploadSize(state) {
+    return state.data?.MAX_UPLOAD_SIZE;
+  },
 };
 
 const actions = {

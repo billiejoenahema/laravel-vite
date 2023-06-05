@@ -225,6 +225,8 @@ const changePage = (page = null) => {
 <style scoped>
 .avatar {
   height: 32px;
+  width: 32px;
   border-radius: 50%;
+  object-fit: cover;
 }
 </style>
