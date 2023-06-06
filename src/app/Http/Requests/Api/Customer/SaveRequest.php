@@ -35,6 +35,7 @@ class SaveRequest extends FormRequest
             'pref' => ['nullable', Rule::in(Prefecture::values())],
             'city' => 'nullable|string|max:50',
             'street' => 'nullable|string|max:50',
+            'note' => 'nullable|string|max:500',
         ];
     }
 
@@ -55,6 +56,7 @@ class SaveRequest extends FormRequest
             'pref' => '都道府県',
             'city' => '市区町村',
             'street' => '番地',
+            'note' => '備考',
         ];
     }
 

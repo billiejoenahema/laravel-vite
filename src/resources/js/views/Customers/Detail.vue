@@ -4,6 +4,7 @@ import InputSelect from '@/components/InputSelect.vue';
 import InputSelectPrefecture from '@/components/InputSelectPrefecture.vue';
 import InputTel from '@/components/InputTel.vue';
 import InputText from '@/components/InputText.vue';
+import InputTextarea from '@/components/InputTextarea.vue';
 import InvalidFeedback from '@/components/InvalidFeedback.vue';
 import { formatDate } from '@/utils/formatter.js';
 import { computed, onMounted, onUnmounted, reactive, ref } from 'vue';
@@ -22,6 +23,7 @@ const customer = reactive({
   pref: null,
   city: null,
   street: null,
+  note: null,
   created_at: null,
   updated_at: null,
 });
@@ -248,6 +250,21 @@ const update = async () => {
             :class-value="isInvalid('street')"
             :invalid-feedback="invalidFeedback('street')"
             v-model="customer.street"
+          />
+        </div>
+      </div>
+      <div class="row align-items-center mb-3">
+        <div class="col-2">
+          <label for="customerNote" class="col-form-label">備考</label>
+        </div>
+        <div class="col-8">
+          <InputTextarea
+            id="customerNote"
+            :class-value="isInvalid('note')"
+            :invalid-feedback="invalidFeedback('note')"
+            input-counter="on"
+            :maxlength="500"
+            v-model="customer.note"
           />
         </div>
       </div>
