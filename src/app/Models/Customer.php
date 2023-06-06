@@ -86,6 +86,7 @@ class Customer extends Model
         'city',
         'street',
         'avatar',
+        'note',
     ];
 
     /**
