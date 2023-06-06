@@ -3,8 +3,8 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\Api\CustomerController;
-use App\Http\Controllers\Api\PasswordForgotController;
-use App\Http\Controllers\Api\PasswordResetController;
+use App\Http\Controllers\Api\Password\PasswordForgotController;
+use App\Http\Controllers\Api\Password\PasswordResetController;
 use App\Http\Controllers\Api\ProfileController;
 use Illuminate\Support\Facades\Route;
 
