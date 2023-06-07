@@ -87,7 +87,7 @@ const updateAvatar = async () => {
 // 顧客情報更新
 const update = async () => {
   await store.dispatch('customer/patch', customer);
-  if (hasErrors) return;
+  if (hasErrors.value) return;
   Object.assign(customer, store.getters['customer/data']);
 };
 </script>
@@ -96,7 +96,7 @@ const update = async () => {
   <div class="mb-3">
     <router-link to="/customers">一覧に戻る</router-link>
   </div>
-  <form>
+  <form v-if="customer.id">
     <div class="customer-detail">
       <div class="row align-items-center mb-3">
         <div class="avatar-container">
@@ -293,6 +293,7 @@ const update = async () => {
       更新
     </button>
   </form>
+  <div v-else>データが存在しません。</div>
   <BaseModal
     id="thumbnailModal"
     :class-value="modalShow === true ? 'show' : ''"
