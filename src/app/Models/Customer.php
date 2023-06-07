@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
 
 /**
  * App\Models\Customer
@@ -56,6 +57,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|Customer whereUlid($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Customer withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Customer withoutTrashed()
+ * @property string|null $note 備考
+ * @method static \Illuminate\Database\Eloquent\Builder|Customer searchCondition($request)
+ * @method static \Illuminate\Database\Eloquent\Builder|Customer whereNote($value)
  * @mixin \Eloquent
  */
 class Customer extends Model
@@ -199,6 +203,7 @@ class Customer extends Model
     {
         return Attribute::make(
             get: fn ($value) => $value ? '/storage/' . $value : '/default-avatar.png',
+            set: fn ($value) => $value ? Str::replace('/storage/', '', $value) : null,
         );
     }
 
