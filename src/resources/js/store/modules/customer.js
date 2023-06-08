@@ -100,6 +100,35 @@ const actions = {
       });
     setLoading(commit, false);
   },
+  async delete({ commit }, id) {
+    setLoading(commit, true);
+    await axios
+      .delete(`/api/customers/${id}`)
+      .then((res) => {
+        commit('setErrors', {});
+        commit(
+          'overlay/setData',
+          {
+            message: res.data.message,
+            status: res.status,
+          },
+          { root: true }
+        );
+        commit('setData', res);
+      })
+      .catch((err) => {
+        commit(
+          'overlay/setData',
+          {
+            message: 'エラー',
+            status: err.response.status,
+          },
+          { root: true }
+        );
+        commit('setErrors', err.response.data.errors);
+      });
+    setLoading(commit, false);
+  },
 };
 
 const mutations = {

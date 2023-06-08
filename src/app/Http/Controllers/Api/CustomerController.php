@@ -87,7 +87,7 @@ class CustomerController extends Controller
         $avatar = $request->file('avatar');
         // 既存のアイコン画像を削除してから新しい画像を保存する
         if ($customer->avatar) {
-            Storage::disk('public')->delete($customer->avatar);
+            Storage::disk('public')->delete(str_replace('storage/', '', $customer->avatar));
         }
         $path = Storage::disk('public')->put('images', $avatar);
         DB::transaction(function () use ($customer, $path) {
@@ -99,10 +99,12 @@ class CustomerController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * 指定顧客を削除する。
      */
-    public function destroy(string $id)
+    public function destroy(Customer $customer)
     {
-        //
+        $customer->delete();
+
+        return response()->json(['message' => '削除しました'], Response::HTTP_OK);
     }
 }
