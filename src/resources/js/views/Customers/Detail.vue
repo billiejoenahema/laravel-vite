@@ -11,7 +11,7 @@ import { computed, onMounted, onUnmounted, reactive, ref } from 'vue';
 import router from '../../router';
 import { store } from '../../store';
 
-const customer = reactive({
+const initialCustomer = {
   id: null,
   name: null,
   name_kana: null,
@@ -26,6 +26,9 @@ const customer = reactive({
   note: null,
   created_at: null,
   updated_at: null,
+};
+const customer = reactive({
+  ...initialCustomer,
 });
 const customerId = router.currentRoute.value?.params?.id;
 const genderFormOptions = ref([]);
@@ -38,9 +41,10 @@ const modalShow = ref(false);
 const inputFileRef = ref(null);
 const maxUploadSize = computed(() => store.getters['consts/maxUploadSize']);
 const isFileSizeOver = ref(false);
+const inputFile = ref(null);
+
 onMounted(async () => {
-  await store.dispatch('customer/get', customerId);
-  Object.assign(customer, store.getters['customer/data']);
+  await fetchData();
   Object.assign(
     genderFormOptions.value,
     store.getters['consts/genderFormOptions']
@@ -51,8 +55,13 @@ onUnmounted(() => {
   URL.revokeObjectURL(inputFile.value);
 });
 
+// 顧客情報取得
+const fetchData = async () => {
+  await store.dispatch('customer/get', customerId);
+  Object.assign(customer, store.getters['customer/data']);
+};
+
 // ユーザーアイコン画像操作
-const inputFile = ref(null);
 const fileUrl = () => {
   if (!inputFile.value) return null;
   return URL.createObjectURL(inputFile.value) ?? '';
@@ -80,15 +89,20 @@ const updateAvatar = async () => {
   if (hasErrors.value) return;
   inputFile.value = null;
   inputFileRef.value.value = null;
-  await store.dispatch('customer/get', customerId);
-  Object.assign(customer, store.getters['customer/data']);
+  fetchData();
 };
 
 // 顧客情報更新
 const update = async () => {
   await store.dispatch('customer/patch', customer);
   if (hasErrors.value) return;
-  Object.assign(customer, store.getters['customer/data']);
+  fetchData();
+};
+// 顧客情報削除
+const deleteCustomer = async () => {
+  if (!confirm('本当に顧客情報を削除してもよろしいですか？')) return;
+  await store.dispatch('customer/delete', customerId);
+  Object.assign(customer, { ...initialCustomer });
 };
 </script>
 
@@ -96,8 +110,8 @@ const update = async () => {
   <div class="mb-3">
     <router-link to="/customers">一覧に戻る</router-link>
   </div>
-  <form v-if="customer.id">
-    <div class="customer-detail">
+  <form v-if="customer.id" class="customer-detail">
+    <div>
       <div class="row align-items-center mb-3">
         <div class="avatar-container">
           <img
@@ -116,7 +130,7 @@ const update = async () => {
         <div class="col-2">
           <label for="customerId" class="col-form-label">顧客ID</label>
         </div>
-        <div class="col-8">
+        <div class="col-10">
           <div id="customerId" class="form-control border-0">
             {{ customer.id }}
           </div>
@@ -126,7 +140,7 @@ const update = async () => {
         <div class="col-2">
           <label for="customerName" class="col-form-label">氏名</label>
         </div>
-        <div class="col-8">
+        <div class="col-10">
           <InputText
             id="customerName"
             :class-value="isInvalid('name')"
@@ -141,7 +155,7 @@ const update = async () => {
         <div class="col-2">
           <label for="customerNameKana" class="col-form-label">ふりがな</label>
         </div>
-        <div class="col-8">
+        <div class="col-10">
           <InputText
             id="customerNameKana"
             :class-value="isInvalid('name_kana')"
@@ -156,7 +170,7 @@ const update = async () => {
         <div class="col-2">
           <label for="customerAge" class="col-form-label">年齢</label>
         </div>
-        <div class="col-8">
+        <div class="col-10">
           <div id="customerAge" class="form-control border-0">
             {{ customer.age }}
           </div>
@@ -178,7 +192,7 @@ const update = async () => {
         <div class="col-2">
           <label for="customerPhone" class="col-form-label">電話番号</label>
         </div>
-        <div class="col-8">
+        <div class="col-10">
           <InputTel
             id="customerPhone"
             :class-value="isInvalid('phone')"
@@ -194,7 +208,7 @@ const update = async () => {
         <div class="col-2">
           <label for="customerBirthDate" class="col-form-label">生年月日</label>
         </div>
-        <div class="col-8">
+        <div class="col-10">
           <InputText
             id="customerBirthDate"
             :class-value="isInvalid('birth_date')"
@@ -231,7 +245,7 @@ const update = async () => {
         <div class="col-2">
           <label for="customerCity" class="col-form-label">市区町村</label>
         </div>
-        <div class="col-8">
+        <div class="col-10">
           <InputText
             id="customerCity"
             :class-value="isInvalid('city')"
@@ -244,7 +258,7 @@ const update = async () => {
         <div class="col-2">
           <label for="customerStreet" class="col-form-label">番地</label>
         </div>
-        <div class="col-8">
+        <div class="col-10">
           <InputText
             id="customerStreet"
             :class-value="isInvalid('street')"
@@ -257,7 +271,7 @@ const update = async () => {
         <div class="col-2">
           <label for="customerNote" class="col-form-label">備考</label>
         </div>
-        <div class="col-8">
+        <div class="col-10">
           <InputTextarea
             id="customerNote"
             :class-value="isInvalid('note')"
@@ -272,7 +286,7 @@ const update = async () => {
         <div class="col-2">
           <label for="customerId" class="col-form-label">登録日</label>
         </div>
-        <div class="col-8">
+        <div class="col-10">
           <div id="customerId" class="form-control border-0">
             {{ formatDate(customer.created_at) }}
           </div>
@@ -282,16 +296,25 @@ const update = async () => {
         <div class="col-2">
           <label for="customerId" class="col-form-label">更新日</label>
         </div>
-        <div class="col-8">
+        <div class="col-10">
           <div id="customerId" class="form-control border-0">
             {{ formatDate(customer.updated_at) }}
           </div>
         </div>
       </div>
     </div>
-    <button class="btn btn-primary" type="button" @click.prevent="update">
-      更新
-    </button>
+    <div class="d-flex justify-content-between mb-3">
+      <button class="btn btn-primary" type="button" @click.prevent="update">
+        更新
+      </button>
+      <button
+        class="btn btn-danger"
+        type="button"
+        @click.prevent="deleteCustomer"
+      >
+        削除
+      </button>
+    </div>
   </form>
   <div v-else>データが存在しません。</div>
   <BaseModal
