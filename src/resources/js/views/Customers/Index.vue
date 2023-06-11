@@ -8,6 +8,7 @@ import SortIcon from '@/components/SortIcon.vue';
 import { store } from '@/store/index';
 import { formatDate } from '@/utils/formatter';
 import { computed, onMounted, ref } from 'vue';
+import InputCheckBox from '../../components/InputCheckBox.vue';
 
 onMounted(async () => {
   await fetchData();
@@ -51,15 +52,6 @@ const changePage = (page = null) => {
 
 <template>
   <h2>顧客一覧</h2>
-  <button
-    type="button"
-    class="btn btn-info"
-    data-bs-toggle="modal"
-    data-bs-target="#searchModal"
-    @click="modalShow = true"
-  >
-    絞り込み検索
-  </button>
   <div class="d-flex justify-content-end mb-3">
     <button type="button" class="btn btn-info me-3" @click="modalShow = true">
       絞り込み検索
@@ -165,6 +157,15 @@ const changePage = (page = null) => {
     @submit="fetchData"
   >
     <form class="row">
+      <div>
+        <label for="searchIsDeleted" class="col-form-label"
+          >削除済みの顧客</label
+        >
+        <InputCheckBox
+          id="searchIsDeleted"
+          v-model="params.search_value.is_deleted"
+        />
+      </div>
       <div>
         <label for="searchValueName" class="col-form-label">氏名</label>
         <InputText
