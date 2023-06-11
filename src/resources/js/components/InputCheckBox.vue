@@ -1,4 +1,3 @@
-<!-- インラインバージョン -->
 <script setup>
 import { computed } from 'vue';
 
@@ -28,6 +27,11 @@ const props = defineProps({
     required: false,
     type: String,
   },
+  label: {
+    default: '',
+    required: false,
+    type: String,
+  },
   modelValue: {
     default: false,
     required: false,
@@ -50,6 +54,7 @@ const model = computed({
       type="checkbox"
       v-model="model"
     />
+    <label class="form-check-label" :for="id">{{ label }}</label>
   </div>
   <small class="form-text">{{ helperText }}</small>
   <div class="invalid-feedback">

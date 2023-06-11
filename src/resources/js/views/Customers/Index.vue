@@ -158,11 +158,9 @@ const changePage = (page = null) => {
   >
     <form class="row">
       <div>
-        <label for="searchIsDeleted" class="col-form-label"
-          >削除済みの顧客</label
-        >
         <InputCheckBox
           id="searchIsDeleted"
+          label="削除済みの顧客"
           v-model="params.search_value.is_deleted"
         />
       </div>
