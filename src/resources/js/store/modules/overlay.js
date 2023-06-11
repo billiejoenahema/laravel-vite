@@ -1,4 +1,6 @@
-const TIMEOUT = 3000;
+import { scrollToTop } from '@/utils/scrollToTop.js';
+
+const TIMEOUT = 2000;
 const initialData = {
   message: '',
   status: '',
@@ -19,6 +21,7 @@ const mutations = {
     state.data = data;
     setTimeout(() => {
       state.data = { ...initialData };
+      scrollToTop();
     }, TIMEOUT);
   },
 };
