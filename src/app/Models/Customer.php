@@ -216,6 +216,9 @@ class Customer extends Model
      */
     public function scopeSearchCondition($query, $request): Builder|Customer
     {
+        if ($request['search_value.is_deleted']) {
+            $query->onlyTrashed();
+        }
         if ($request['search_value.name']) {
             $query->where('name', 'like', "%{$request['search_value.name']}%");
         }
