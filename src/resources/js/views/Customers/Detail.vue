@@ -36,6 +36,7 @@ const hasErrors = computed(() => store.getters['customer/hasErrors']);
 const invalidFeedback = computed(
   () => store.getters['customer/invalidFeedback']
 );
+const loading = computed(() => store.getters['loading/loading']);
 const isInvalid = computed(() => store.getters['customer/isInvalid']);
 const modalShow = ref(false);
 const inputFileRef = ref(null);
@@ -52,6 +53,7 @@ onMounted(async () => {
 });
 onUnmounted(() => {
   store.commit('customer/setErrors', {});
+  store.commit('customer/setData', {});
   URL.revokeObjectURL(inputFile.value);
 });
 
@@ -316,7 +318,7 @@ const deleteCustomer = async () => {
       </button>
     </div>
   </form>
-  <div v-else>データが存在しません。</div>
+  <div v-if="!customer.id && !loading">データが存在しません。</div>
   <BaseModal
     id="thumbnailModal"
     :class-value="modalShow === true ? 'show' : ''"
