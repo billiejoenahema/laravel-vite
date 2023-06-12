@@ -120,7 +120,7 @@ const actions = {
         commit(
           'overlay/setData',
           {
-            message: 'エラー',
+            message: err.response.data.message,
             status: err.response.status,
           },
           { root: true }

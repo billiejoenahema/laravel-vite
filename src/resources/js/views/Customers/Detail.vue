@@ -104,6 +104,7 @@ const update = async () => {
 const deleteCustomer = async () => {
   if (!confirm('本当に顧客情報を削除してもよろしいですか？')) return;
   await store.dispatch('customer/delete', customerId);
+  if (hasErrors.value) return;
   Object.assign(customer, { ...initialCustomer });
 };
 </script>
