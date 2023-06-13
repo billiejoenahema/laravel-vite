@@ -31,6 +31,7 @@ const customer = reactive({
   ...initialCustomer,
 });
 const customerId = router.currentRoute.value?.params?.id;
+const isAdmin = computed(() => store.getters['profile/isAdmin']);
 const genderFormOptions = ref([]);
 const hasErrors = computed(() => store.getters['customer/hasErrors']);
 const invalidFeedback = computed(
@@ -311,6 +312,7 @@ const deleteCustomer = async () => {
         更新
       </button>
       <button
+        v-if="isAdmin"
         class="btn btn-danger"
         type="button"
         @click.prevent="deleteCustomer"

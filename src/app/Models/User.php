@@ -7,6 +7,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use App\Notifications\Api\PasswordResetNotification;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -96,11 +97,30 @@ final class User extends Authenticatable
     ];
 
     /**
+     * モデルの配列フォームに追加するアクセサ
+     *
+     * @var array
+     */
+    protected $appends = [
+        'is_admin',
+    ];
+
+    /**
      * @param  string  $token
      * @return void
      */
     public function sendPasswordResetNotification($token): void
     {
         $this->notify(new PasswordResetNotification($token));
+    }
+
+    /**
+     * 管理者かどうか
+     */
+    protected function isAdmin(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->role === self::ROLE_ADMIN,
+        );
     }
 }

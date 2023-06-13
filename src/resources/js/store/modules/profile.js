@@ -15,6 +15,9 @@ const getters = {
   isLoggedIn(state) {
     return state.data?.id > 0;
   },
+  isAdmin(state) {
+    return state.data?.is_admin;
+  },
   hasErrors(state) {
     return Object.keys(state.errors)?.length > 0;
   },

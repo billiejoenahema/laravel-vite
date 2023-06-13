@@ -16,7 +16,6 @@ onMounted(async () => {
 const customers = computed(() => store.getters['customers/data']);
 const meta = computed(() => store.getters['customers/meta']);
 const params = computed(() => store.getters['customers/params']);
-const modalShow = ref(false);
 const invalidFeedback = computed(
   () => store.getters['customer/invalidFeedback']
 );
@@ -24,6 +23,8 @@ const isInvalid = computed(() => store.getters['customer/isInvalid']);
 const genderFormOptions = computed(
   () => store.getters['consts/genderFormOptions']
 );
+const isAdmin = computed(() => store.getters['profile/isAdmin']);
+const modalShow = ref(false);
 
 const fetchData = () => {
   store.dispatch('customers/get', params.value);
@@ -159,6 +160,7 @@ const changePage = (page = null) => {
     <form class="row">
       <div>
         <InputCheckBox
+          v-if="isAdmin"
           id="searchIsDeleted"
           label="削除済みの顧客"
           v-model="params.search_value.is_deleted"
