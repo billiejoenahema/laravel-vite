@@ -8,6 +8,7 @@ import InputTextarea from '@/components/InputTextarea.vue';
 import InvalidFeedback from '@/components/InvalidFeedback.vue';
 import { formatDate } from '@/utils/formatter.js';
 import { computed, onMounted, onUnmounted, reactive, ref } from 'vue';
+import YubinBango from 'yubinbango-core2';
 import router from '../../router';
 import { store } from '../../store';
 
@@ -93,6 +94,35 @@ const updateAvatar = async () => {
   inputFile.value = null;
   inputFileRef.value.value = null;
   fetchData();
+};
+
+// 住所を自動入力
+const setAddress = (code) => {
+  // エラーメッセージを初期化
+  store.commit('customer/setErrors', {});
+  // 入力値が空なら処理を終了する
+  if (code === '') return;
+  // 7桁の数字でなければエラーを表示して処理を終了する
+  if (!code.match(/^\d{7}/)) {
+    console.log(code);
+    store.commit('customer/setErrors', {
+      postal_code: ['郵便番号は7桁の半角数字で入力してください。'],
+    });
+    return;
+  }
+
+  // 住所をセットする
+  new YubinBango.Core(code, (address) => {
+    // 存在しない郵便番号だった場合はエラーメッセージを表示させる
+    if (!address.region) {
+      store.commit('customer/setErrors', {
+        postal_code: ['該当する住所が見つかりませんでした。'],
+      });
+    }
+    customer.pref = address.region_id; // Number 都道府県コード
+    customer.city = address.locality;
+    customer.street = address.street;
+  });
 };
 
 // 顧客情報更新
@@ -235,6 +265,15 @@ const deleteCustomer = async () => {
             :invalid-feedback="invalidFeedback('postal_code')"
             v-model="customer.postal_code"
           />
+        </div>
+        <div class="col-3">
+          <button
+            class="btn btn-secondary"
+            type="button"
+            @click="setAddress(customer.postal_code)"
+          >
+            住所を検索
+          </button>
         </div>
       </div>
       <div class="row align-items-center mb-3">
