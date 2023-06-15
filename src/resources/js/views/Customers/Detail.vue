@@ -206,7 +206,7 @@ const deleteCustomer = async () => {
         </div>
         <div class="col-10">
           <div id="customerAge" class="form-control border-0">
-            {{ customer.age }}
+            {{ customer.age }}<span>&nbsp;歳</span>
           </div>
         </div>
       </div>
