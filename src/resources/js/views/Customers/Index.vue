@@ -1,14 +1,15 @@
 <script setup>
 import BaseModal from '@/components/BaseModal.vue';
+import InputCheckBox from '@/components/InputCheckBox.vue';
 import InputSelect from '@/components/InputSelect.vue';
 import InputSelectPrefecture from '@/components/InputSelectPrefecture.vue';
 import InputText from '@/components/InputText.vue';
 import Pagination from '@/components/Pagination.vue';
 import SortIcon from '@/components/SortIcon.vue';
+import Tooltip from '@/components/Tooltip.vue';
 import { store } from '@/store/index';
 import { formatDate } from '@/utils/formatter';
 import { computed, onMounted, ref } from 'vue';
-import InputCheckBox from '../../components/InputCheckBox.vue';
 
 onMounted(async () => {
   await fetchData();
@@ -133,10 +134,12 @@ const changePage = (page = null) => {
     <tbody>
       <tr v-for="customer in customers" :id="customer.id">
         <td class="align-middle">
-          <img :src="customer.avatar" class="avatar me-2" /><router-link
-            :to="`/customers/` + customer.id"
-            >{{ customer.name }}</router-link
-          >
+          <Tooltip :content="customer.id">
+            <img :src="customer.avatar" class="avatar me-2" />
+            <router-link :to="`/customers/` + customer.id"
+              >{{ customer.name }}
+            </router-link>
+          </Tooltip>
         </td>
         <td class="align-middle">{{ customer.age }}</td>
         <td class="align-middle">{{ customer.gender_value }}</td>
