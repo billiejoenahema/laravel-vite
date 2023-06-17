@@ -9,7 +9,7 @@ defineProps({
 </script>
 
 <template>
-  <div class="px-4 mb-4">
+  <div>
     {{ meta.from + '-' + meta.to + ' of ' + meta.total }}
   </div>
 </template>

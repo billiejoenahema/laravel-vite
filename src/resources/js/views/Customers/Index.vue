@@ -1,5 +1,6 @@
 <script setup>
 import BaseModal from '@/components/BaseModal.vue';
+import DataCount from '@/components/DataCount.vue';
 import InputCheckBox from '@/components/InputCheckBox.vue';
 import InputSelect from '@/components/InputSelect.vue';
 import InputSelectPrefecture from '@/components/InputSelectPrefecture.vue';
@@ -54,13 +55,16 @@ const changePage = (page = null) => {
 
 <template>
   <h2>顧客一覧</h2>
-  <div class="d-flex justify-content-end mb-3">
-    <button type="button" class="btn btn-info me-3" @click="modalShow = true">
-      絞り込み検索
-    </button>
-    <button type="button" class="btn btn-secondary" @click="resetParams">
-      リセット
-    </button>
+  <div class="d-flex justify-content-between align-items-end mb-3">
+    <DataCount :meta="meta" />
+    <div class="d-flex justify-content-end">
+      <button type="button" class="btn btn-info me-3" @click="modalShow = true">
+        絞り込み検索
+      </button>
+      <button type="button" class="btn btn-secondary" @click="resetParams">
+        リセット
+      </button>
+    </div>
   </div>
   <table class="table table-striped">
     <thead class="table-dark">
