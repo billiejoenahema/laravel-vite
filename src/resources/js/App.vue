@@ -1,9 +1,9 @@
 <script setup>
-import CircleDotLoader from '@/components/CircleDotLoader.vue';
 import Overlay from '@/components/Overlay.vue';
+import CircleDotsLoader from '@/components/loader/CircleDotsLoader.vue';
+import { store } from '@/store';
 import Navbar from '@/views/Navbar.vue';
 import { computed } from 'vue';
-import { store } from './store';
 
 const loading = computed(() => store.getters['loading/loading']);
 const data = computed(() => store.getters['overlay/data']);
@@ -13,7 +13,7 @@ const data = computed(() => store.getters['overlay/data']);
   <main>
     <Navbar />
     <Overlay :data="data" />
-    <CircleDotLoader :loading="loading" />
+    <CircleDotsLoader :loading="loading" />
     <div class="container-md">
       <router-view />
     </div>
