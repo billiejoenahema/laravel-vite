@@ -19,7 +19,7 @@ RUN apt-get update && \
   localedef -f UTF-8 -i en_US en_US.UTF-8 && \
   docker-php-ext-install intl pdo_mysql zip bcmath && \
   # Node.jsをインストール
-  curl -sL https://deb.nodesource.com/setup_16.x | bash - && \
+  curl -sL https://deb.nodesource.com/setup_18.x | bash - && \
   apt-get install -y nodejs
 
 COPY ./php.ini /usr/local/etc/php/php.ini
