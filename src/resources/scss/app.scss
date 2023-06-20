@@ -1,6 +1,9 @@
 $primary: #fca35a;
 
 @import '~bootstrap/scss/bootstrap';
+button {
+  border-radius: 0 !important;
+}
 .table,
 .table-striped > tbody > tr:nth-of-type(odd) > * {
   color: #ced4da;
