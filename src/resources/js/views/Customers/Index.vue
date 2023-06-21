@@ -8,7 +8,7 @@ import InputText from '@/components/InputText.vue';
 import Pagination from '@/components/Pagination.vue';
 import SortIcon from '@/components/SortIcon.vue';
 import Tooltip from '@/components/Tooltip.vue';
-import { store } from '@/store/index';
+import { store } from '@/store';
 import { formatDate } from '@/utils/formatter';
 import { computed, onMounted, ref } from 'vue';
 

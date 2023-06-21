@@ -1,11 +1,8 @@
 <script setup>
 import InputText from '@/components/InputText.vue';
 import { computed, reactive, ref } from 'vue';
-import { useRouter } from 'vue-router';
-import { useStore } from 'vuex';
-
-const router = useRouter();
-const store = useStore();
+import router from '@/router';
+import { store } from '@/store';
 
 const user = reactive({
   email: '',

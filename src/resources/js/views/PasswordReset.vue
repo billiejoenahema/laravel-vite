@@ -1,11 +1,8 @@
 <script setup>
 import InvalidFeedback from '@/components/InvalidFeedback.vue';
 import { computed, onMounted, reactive } from 'vue';
-import { useRouter } from 'vue-router';
-import { useStore } from 'vuex';
-
-const store = useStore();
-const router = useRouter();
+import router from '@/router';
+import { store } from '@/store';
 
 const hasErrors = computed(() => store.getters['auth/hasErrors']);
 const invalidFeedback = computed(() => store.getters['auth/invalidFeedback']);

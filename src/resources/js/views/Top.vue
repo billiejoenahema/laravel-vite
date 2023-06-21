@@ -1,8 +1,9 @@
 <script setup>
 import InputSelectPrefecture from '@/components/InputSelectPrefecture.vue';
+import router from '@/router';
+import { store } from '@/store';
 import { ref } from 'vue';
-import router from '../router';
-import { store } from '../store';
+
 const pref = ref(13);
 const moveToCustomerIndex = () => {
   store.commit('customers/resetParams');

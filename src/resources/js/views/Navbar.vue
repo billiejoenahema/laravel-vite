@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from 'vue';
-import router from '../router';
-import { store } from '../store';
+import router from '@/router';
+import { store } from '@/store';
 
 const isLoggedIn = computed(() => store.getters['profile/isLoggedIn']);
 const logout = async () => {

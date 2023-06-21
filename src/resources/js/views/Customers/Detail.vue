@@ -9,8 +9,8 @@ import InvalidFeedback from '@/components/InvalidFeedback.vue';
 import { formatDate } from '@/utils/formatter.js';
 import { computed, onMounted, onUnmounted, reactive, ref } from 'vue';
 import YubinBango from 'yubinbango-core2';
-import router from '../../router';
-import { store } from '../../store';
+import router from '@/router';
+import { store } from '@/store';
 
 const initialCustomer = {
   id: null,
