@@ -70,6 +70,9 @@ class CustomerController extends Controller
     {
         $data = $request->all();
 
+        // アイコンは更新しない
+        unset($data['avatar']);
+
         DB::transaction(function () use ($data, $customer) {
             $customer->fill($data)->save();
         });
