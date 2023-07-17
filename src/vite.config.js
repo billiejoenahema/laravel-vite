@@ -23,4 +23,7 @@ export default defineConfig({
       '~bootstrap': path.resolve(__dirname, 'node_modules/bootstrap'),
     },
   },
+  build: {
+    chunkSizeWarningLimit: 1000, // サイズの上限を1000 kBに設定
+  },
 });
