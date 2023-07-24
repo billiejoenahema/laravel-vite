@@ -12,8 +12,6 @@ class PasswordResetNotification extends Notification
 
     private $token;
 
-    private const PASSWORD_RESET_ENDPOINT = 'http://localhost:8081/password-reset';
-
     /**
      * Create a new notification instance.
      *
@@ -22,6 +20,7 @@ class PasswordResetNotification extends Notification
     public function __construct($token)
     {
         $this->token = $token;
+        $this->endpoint = config('app.url') . '/password-reset';
     }
 
     /**
@@ -30,7 +29,7 @@ class PasswordResetNotification extends Notification
      */
     protected function resetUrl($notifiable): string
     {
-        return self::PASSWORD_RESET_ENDPOINT . '?' . http_build_query([
+        return $this->endpoint . '?' . http_build_query([
             'token' => $this->token,
             'email' => $notifiable->getEmailForPasswordReset(),
         ]);
@@ -54,6 +53,7 @@ class PasswordResetNotification extends Notification
      */
     public function toMail($notifiable)
     {
+        info('URL:' . $this->resetUrl($notifiable));
         return (new MailMessage)
             ->line('アカウントのパスワードリセットリクエストを受けつけました。')
             ->action('パスワードリセット', $this->resetUrl($notifiable))
