@@ -90,9 +90,10 @@ class CustomerController extends Controller
         $avatar = $request->file('avatar');
         // 既存のアイコン画像を削除してから新しい画像を保存する
         if ($customer->avatar) {
-            Storage::disk('public')->delete(str_replace('storage/', '', $customer->avatar));
+            Storage::disk('s3')->delete($customer->avatar);
         }
-        $path = Storage::disk('public')->put('images', $avatar);
+        // 画像をS3のlaravel-viteバケットに保存する
+        $path = Storage::disk('s3')->putFile('/', $avatar);
         DB::transaction(function () use ($customer, $path) {
             $customer->avatar = $path;
             $customer->save();
