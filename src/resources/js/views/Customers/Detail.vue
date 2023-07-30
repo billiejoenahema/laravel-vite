@@ -6,11 +6,11 @@ import InputTel from '@/components/InputTel.vue';
 import InputText from '@/components/InputText.vue';
 import InputTextarea from '@/components/InputTextarea.vue';
 import InvalidFeedback from '@/components/InvalidFeedback.vue';
+import router from '@/router';
+import { store } from '@/store';
 import { formatDate } from '@/utils/formatter.js';
 import { computed, onMounted, onUnmounted, reactive, ref } from 'vue';
 import YubinBango from 'yubinbango-core2';
-import router from '@/router';
-import { store } from '@/store';
 
 const initialCustomer = {
   id: null,
@@ -38,6 +38,7 @@ const hasErrors = computed(() => store.getters['customer/hasErrors']);
 const invalidFeedback = computed(
   () => store.getters['customer/invalidFeedback']
 );
+const bucketUrl = import.meta.env.VITE_AWS_BUCKET_URL;
 const loading = computed(() => store.getters['loading/loading']);
 const isInvalid = computed(() => store.getters['customer/isInvalid']);
 const modalShow = ref(false);
@@ -149,7 +150,7 @@ const deleteCustomer = async () => {
       <div class="row align-items-center mb-3">
         <div class="avatar-container">
           <img
-            :src="customer.avatar"
+            :src="bucketUrl + customer.avatar"
             class="avatar-thumbnail"
             @click="modalShow = true"
           />
@@ -372,7 +373,7 @@ const deleteCustomer = async () => {
   >
     <div class="d-flex justify-content-center">
       <img
-        :src="fileUrl() ?? customer.avatar"
+        :src="fileUrl() ?? bucketUrl + customer.avatar"
         class="avatar-preview rounded-circle mb-3"
       />
     </div>
