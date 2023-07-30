@@ -92,7 +92,7 @@ class CustomerController extends Controller
     {
         $avatar = $request->file('avatar');
         // 既存のアイコン画像を削除する
-        if ($customer->avatar) {
+        if ($customer->avatar && $customer->avatar !== Customer::DEFAULT_AVATAR) {
             Storage::disk('s3')->delete($customer->avatar);
         }
         // 画像をS3のlaravel-viteバケットに保存する

@@ -75,6 +75,9 @@ class Customer extends Model
     public $table = 'customers';
     protected $primaryKey = 'id';
 
+    /** デフォルトアイコン */
+    public const DEFAULT_AVATAR = 'default-avatar.png';
+
     /**
      * 複数代入可能な属性
      *
@@ -203,7 +206,7 @@ class Customer extends Model
     protected function avatar(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => $value ?? '/default-avatar.png',
+            get: fn ($value) => $value ?? self::DEFAULT_AVATAR,
         );
     }
 
