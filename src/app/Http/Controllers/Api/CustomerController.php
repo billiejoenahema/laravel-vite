@@ -8,6 +8,7 @@ use App\Http\Requests\Api\Customer\SaveAvatarRequest;
 use App\Http\Requests\Api\Customer\SaveRequest;
 use App\Http\Resources\Api\CustomerResource;
 use App\Models\Customer;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\DB;
@@ -65,8 +66,9 @@ class CustomerController extends Controller
      * 指定の顧客を更新する。
      *
      * @param SaveRequest $request
+     * @param Customer $customer
      */
-    public function update(SaveRequest $request, Customer $customer)
+    public function update(SaveRequest $request, Customer $customer): JsonResponse
     {
         $data = $request->all();
 
@@ -84,16 +86,18 @@ class CustomerController extends Controller
      * 指定顧客のアイコンを更新する。
      *
      * @param SaveAvatarRequest $request
+     * @param Customer $customer
      */
-    public function updateAvatar(SaveAvatarRequest $request, Customer $customer)
+    public function updateAvatar(SaveAvatarRequest $request, Customer $customer): JsonResponse
     {
         $avatar = $request->file('avatar');
-        // 既存のアイコン画像を削除してから新しい画像を保存する
+        // 既存のアイコン画像を削除する
         if ($customer->avatar) {
             Storage::disk('s3')->delete($customer->avatar);
         }
         // 画像をS3のlaravel-viteバケットに保存する
         $path = Storage::disk('s3')->putFile('/', $avatar);
+
         DB::transaction(function () use ($customer, $path) {
             $customer->avatar = $path;
             $customer->save();
@@ -105,7 +109,7 @@ class CustomerController extends Controller
     /**
      * 指定顧客を削除する。
      */
-    public function destroy(Customer $customer)
+    public function destroy(Customer $customer): JsonResponse
     {
         $customer->delete();
 

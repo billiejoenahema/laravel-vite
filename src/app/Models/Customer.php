@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 /**
@@ -202,8 +203,7 @@ class Customer extends Model
     protected function avatar(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => $value ? '/storage/' . $value : '/default-avatar.png',
-            set: fn ($value) => $value ? Str::replace('/storage/', '', $value) : null,
+            get: fn ($value) => $value ?? '/default-avatar.png',
         );
     }
 
