@@ -38,7 +38,11 @@ const hasErrors = computed(() => store.getters['customer/hasErrors']);
 const invalidFeedback = computed(
   () => store.getters['customer/invalidFeedback']
 );
-const bucketUrl = import.meta.env.VITE_AWS_BUCKET_URL;
+const avatarUrl = computed(() =>
+  customer.avatar
+    ? `${import.meta.env.VITE_AWS_BUCKET_URL}${customer.avatar}`
+    : null
+);
 const loading = computed(() => store.getters['loading/loading']);
 const isInvalid = computed(() => store.getters['customer/isInvalid']);
 const modalShow = ref(false);
@@ -46,6 +50,7 @@ const inputFileRef = ref(null);
 const maxUploadSize = computed(() => store.getters['consts/maxUploadSize']);
 const isFileSizeOver = ref(false);
 const inputFile = ref(null);
+const avatarTrashShow = ref(false);
 
 onMounted(async () => {
   await fetchData();
@@ -91,6 +96,15 @@ const updateAvatar = async () => {
     id: customerId,
     file: inputFile.value,
   });
+  if (hasErrors.value) return;
+  inputFile.value = null;
+  inputFileRef.value.value = null;
+  fetchData();
+};
+// アイコン画像削除
+const deleteAvatar = async () => {
+  if (!confirm('アイコンを削除しますか？')) return;
+  await store.dispatch('customer/deleteAvatar', customerId);
   if (hasErrors.value) return;
   inputFile.value = null;
   inputFileRef.value.value = null;
@@ -148,17 +162,32 @@ const deleteCustomer = async () => {
   <form v-if="customer.id" class="customer-detail">
     <div>
       <div class="row align-items-center mb-3">
-        <div class="avatar-container">
-          <img
-            :src="bucketUrl + customer.avatar"
-            class="avatar-thumbnail"
-            @click="modalShow = true"
-          />
-          <font-awesome-icon
-            class="edit-icon btn p-0 text-primary"
-            icon="edit"
-            @click="modalShow = true"
-          ></font-awesome-icon>
+        <div class="avatar-container m-auto d-flex align-items-start">
+          <div
+            @mouseover="avatarTrashShow = true"
+            @mouseleave="avatarTrashShow = false"
+          >
+            <img
+              :src="avatarUrl"
+              class="avatar-thumbnail"
+              @click="modalShow = true"
+            />
+            <font-awesome-icon
+              class="edit-icon btn p-0 text-primary"
+              icon="edit"
+              @click="modalShow = true"
+            ></font-awesome-icon>
+            <font-awesome-icon
+              v-if="
+                avatarTrashShow &&
+                isAdmin &&
+                customer.avatar !== 'default-avatar.png'
+              "
+              class="trash-icon btn p-0 text-danger"
+              icon="trash"
+              @click="deleteAvatar"
+            ></font-awesome-icon>
+          </div>
         </div>
       </div>
       <div class="row align-items-center mb-3">
@@ -373,7 +402,7 @@ const deleteCustomer = async () => {
   >
     <div class="d-flex justify-content-center">
       <img
-        :src="fileUrl() ?? bucketUrl + customer.avatar"
+        :src="fileUrl() ?? avatarUrl"
         class="avatar-preview rounded-circle mb-3"
       />
     </div>
@@ -399,5 +428,10 @@ const deleteCustomer = async () => {
   position: absolute;
   left: 100px;
   top: 88px;
+}
+.trash-icon {
+  position: absolute;
+  left: 100px;
+  top: 0;
 }
 </style>

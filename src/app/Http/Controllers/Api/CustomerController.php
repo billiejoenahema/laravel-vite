@@ -107,6 +107,26 @@ class CustomerController extends Controller
     }
 
     /**
+     * 指定顧客のアイコンを削除する。
+     *
+     * @param Customer $customer
+     */
+    public function deleteAvatar(Customer $customer): JsonResponse
+    {
+        // 既存のアイコン画像を削除する
+        if ($customer->avatar && $customer->avatar !== Customer::DEFAULT_AVATAR) {
+            Storage::disk('s3')->delete($customer->avatar);
+        }
+
+        DB::transaction(function () use ($customer) {
+            $customer->avatar = null;
+            $customer->save();
+        });
+
+        return response()->json(['message' => '削除しました'], Response::HTTP_OK);
+    }
+
+    /**
      * 指定顧客を削除する。
      */
     public function destroy(Customer $customer): JsonResponse

@@ -36,5 +36,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/customers/{customer}', [CustomerController::class, 'show']);
     Route::patch('/customers/{customer}', [CustomerController::class, 'update']);
     Route::post('/customers/{customer}/update-avatar', [CustomerController::class, 'updateAvatar']);
+    Route::delete('/customers/{customer}/delete-avatar', [CustomerController::class, 'deleteAvatar'])->can('delete', 'customer');
     Route::delete('/customers/{customer}', [CustomerController::class, 'destroy'])->can('delete', 'customer');
 });
