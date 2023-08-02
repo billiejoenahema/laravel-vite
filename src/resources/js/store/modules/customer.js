@@ -45,7 +45,7 @@ const actions = {
     const formData = new FormData();
     formData.append('avatar', file);
     await axios
-      .post(`/api/customers/${id}/update-avatar`, formData)
+      .post(`/api/customers/${id}/avatar`, formData)
       .then((res) => {
         commit('setErrors', {});
         commit(
@@ -74,7 +74,7 @@ const actions = {
   async deleteAvatar({ commit }, id) {
     setLoading(commit, true);
     await axios
-      .delete(`/api/customers/${id}/delete-avatar`)
+      .delete(`/api/customers/${id}/avatar`)
       .then((res) => {
         commit('setErrors', {});
         commit(
