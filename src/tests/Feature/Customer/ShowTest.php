@@ -12,29 +12,63 @@ class ShowTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * A basic feature test example.
+     * テスト前の共通処理
      */
-    public function test_getCustomerDetail(): void
+    public function setUp(): void
     {
-        /** @var \Illuminate\Contracts\Auth\Authenticatable $user */
-        $user = User::factory()->create();
-        $customer = Customer::factory()->create();
+        parent::setUp();
 
+        /** @var \Illuminate\Contracts\Auth\Authenticatable $user */
+        $this->user = User::factory()->create();
+        $this->customer = Customer::factory()->create();
+    }
+
+    /**
+     * 一般ユーザーが指定顧客情報を取得できること。
+     */
+    public function test_getCustomerDetailByGeneralUser(): void
+    {
         // 実行
-        $response = $this->actingAs($user)->getJson('/api/customers/' . $customer->id);
+        $response = $this->actingAs($this->user)->getJson('/api/customers/' . $this->customer->id);
         $response
             ->assertOK()
             ->assertJsonFragment([
-                'id' => $customer->id,
-                'name' => $customer->name,
-                'phone' => $customer->phone,
-                'gender' => $customer->gender,
-                'birth_date' => $customer->birth_date,
-                'postal_code' => $customer->postal_code,
-                'pref' => $customer->pref,
-                'city' => $customer->city,
-                'street' => $customer->street,
-                'avatar' => $customer->avatar,
+                'id' => $this->customer->id,
+                'name' => $this->customer->name,
+                'phone' => $this->customer->phone,
+                'gender' => $this->customer->gender,
+                'birth_date' => $this->customer->birth_date,
+                'postal_code' => $this->customer->postal_code,
+                'pref' => $this->customer->pref,
+                'city' => $this->customer->city,
+                'street' => $this->customer->street,
+                'avatar' => $this->customer->avatar,
+            ]);
+    }
+
+    /**
+     * 管理ユーザーが指定顧客情報を取得できること。
+     */
+    public function test_getCustomerDetailByAdminUser(): void
+    {
+        $this->user->role = User::ROLE_ADMIN;
+        $this->user->save();
+
+        // 実行
+        $response = $this->actingAs($this->user)->getJson('/api/customers/' . $this->customer->id);
+        $response
+            ->assertOK()
+            ->assertJsonFragment([
+                'id' => $this->customer->id,
+                'name' => $this->customer->name,
+                'phone' => $this->customer->phone,
+                'gender' => $this->customer->gender,
+                'birth_date' => $this->customer->birth_date,
+                'postal_code' => $this->customer->postal_code,
+                'pref' => $this->customer->pref,
+                'city' => $this->customer->city,
+                'street' => $this->customer->street,
+                'avatar' => $this->customer->avatar,
             ]);
     }
 }
