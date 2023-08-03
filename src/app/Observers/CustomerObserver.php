@@ -30,7 +30,7 @@ class CustomerObserver
     {
         // アイコン画像が存在すれば削除する
         if ($customer->avatar) {
-            Storage::disk('public')->delete(str_replace('storage/', '', $customer->avatar));
+            Storage::disk('s3')->delete($customer->avatar);
         }
     }
 

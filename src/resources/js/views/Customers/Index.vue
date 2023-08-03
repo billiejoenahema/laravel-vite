@@ -25,7 +25,7 @@ const isInvalid = computed(() => store.getters['customer/isInvalid']);
 const genderFormOptions = computed(
   () => store.getters['consts/genderFormOptions']
 );
-const bucketUrl = import.meta.env.VITE_AWS_BUCKET_URL;
+const avatarUrl = computed(() => store.getters['customer/avatarUrl']);
 const isAdmin = computed(() => store.getters['profile/isAdmin']);
 const modalShow = ref(false);
 
@@ -140,7 +140,7 @@ const changePage = (page = null) => {
       <tr v-for="customer in customers" :id="customer.id">
         <td class="align-middle">
           <Tooltip :content="customer.id">
-            <img :src="bucketUrl + customer.avatar" class="avatar me-2" />
+            <img :src="avatarUrl(customer.avatar)" class="avatar me-2" />
             <router-link :to="`/customers/` + customer.id"
               >{{ customer.name }}
             </router-link>

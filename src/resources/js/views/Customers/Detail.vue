@@ -38,11 +38,7 @@ const hasErrors = computed(() => store.getters['customer/hasErrors']);
 const invalidFeedback = computed(
   () => store.getters['customer/invalidFeedback']
 );
-const avatarUrl = computed(() =>
-  customer.avatar
-    ? `${import.meta.env.VITE_AWS_BUCKET_URL}${customer.avatar}`
-    : null
-);
+const avatarUrl = computed(() => store.getters['customer/avatarUrl']);
 const loading = computed(() => store.getters['loading/loading']);
 const isInvalid = computed(() => store.getters['customer/isInvalid']);
 const modalShow = ref(false);
@@ -168,7 +164,7 @@ const deleteCustomer = async () => {
             @mouseleave="avatarTrashShow = false"
           >
             <img
-              :src="avatarUrl"
+              :src="avatarUrl(customer.avatar)"
               class="avatar-thumbnail"
               @click="modalShow = true"
             />
@@ -178,11 +174,7 @@ const deleteCustomer = async () => {
               @click="modalShow = true"
             ></font-awesome-icon>
             <font-awesome-icon
-              v-if="
-                avatarTrashShow &&
-                isAdmin &&
-                customer.avatar !== 'default-avatar.png'
-              "
+              v-if="avatarTrashShow && isAdmin && customer.avatar"
               class="trash-icon btn p-0 text-danger"
               icon="trash"
               @click="deleteAvatar"
@@ -402,7 +394,7 @@ const deleteCustomer = async () => {
   >
     <div class="d-flex justify-content-center">
       <img
-        :src="fileUrl() ?? avatarUrl"
+        :src="fileUrl() ?? avatarUrl(customer.avatar)"
         class="avatar-preview rounded-circle mb-3"
       />
     </div>

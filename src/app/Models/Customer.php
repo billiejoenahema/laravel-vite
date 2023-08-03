@@ -201,16 +201,6 @@ class Customer extends Model
     }
 
     /**
-     * アイコン画像URLを操作
-     */
-    protected function avatar(): Attribute
-    {
-        return Attribute::make(
-            get: fn ($value) => $value ?? self::DEFAULT_AVATAR,
-        );
-    }
-
-    /**
      * 検索条件
      *
      * @param Builder|Customer $query

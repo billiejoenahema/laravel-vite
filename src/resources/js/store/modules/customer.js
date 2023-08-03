@@ -24,6 +24,11 @@ const getters = {
   isInvalid: (state) => (key) => {
     return state.errors?.[key] ? 'is-invalid' : '';
   },
+  avatarUrl: () => (avatar) => {
+    const fileName = avatar ?? import.meta.env.VITE_DEFAULT_AVATAR;
+
+    return `${import.meta.env.VITE_AWS_BUCKET_URL}${fileName}`;
+  },
 };
 
 const actions = {
