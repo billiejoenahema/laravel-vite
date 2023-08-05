@@ -42,7 +42,7 @@ class UpdateTest extends TestCase
     /**
      * 一般ユーザーが顧客情報を更新できて、アイコン画像は更新されないこと。
      */
-    public function test_updateCustomerByGeneralUser(): void
+    public function test_general_user_update_customer_without_avatar(): void
     {
         // 実行
         $response = $this->actingAs($this->user)->patchJson('/api/customers/' . $this->customer->id, $this->data);
@@ -70,7 +70,7 @@ class UpdateTest extends TestCase
     /**
      * 管理ユーザーが顧客情報を更新できて、アイコン画像は更新されないこと。
      */
-    public function test_updateCustomerByAdminUser(): void
+    public function test_admin_user_update_customer_without_avatar(): void
     {
         $this->user->role = User::ROLE_ADMIN;
         $this->user->save();

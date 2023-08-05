@@ -26,7 +26,7 @@ class ShowTest extends TestCase
     /**
      * 一般ユーザーが指定顧客情報を取得できること。
      */
-    public function test_getCustomerDetailByGeneralUser(): void
+    public function test_general_user_get_customer_detail(): void
     {
         // 実行
         $response = $this->actingAs($this->user)->getJson('/api/customers/' . $this->customer->id);
@@ -49,7 +49,7 @@ class ShowTest extends TestCase
     /**
      * 管理ユーザーが指定顧客情報を取得できること。
      */
-    public function test_getCustomerDetailByAdminUser(): void
+    public function test_admin_user_can_customer_detail(): void
     {
         $this->user->role = User::ROLE_ADMIN;
         $this->user->save();

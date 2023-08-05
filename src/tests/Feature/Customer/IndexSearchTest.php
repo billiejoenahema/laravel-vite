@@ -37,7 +37,7 @@ class IndexSearchTest extends TestCase
      *
      * @return void
      */
-    public function test_searchByName()
+    public function test_search_by_name()
     {
         $response = $this->actingAs($this->user)->getJson('/api/customers?search_value[name]=' . $this->name);
 
@@ -50,7 +50,7 @@ class IndexSearchTest extends TestCase
      *
      * @return void
      */
-    public function test_searchByNameKana()
+    public function test_search_by_nameKana()
     {
         $response = $this->actingAs($this->user)->getJson('/api/customers?search_value[name_kana]=' . $this->name_kana);
 
@@ -63,7 +63,7 @@ class IndexSearchTest extends TestCase
      *
      * @return void
      */
-    public function test_searchByGender()
+    public function test_search_by_gender()
     {
         $response = $this->actingAs($this->user)->getJson('/api/customers?search_value[gender]=' . $this->gender);
 
@@ -76,7 +76,7 @@ class IndexSearchTest extends TestCase
      *
      * @return void
      */
-    public function test_searchByPhone()
+    public function test_search_by_phone()
     {
         $response = $this->actingAs($this->user)->getJson('/api/customers?search_value[phone]=' . $this->phone);
 
@@ -89,7 +89,7 @@ class IndexSearchTest extends TestCase
      *
      * @return void
      */
-    public function test_searchByPostalCode()
+    public function test_search_by_postalCode()
     {
         $response = $this->actingAs($this->user)->getJson('/api/customers?search_value[postal_code]=' . $this->postal_code);
 
@@ -102,7 +102,7 @@ class IndexSearchTest extends TestCase
      *
      * @return void
      */
-    public function test_searchByPref()
+    public function test_search_by_pref()
     {
         $response = $this->actingAs($this->user)->getJson('/api/customers?search_value[pref]=' . $this->pref);
 

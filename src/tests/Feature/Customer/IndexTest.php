@@ -34,7 +34,7 @@ class IndexTest extends TestCase
      *
      * @return void
      */
-    public function test_generalUserCanGetCustomers()
+    public function test_general_user_get_customers(): void
     {
         // 実行
         $response = $this->actingAs($this->generalUser)->get('/api/customers');
@@ -48,7 +48,7 @@ class IndexTest extends TestCase
      *
      * @return void
      */
-    public function test_adminUserCanGetCustomers()
+    public function test_admin_user_get_customers(): void
     {
         // 実行
         $response = $this->actingAs($this->adminUser)->get('/api/customers');

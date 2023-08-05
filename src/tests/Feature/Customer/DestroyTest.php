@@ -24,18 +24,18 @@ class DestroyTest extends TestCase
     }
 
     /**
-     * 一般ユーザーがアイコンを削除できること。
+     * 一般ユーザーが顧客を削除できないこと。
      */
-    public function test_generalUserCanDeleteAvatar(): void
+    public function test_general_user_cannot_delete_customer(): void
     {
-        $response = $this->actingAs($this->user)->deleteJson('/api/customers/avatar/' . $this->customer->id);
-        $response->assertOk();
+        $response = $this->actingAs($this->user)->deleteJson('/api/customers/' . $this->customer->id);
+        $response->assertForbidden();
     }
 
     /**
      * 管理般ユーザーが顧客を削除できること。
      */
-    public function test_adminUserCanDeleteCustomer(): void
+    public function test_admin_user_can_delete_customer(): void
     {
         $this->user->role = User::ROLE_ADMIN;
         $this->user->save();

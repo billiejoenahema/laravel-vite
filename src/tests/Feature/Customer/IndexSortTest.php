@@ -31,7 +31,7 @@ class IndexSortTest extends TestCase
      *
      * @return void
      */
-    public function test_sortIndexByNameDesc()
+    public function test_sort_customers_by_name_desc(): void
     {
         $response = $this->actingAs($this->user)->getJson('/api/customers?sort_key=name&is_asc=false');
 
@@ -48,7 +48,7 @@ class IndexSortTest extends TestCase
      *
      * @return void
      */
-    public function test_sortIndexByNameAsc()
+    public function test_sort_customers_by_name_asc(): void
     {
         $response = $this->actingAs($this->user)->getJson('/api/customers?sort_key=name&is_asc=true');
 
@@ -65,7 +65,7 @@ class IndexSortTest extends TestCase
      *
      * @return void
      */
-    public function test_sortIndexByAgeDesc()
+    public function test_sort_customers_by_age_desc(): void
     {
         $response = $this->actingAs($this->user)->getJson('/api/customers?sort_key=age&is_asc=false');
 
@@ -82,7 +82,7 @@ class IndexSortTest extends TestCase
      *
      * @return void
      */
-    public function test_sortIndexByAgeAsc()
+    public function test_sort_customers_by_age_asc(): void
     {
         $response = $this->actingAs($this->user)->getJson('/api/customers?sort_key=age&is_asc=true');
 
@@ -99,7 +99,7 @@ class IndexSortTest extends TestCase
      *
      * @return void
      */
-    public function test_sortIndexByGenderDesc()
+    public function test_sort_customers_by_gender_desc(): void
     {
         $response = $this->actingAs($this->user)->getJson('/api/customers?sort_key=gender&is_asc=false');
 
@@ -116,7 +116,7 @@ class IndexSortTest extends TestCase
      *
      * @return void
      */
-    public function test_sortIndexByGenderAsc()
+    public function test_sort_customers_by_gender_asc(): void
     {
         $response = $this->actingAs($this->user)->getJson('/api/customers?sort_key=gender&is_asc=true');
 
@@ -133,7 +133,7 @@ class IndexSortTest extends TestCase
      *
      * @return void
      */
-    public function test_sortIndexByPhoneDesc()
+    public function test_sort_customers_by_phone_desc(): void
     {
         $response = $this->actingAs($this->user)->getJson('/api/customers?sort_key=phone&is_asc=false');
 
@@ -150,7 +150,7 @@ class IndexSortTest extends TestCase
      *
      * @return void
      */
-    public function test_sortIndexByPhoneAsc()
+    public function test_sort_customers_by_phone_asc(): void
     {
         $response = $this->actingAs($this->user)->getJson('/api/customers?sort_key=phone&is_asc=true');
 
@@ -167,7 +167,7 @@ class IndexSortTest extends TestCase
      *
      * @return void
      */
-    public function test_sortIndexByBirthDateDesc()
+    public function test_sort_customers_by_birth_date_asc(): void
     {
         $response = $this->actingAs($this->user)->getJson('/api/customers?sort_key=birth_date&is_asc=false');
 
@@ -184,7 +184,7 @@ class IndexSortTest extends TestCase
      *
      * @return void
      */
-    public function test_sortIndexByBirthDateAsc()
+    public function test_sort_customers_by_birth_date_desc(): void
     {
         $response = $this->actingAs($this->user)->getJson('/api/customers?sort_key=birth_date&is_asc=true');
 
@@ -201,7 +201,7 @@ class IndexSortTest extends TestCase
      *
      * @return void
      */
-    public function test_sortIndexByPrefDesc()
+    public function test_sort_customers_by_pref_desc(): void
     {
         $response = $this->actingAs($this->user)->getJson('/api/customers?sort_key=pref&is_asc=false');
 
@@ -218,7 +218,7 @@ class IndexSortTest extends TestCase
      *
      * @return void
      */
-    public function test_sortIndexByPrefAsc()
+    public function test_sort_customers_by_pref_asc(): void
     {
         $response = $this->actingAs($this->user)->getJson('/api/customers?sort_key=pref&is_asc=true');
 
@@ -235,7 +235,7 @@ class IndexSortTest extends TestCase
      *
      * @return void
      */
-    public function test_sortIndexByCreatedAtDesc()
+    public function test_sort_customers_by_created_at_desc(): void
     {
         $response = $this->actingAs($this->user)->getJson('/api/customers?sort_key=created_at&is_asc=false');
 
@@ -252,7 +252,7 @@ class IndexSortTest extends TestCase
      *
      * @return void
      */
-    public function test_sortIndexByCreatedAtAsc()
+    public function test_sort_customers_by_created_at_asc(): void
     {
         $response = $this->actingAs($this->user)->getJson('/api/customers?sort_key=created_at&is_asc=true');
 
@@ -269,7 +269,7 @@ class IndexSortTest extends TestCase
      *
      * @return void
      */
-    public function test_sortIndexByUpdatedAtDesc()
+    public function test_sort_customers_by_updated_at_desc(): void
     {
         $response = $this->actingAs($this->user)->getJson('/api/customers?sort_key=updated_at&is_asc=false');
 
@@ -286,7 +286,7 @@ class IndexSortTest extends TestCase
      *
      * @return void
      */
-    public function test_sortIndexByUpdatedAtAsc()
+    public function test_sort_customers_by_updated_at_asc(): void
     {
         $response = $this->actingAs($this->user)->getJson('/api/customers?sort_key=updated_at&is_asc=true');
 
