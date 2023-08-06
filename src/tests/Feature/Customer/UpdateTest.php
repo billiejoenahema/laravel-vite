@@ -24,7 +24,6 @@ class UpdateTest extends TestCase
         $this->user = User::factory()->create();
         $this->customer = Customer::factory()->create();
         $this->data = [
-            'user_id' => null,
             'name' => 'test_name',
             'name_kana' => 'test_name_kana',
             'phone' => '0312345678',
@@ -34,15 +33,14 @@ class UpdateTest extends TestCase
             'pref' => Prefecture::TOKYO,
             'city' => '千代田区',
             'street' => '1-1-1',
-            'avatar' => 'test_avatar.png',
             'note' => 'test_note',
         ];
     }
 
     /**
-     * 一般ユーザーが顧客情報を更新できて、アイコン画像は更新されないこと。
+     * 一般ユーザーが顧客情報を更新できること。
      */
-    public function test_general_user_update_customer_without_avatar(): void
+    public function test_general_user_update_customer(): void
     {
         // 実行
         $response = $this->actingAs($this->user)->patchJson('/api/customers/' . $this->customer->id, $this->data);
@@ -68,9 +66,9 @@ class UpdateTest extends TestCase
     }
 
     /**
-     * 管理ユーザーが顧客情報を更新できて、アイコン画像は更新されないこと。
+     * 管理ユーザーが顧客情報を更新できてること。
      */
-    public function test_admin_user_update_customer_without_avatar(): void
+    public function test_admin_user_update_customer(): void
     {
         $this->user->role = User::ROLE_ADMIN;
         $this->user->save();
