@@ -228,7 +228,7 @@ class Customer extends Model
             $query->where('postal_code', 'like', "%{$request['search_value.postal_code']}%");
         }
         if ($request['search_value.pref']) {
-            $query->where('pref', 'like', "%{$request['search_value.pref']}%");
+            $query->where('pref', 'like', $request['search_value.pref']);
         }
         if ($request['search_value.age_from']) {
             $date = $request->getBirthDateValueByAgeFrom();
