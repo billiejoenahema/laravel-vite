@@ -29,7 +29,7 @@ class SaveRequest extends FormRequest
             'name' => 'required|string|max:50',
             'name_kana' => 'nullable|string|max:50',
             'birth_date' => 'nullable|date:Y-m-d',
-            'phone' => 'nullable|string|max:20|regex:/^[0-9]+$/',
+            'phone' => 'nullable|string|regex:/^0\d{9,13}$/',
             'gender' => ['required', 'string', Rule::in(Gender::values())],
             'postal_code' => 'nullable|string|size:7|regex:/^[0-9]+$/',
             'pref' => ['nullable', Rule::in(Prefecture::values())],
@@ -48,7 +48,7 @@ class SaveRequest extends FormRequest
     {
         return [
             'name' => '名前',
-            'kana_name' => 'ふりがな',
+            'name_kana' => 'ふりがな',
             'birth_date' => '生年月日',
             'phone' => '電話番号',
             'gender' => '性別',
@@ -68,7 +68,7 @@ class SaveRequest extends FormRequest
     public function messages()
     {
         return [
-            'phone.regex' => '電話番号は数字とハイフンのみで入力してください。',
+            'phone.regex' => '電話番号は0から始まる10～14桁の数字で入力してください。',
             'postal_code.regex' => '郵便番号は数字のみで入力してください。',
         ];
     }
