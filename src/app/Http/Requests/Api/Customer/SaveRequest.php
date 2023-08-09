@@ -68,8 +68,8 @@ class SaveRequest extends FormRequest
     public function messages()
     {
         return [
-            'phone.regex' => '電話番号は0から始まる10～14桁の数字で入力してください。',
-            'postal_code.regex' => '郵便番号は数字のみで入力してください。',
+            'phone.regex' => '電話番号は0から始まる10～14桁の半角数字で入力してください。',
+            'postal_code.regex' => '郵便番号は半角数字のみで入力してください。',
         ];
     }
 
