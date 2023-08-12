@@ -68,7 +68,7 @@ class UpdateTest extends TestCase
     /**
      * 管理ユーザーが顧客情報を更新できてること。
      */
-    public function test_admin_user_update_customer(): void
+    public function test_update_customer(): void
     {
         $this->user->role = User::ROLE_ADMIN;
         $this->user->save();
@@ -82,16 +82,42 @@ class UpdateTest extends TestCase
                 'id' => $this->customer->id,
                 'user_id' => null,
                 'name' => $this->data['name'],
-                'name_kana' => $this->data['name_kana'],
                 'phone' => $this->data['phone'],
                 'gender' => $this->data['gender'],
-                'birth_date' => $this->data['birth_date'],
                 'postal_code' => $this->data['postal_code'],
-                'pref' => $this->data['pref'],
-                'city' => $this->data['city'],
-                'street' => $this->data['street'],
-                'avatar' => null,
-                'note' => $this->data['note'],
+            ]
+        );
+    }
+
+    /**
+     * 電話番号と郵便番号にハイフンが入っていても更新できること。
+     */
+    public function test_admin_user_update_customer_phone_postal_code_with_hyphen(): void
+    {
+        $this->user->role = User::ROLE_ADMIN;
+        $this->user->save();
+
+        $data = [
+            'id' => $this->customer->id,
+            'user_id' => null,
+            'name' => $this->data['name'],
+            'phone' => '03-1234-5678',
+            'gender' => $this->data['gender'],
+            'postal_code' => '100-0001',
+        ];
+
+        // 実行
+        $response = $this->actingAs($this->user)->patchJson('/api/customers/' . $this->customer->id, $data);
+        $response->assertOk();
+        $this->assertDatabaseHas(
+            'customers',
+            [
+                'id' => $this->customer->id,
+                'user_id' => null,
+                'name' => $this->data['name'],
+                'phone' => str_replace('-', '', $data['phone']),
+                'gender' => $this->data['gender'],
+                'postal_code' => str_replace('-', '', $data['postal_code']),
             ]
         );
     }
