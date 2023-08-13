@@ -30,6 +30,16 @@
   - MySQL 8.0
   - Bootstrap 5.2
 
+### mailhog container
+
+- Base image
+  - mailhog/mailhog:latest
+
+### minio container
+
+- Base image
+  - quay.io/minio/minio
+
 ## Authentication
 
 Sanctum with Cookie.
