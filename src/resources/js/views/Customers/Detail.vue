@@ -171,12 +171,14 @@ const deleteCustomer = async () => {
             <font-awesome-icon
               class="edit-icon btn p-0 text-primary"
               icon="edit"
+              title="アイコンを変更"
               @click="modalShow = true"
             ></font-awesome-icon>
             <font-awesome-icon
               v-if="avatarTrashShow && isAdmin && customer.avatar"
               class="trash-icon btn p-0 text-danger"
               icon="trash"
+              title="アイコンを削除"
               @click="deleteAvatar"
             ></font-awesome-icon>
           </div>
@@ -369,13 +371,19 @@ const deleteCustomer = async () => {
       </div>
     </div>
     <div class="d-flex justify-content-between mb-3">
-      <button class="btn btn-primary" type="button" @click.prevent="update">
+      <button
+        class="btn btn-primary"
+        type="button"
+        title="顧客情報を更新"
+        @click.prevent="update"
+      >
         更新
       </button>
       <button
         v-if="isAdmin"
         class="btn btn-danger"
         type="button"
+        title="顧客情報を削除"
         @click.prevent="deleteCustomer"
       >
         削除

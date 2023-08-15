@@ -59,10 +59,20 @@ const changePage = (page = null) => {
   <div class="d-flex justify-content-between align-items-end mb-3">
     <DataCount :meta="meta" />
     <div class="d-flex justify-content-end">
-      <button type="button" class="btn btn-info me-3" @click="modalShow = true">
+      <button
+        type="button"
+        class="btn btn-info me-3"
+        title="検索モーダルを開く"
+        @click="modalShow = true"
+      >
         絞り込み検索
       </button>
-      <button type="button" class="btn btn-secondary" @click="resetParams">
+      <button
+        type="button"
+        class="btn btn-secondary"
+        title="検索条件をリセット"
+        @click="resetParams"
+      >
         リセット
       </button>
     </div>
@@ -70,7 +80,12 @@ const changePage = (page = null) => {
   <table class="table table-striped">
     <thead class="table-dark">
       <tr class="sticky-top">
-        <th class="column-name" scope="col" @click="sort('name')">
+        <th
+          class="column-name"
+          scope="col"
+          title="氏名でソート"
+          @click="sort('name')"
+        >
           氏名
           <SortIcon
             :isAsc="params.is_asc"
@@ -78,7 +93,7 @@ const changePage = (page = null) => {
             :label="'name'"
           />
         </th>
-        <th scope="col" @click="sort('age')">
+        <th scope="col" title="年齢でソート" @click="sort('age')">
           年齢
           <SortIcon
             :isAsc="params.is_asc"
@@ -86,7 +101,7 @@ const changePage = (page = null) => {
             :label="'age'"
           />
         </th>
-        <th scope="col" @click="sort('gender')">
+        <th scope="col" title="性別でソート" @click="sort('gender')">
           性別
           <SortIcon
             :isAsc="params.is_asc"
@@ -94,7 +109,7 @@ const changePage = (page = null) => {
             :label="'gender'"
           />
         </th>
-        <th scope="col" @click="sort('phone')">
+        <th scope="col" title="電話番号でソート" @click="sort('phone')">
           電話番号
           <SortIcon
             :isAsc="params.is_asc"
@@ -102,7 +117,7 @@ const changePage = (page = null) => {
             :label="'phone'"
           />
         </th>
-        <th scope="col" @click="sort('birth_date')">
+        <th scope="col" title="生年月日でソート" @click="sort('birth_date')">
           生年月日
           <SortIcon
             :isAsc="params.is_asc"
@@ -110,7 +125,7 @@ const changePage = (page = null) => {
             :label="'birth_date'"
           />
         </th>
-        <th scope="col" @click="sort('pref')">
+        <th scope="col" title="都道府県でソート" @click="sort('pref')">
           都道府県
           <SortIcon
             :isAsc="params.is_asc"
@@ -118,7 +133,7 @@ const changePage = (page = null) => {
             :label="'pref'"
           />
         </th>
-        <th scope="col" @click="sort('created_at')">
+        <th scope="col" title="登録日でソート" @click="sort('created_at')">
           登録日
           <SortIcon
             :isAsc="params.is_asc"
@@ -126,7 +141,7 @@ const changePage = (page = null) => {
             :label="'created_at'"
           />
         </th>
-        <th scope="col" @click="sort('updated_at')">
+        <th scope="col" title="更新日でソート" @click="sort('updated_at')">
           更新日
           <SortIcon
             :isAsc="params.is_asc"

@@ -42,6 +42,7 @@ const submit = () => {
     :id="id"
     tabindex="-1"
     :aria-labelledby="id + 'ModalLabel'"
+    title="モーダルを閉じる"
     @click.self="close"
   >
     <div class="modal-dialog">
