@@ -155,7 +155,8 @@ const deleteCustomer = async () => {
   <div class="mb-3">
     <router-link to="/customers">一覧に戻る</router-link>
   </div>
-  <form v-if="customer.id" class="customer-detail">
+  <h2>顧客情報詳細</h2>
+  <form v-if="customer.id" class="customer-form">
     <div>
       <div class="row align-items-center mb-3">
         <div class="avatar-container m-auto d-flex align-items-start">
@@ -418,9 +419,6 @@ const deleteCustomer = async () => {
 </template>
 
 <style scoped>
-.customer-detail {
-  max-width: 600px;
-}
 .avatar-container {
   position: relative;
 }
