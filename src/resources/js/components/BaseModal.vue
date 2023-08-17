@@ -70,6 +70,7 @@ const submit = () => {
             キャンセル
           </button>
           <button
+            v-if="buttonValue"
             type="button"
             class="btn btn-primary"
             :disabled="disabled"
