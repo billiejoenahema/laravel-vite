@@ -33,6 +33,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     // 顧客
     Route::get('/customers', [CustomerController::class, 'index']);
+    Route::post('/customers', [CustomerController::class, 'store']);
     Route::get('/customers/{customer}', [CustomerController::class, 'show']);
     Route::patch('/customers/{customer}', [CustomerController::class, 'update']);
     Route::delete('/customers/{customer}', [CustomerController::class, 'destroy'])->can('delete', 'customer');

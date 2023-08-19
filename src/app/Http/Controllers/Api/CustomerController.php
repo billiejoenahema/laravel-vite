@@ -43,15 +43,29 @@ class CustomerController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * 顧客を新規登録する。
+     *
+     * @param SaveRequest $request
      */
-    public function store(Request $request)
+    public function store(SaveRequest $request): CustomerResource
     {
-        //
+        $data = $request->all();
+
+        // アイコンは更新しない
+        unset($data['avatar']);
+
+        $customer = DB::transaction(function () use ($data) {
+            $customer = Customer::create($data);
+
+            return $customer;
+        });
+
+        return new CustomerResource($customer);
     }
 
     /**
      * 指定の顧客を取得する。
+     *
      * @param Customer $customer
      * @return CustomerResource
      */

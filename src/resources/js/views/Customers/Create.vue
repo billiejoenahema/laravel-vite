@@ -1,19 +1,16 @@
 <script setup>
-import BaseModal from '@/components/BaseModal.vue';
 import InputSelect from '@/components/InputSelect.vue';
 import InputSelectPrefecture from '@/components/InputSelectPrefecture.vue';
 import InputTel from '@/components/InputTel.vue';
 import InputText from '@/components/InputText.vue';
 import InputTextarea from '@/components/InputTextarea.vue';
-import InvalidFeedback from '@/components/InvalidFeedback.vue';
-import router from '@/router';
 import { store } from '@/store';
-import { formatDate } from '@/utils/formatter.js';
-import { computed, onMounted, onUnmounted, reactive, ref } from 'vue';
+import { computed, onUnmounted, reactive } from 'vue';
 import YubinBango from 'yubinbango-core2';
+import router from '../../router';
 
-const initialCustomer = {
-  id: null,
+const customer = reactive({
+  avatar: null,
   name: null,
   name_kana: null,
   age: null,
@@ -25,87 +22,16 @@ const initialCustomer = {
   city: null,
   street: null,
   note: null,
-  created_at: null,
-  updated_at: null,
-};
-const customer = reactive({
-  ...initialCustomer,
 });
-const customerId = router.currentRoute.value?.params?.id;
-const isAdmin = computed(() => store.getters['profile/isAdmin']);
-const genderFormOptions = ref([]);
+
+const genderFormOptions = computed(
+  () => store.getters['consts/genderFormOptions']
+);
 const hasErrors = computed(() => store.getters['customer/hasErrors']);
 const invalidFeedback = computed(
   () => store.getters['customer/invalidFeedback']
 );
-const avatarUrl = computed(() => store.getters['customer/avatarUrl']);
-const loading = computed(() => store.getters['loading/loading']);
 const isInvalid = computed(() => store.getters['customer/isInvalid']);
-const modalShow = ref(false);
-const inputFileRef = ref(null);
-const maxUploadSize = computed(() => store.getters['consts/maxUploadSize']);
-const isFileSizeOver = ref(false);
-const inputFile = ref(null);
-const avatarTrashShow = ref(false);
-
-onMounted(async () => {
-  await fetchData();
-  Object.assign(
-    genderFormOptions.value,
-    store.getters['consts/genderFormOptions']
-  );
-});
-onUnmounted(() => {
-  store.commit('customer/setErrors', {});
-  store.commit('customer/setData', {});
-  URL.revokeObjectURL(inputFile.value);
-});
-
-// 顧客情報取得
-const fetchData = async () => {
-  await store.dispatch('customer/get', customerId);
-  Object.assign(customer, store.getters['customer/data']);
-};
-
-// ユーザーアイコン画像操作
-const fileUrl = () => {
-  if (!inputFile.value) return null;
-  return URL.createObjectURL(inputFile.value) ?? '';
-};
-// ファイル選択
-const changeFile = (e) => {
-  inputFile.value = e.target.files[0];
-  store.commit('customer/setErrors', {});
-  isFileSizeOver.value = false;
-  // ファイルサイズが大きすぎる場合はエラーメッセージを表示させてボタンを無効化する
-  if (inputFile.value?.size > maxUploadSize.value) {
-    store.commit('customer/setErrors', {
-      avatar: ['10MB以下のファイルを選択してください。'],
-    });
-    isFileSizeOver.value = true;
-    return;
-  }
-};
-// アイコン画像更新
-const updateAvatar = async () => {
-  await store.dispatch('customer/updateAvatar', {
-    id: customerId,
-    file: inputFile.value,
-  });
-  if (hasErrors.value) return;
-  inputFile.value = null;
-  inputFileRef.value.value = null;
-  fetchData();
-};
-// アイコン画像削除
-const deleteAvatar = async () => {
-  if (!confirm('アイコンを削除しますか？')) return;
-  await store.dispatch('customer/deleteAvatar', customerId);
-  if (hasErrors.value) return;
-  inputFile.value = null;
-  inputFileRef.value.value = null;
-  fetchData();
-};
 
 // 住所を自動入力
 const setAddress = (code) => {
@@ -115,7 +41,6 @@ const setAddress = (code) => {
   if (code === '') return;
   // 7桁の数字でなければエラーを表示して処理を終了する
   if (!code.match(/^\d{7}/)) {
-    console.log(code);
     store.commit('customer/setErrors', {
       postal_code: ['郵便番号は7桁の半角数字で入力してください。'],
     });
@@ -136,66 +61,34 @@ const setAddress = (code) => {
   });
 };
 
-// 顧客情報更新
-const update = async () => {
-  await store.dispatch('customer/patch', customer);
-  if (hasErrors.value) return;
-  fetchData();
+const moveToIndex = () => {
+  router.push('/customers');
 };
-// 顧客情報削除
-const deleteCustomer = async () => {
-  if (!confirm('本当に顧客情報を削除してもよろしいですか？')) return;
-  await store.dispatch('customer/delete', customerId);
+
+// 登録
+const register = async () => {
+  // 顧客情報を登録する
+  await store.dispatch('customer/post', customer);
   if (hasErrors.value) return;
-  Object.assign(customer, { ...initialCustomer });
+  const registeredCustomer = store.getters['customer/data'];
+  setTimeout(() => {
+    router.push(`/customers/${registeredCustomer.id}`);
+  }, 2000);
 };
+
+onUnmounted(() => {
+  store.commit('customer/setErrors', {});
+  store.commit('customer/setData', {});
+});
 </script>
 
 <template>
   <div class="mb-3">
     <router-link to="/customers">一覧に戻る</router-link>
   </div>
-  <h2>顧客情報詳細</h2>
-  <form v-if="customer.id" class="customer-form">
+  <h2>顧客新規登録</h2>
+  <form class="customer-form">
     <div>
-      <div class="row align-items-center mb-3">
-        <div class="avatar-container m-auto d-flex align-items-start">
-          <div
-            @mouseover="avatarTrashShow = true"
-            @mouseleave="avatarTrashShow = false"
-          >
-            <img
-              :src="avatarUrl(customer.avatar)"
-              class="avatar-thumbnail"
-              loading="lazy"
-              @click="modalShow = true"
-            />
-            <font-awesome-icon
-              class="edit-icon btn p-0 text-primary"
-              icon="edit"
-              title="アイコンを変更"
-              @click="modalShow = true"
-            ></font-awesome-icon>
-            <font-awesome-icon
-              v-if="avatarTrashShow && isAdmin && customer.avatar"
-              class="trash-icon btn p-0 text-danger"
-              icon="trash"
-              title="アイコンを削除"
-              @click="deleteAvatar"
-            ></font-awesome-icon>
-          </div>
-        </div>
-      </div>
-      <div class="row align-items-center mb-3">
-        <div class="col-2">
-          <label for="customerId" class="col-form-label">顧客ID</label>
-        </div>
-        <div class="col-10">
-          <div id="customerId" class="form-control border-0">
-            {{ customer.id }}
-          </div>
-        </div>
-      </div>
       <div class="row align-items-center mb-3">
         <div class="col-2">
           <label for="customerName" class="col-form-label">氏名</label>
@@ -228,21 +121,13 @@ const deleteCustomer = async () => {
       </div>
       <div class="row align-items-center mb-3">
         <div class="col-2">
-          <label for="customerAge" class="col-form-label">年齢</label>
-        </div>
-        <div class="col-10">
-          <div id="customerAge" class="form-control border-0">
-            {{ customer.age }}<span>&nbsp;歳</span>
-          </div>
-        </div>
-      </div>
-      <div class="row align-items-center mb-3">
-        <div class="col-2">
           <label for="customerGender" class="col-form-label">性別</label>
         </div>
-        <div class="col-3">
+        <div class="col-4">
           <InputSelect
             id="customerGender"
+            :class-value="isInvalid('gender')"
+            :invalid-feedback="invalidFeedback('gender')"
             :options="genderFormOptions"
             v-model="customer.gender"
           />
@@ -351,86 +236,24 @@ const deleteCustomer = async () => {
           />
         </div>
       </div>
-      <div class="row align-items-center mb-3">
-        <div class="col-2">
-          <label for="customerId" class="col-form-label">登録日</label>
-        </div>
-        <div class="col-10">
-          <div id="customerId" class="form-control border-0">
-            {{ formatDate(customer.created_at) }}
-          </div>
-        </div>
-      </div>
-      <div class="row align-items-center mb-3">
-        <div class="col-2">
-          <label for="customerId" class="col-form-label">更新日</label>
-        </div>
-        <div class="col-10">
-          <div id="customerId" class="form-control border-0">
-            {{ formatDate(customer.updated_at) }}
-          </div>
-        </div>
-      </div>
     </div>
     <div class="d-flex justify-content-between mb-3">
       <button
         class="btn btn-primary"
         type="button"
-        title="顧客情報を更新"
-        @click.prevent="update"
+        title="顧客情報を登録"
+        @click.prevent="register"
       >
-        更新
+        登録
       </button>
       <button
-        v-if="isAdmin"
-        class="btn btn-danger"
+        class="btn btn-secondary"
         type="button"
-        title="顧客情報を削除"
-        @click.prevent="deleteCustomer"
+        title="キャンセル"
+        @click.prevent="moveToIndex"
       >
-        削除
+        キャンセル
       </button>
     </div>
   </form>
-  <div v-if="!customer.id && !loading">データが存在しません。</div>
-  <BaseModal
-    id="thumbnailModal"
-    :class-value="modalShow === true ? 'show' : ''"
-    title="ユーザーアイコン画像"
-    button-value="保存する"
-    :disabled="!inputFile || isFileSizeOver"
-    @cancel="modalShow = false"
-    @submit="updateAvatar"
-  >
-    <div class="d-flex justify-content-center">
-      <img
-        :src="fileUrl() ?? avatarUrl(customer.avatar)"
-        class="avatar-preview rounded-circle mb-3"
-      />
-    </div>
-    <input
-      :class="isInvalid('avatar')"
-      type="file"
-      ref="inputFileRef"
-      accept="image/*"
-      @change="changeFile"
-    />
-    <InvalidFeedback :invalid-feedback="invalidFeedback('avatar')" />
-  </BaseModal>
 </template>
-
-<style scoped>
-.avatar-container {
-  position: relative;
-}
-.edit-icon {
-  position: absolute;
-  left: 100px;
-  top: 88px;
-}
-.trash-icon {
-  position: absolute;
-  left: 100px;
-  top: 0;
-}
-</style>

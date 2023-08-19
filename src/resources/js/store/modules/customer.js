@@ -45,6 +45,27 @@ const actions = {
       });
     setLoading(commit, false);
   },
+  async post({ commit }, data) {
+    setLoading(commit, true);
+    await axios
+      .post(`/api/customers`, data)
+      .then((res) => {
+        commit('setErrors', {});
+        commit('setData', res);
+        commit(
+          'overlay/setData',
+          {
+            message: '登録しました',
+            status: 200,
+          },
+          { root: true }
+        );
+      })
+      .catch((err) => {
+        commit('setErrors', err.response.data.errors);
+      });
+    setLoading(commit, false);
+  },
   async updateAvatar({ commit }, { id, file }) {
     setLoading(commit, true);
     const formData = new FormData();
