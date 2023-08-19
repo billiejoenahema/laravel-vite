@@ -11,6 +11,7 @@ import Tooltip from '@/components/Tooltip.vue';
 import { store } from '@/store';
 import { formatDate } from '@/utils/formatter';
 import { computed, onMounted, ref } from 'vue';
+import router from '../../router';
 
 onMounted(async () => {
   await fetchData();
@@ -52,10 +53,23 @@ const changePage = (page = null) => {
     fetchData();
   }
 };
+const moveToCreate = () => {
+  router.push('/customers/create');
+};
 </script>
 
 <template>
   <h2>顧客一覧</h2>
+  <div class="d-flex justify-content-end mb-3">
+    <button
+      type="button"
+      class="btn btn-primary"
+      title="検索モーダルを開く"
+      @click="moveToCreate"
+    >
+      新規登録
+    </button>
+  </div>
   <div class="d-flex justify-content-between align-items-end mb-3">
     <DataCount :meta="meta" />
     <div class="d-flex justify-content-end">
@@ -155,7 +169,11 @@ const changePage = (page = null) => {
       <tr v-for="customer in customers" :id="customer.id">
         <td class="align-middle">
           <Tooltip :content="customer.id">
-            <img :src="avatarUrl(customer.avatar)" class="avatar me-2" />
+            <img
+              :src="avatarUrl(customer.avatar)"
+              class="avatar me-2"
+              loading="lazy"
+            />
             <router-link :to="`/customers/` + customer.id"
               >{{ customer.name }}
             </router-link>
