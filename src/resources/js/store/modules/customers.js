@@ -1,3 +1,4 @@
+import router from '@/router';
 import axios from 'axios';
 
 const setLoading = (commit, bool) =>
@@ -59,6 +60,10 @@ const actions = {
         commit('setData', res);
       })
       .catch((err) => {
+        // 認証エラーのときはログイン画面へ遷移させる
+        if(err.response.status === 401) {
+          router.push('/login');
+        }
         commit('setErrors', err.response.data.errors);
       });
     setLoading(commit, false);

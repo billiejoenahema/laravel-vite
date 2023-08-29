@@ -49,7 +49,7 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to, _from, next) => {
-  await store.dispatch('profile/getIfNeeded');
+  await store.dispatch('profile/get');
 
   const isLoggedIn = store.getters['profile/isLoggedIn'];
   if (isLoggedIn && to.path === '/login') {
