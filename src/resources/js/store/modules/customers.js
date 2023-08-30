@@ -13,9 +13,8 @@ const defaultParams = {
 
 const state = {
   data: [],
-  params: {
-    ...defaultParams,
-  },
+  // ディープコピーできるstructuredCloneを使用する
+  params: structuredClone(defaultParams),
   errors: {},
 };
 
@@ -80,8 +79,8 @@ const mutations = {
   },
   resetParams(state) {
     state.errors = {};
-    defaultParams.search_value = {};
-    state.params = { ...defaultParams };
+    // ディープコピーできるstructuredCloneを使用する
+    state.params = structuredClone(defaultParams);
   },
 };
 
