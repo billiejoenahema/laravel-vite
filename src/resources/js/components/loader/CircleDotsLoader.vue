@@ -1,5 +1,4 @@
 <script setup>
-import { ref } from 'vue';
 
 defineProps({
   loading: {
@@ -7,10 +6,10 @@ defineProps({
     default: false,
   },
 });
-const color = ref('#fca35a');
-const r = ref(252);
-const g = ref(163);
-const b = ref(90);
+const r = 252;
+const g = 163;
+const b = 90;
+const rgb = `rgb(${r}, ${g}, ${b})`;
 </script>
 
 <template>
@@ -48,7 +47,7 @@ const b = ref(90);
 @-webkit-keyframes load5 {
   0%,
   100% {
-    box-shadow: 0em -2.6em 0em 0em v-bind(color),
+    box-shadow: 0em -2.6em 0em 0em v-bind(rgb),
       1.8em -1.8em 0 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.2),
       2.5em 0em 0 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.2),
       1.75em 1.75em 0 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.2),
@@ -59,7 +58,7 @@ const b = ref(90);
   }
   12.5% {
     box-shadow: 0em -2.6em 0em 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.7),
-      1.8em -1.8em 0 0em v-bind(color),
+      1.8em -1.8em 0 0em v-bind(rgb),
       2.5em 0em 0 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.2),
       1.75em 1.75em 0 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.2),
       0em 2.5em 0 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.2),
@@ -70,7 +69,7 @@ const b = ref(90);
   25% {
     box-shadow: 0em -2.6em 0em 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.5),
       1.8em -1.8em 0 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.7),
-      2.5em 0em 0 0em v-bind(color),
+      2.5em 0em 0 0em v-bind(rgb),
       1.75em 1.75em 0 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.2),
       0em 2.5em 0 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.2),
       -1.8em 1.8em 0 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.2),
@@ -81,7 +80,7 @@ const b = ref(90);
     box-shadow: 0em -2.6em 0em 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.2),
       1.8em -1.8em 0 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.5),
       2.5em 0em 0 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.7),
-      1.75em 1.75em 0 0em v-bind(color),
+      1.75em 1.75em 0 0em v-bind(rgb),
       0em 2.5em 0 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.2),
       -1.8em 1.8em 0 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.2),
       -2.6em 0em 0 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.2),
@@ -92,7 +91,7 @@ const b = ref(90);
       1.8em -1.8em 0 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.2),
       2.5em 0em 0 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.5),
       1.75em 1.75em 0 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.7),
-      0em 2.5em 0 0em v-bind(color),
+      0em 2.5em 0 0em v-bind(rgb),
       -1.8em 1.8em 0 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.2),
       -2.6em 0em 0 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.2),
       -1.8em -1.8em 0 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.2);
@@ -103,7 +102,7 @@ const b = ref(90);
       2.5em 0em 0 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.2),
       1.75em 1.75em 0 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.5),
       0em 2.5em 0 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.7),
-      -1.8em 1.8em 0 0em v-bind(color),
+      -1.8em 1.8em 0 0em v-bind(rgb),
       -2.6em 0em 0 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.2),
       -1.8em -1.8em 0 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.2);
   }
@@ -114,7 +113,7 @@ const b = ref(90);
       1.75em 1.75em 0 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.2),
       0em 2.5em 0 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.5),
       -1.8em 1.8em 0 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.7),
-      -2.6em 0em 0 0em v-bind(color),
+      -2.6em 0em 0 0em v-bind(rgb),
       -1.8em -1.8em 0 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.2);
   }
   87.5% {
@@ -125,13 +124,13 @@ const b = ref(90);
       0em 2.5em 0 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.2),
       -1.8em 1.8em 0 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.5),
       -2.6em 0em 0 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.7),
-      -1.8em -1.8em 0 0em v-bind(color);
+      -1.8em -1.8em 0 0em v-bind(rgb);
   }
 }
 @keyframes load5 {
   0%,
   100% {
-    box-shadow: 0em -2.6em 0em 0em v-bind(color),
+    box-shadow: 0em -2.6em 0em 0em v-bind(rgb),
       1.8em -1.8em 0 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.2),
       2.5em 0em 0 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.2),
       1.75em 1.75em 0 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.2),
@@ -142,7 +141,7 @@ const b = ref(90);
   }
   12.5% {
     box-shadow: 0em -2.6em 0em 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.7),
-      1.8em -1.8em 0 0em v-bind(color),
+      1.8em -1.8em 0 0em v-bind(rgb),
       2.5em 0em 0 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.2),
       1.75em 1.75em 0 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.2),
       0em 2.5em 0 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.2),
@@ -153,7 +152,7 @@ const b = ref(90);
   25% {
     box-shadow: 0em -2.6em 0em 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.5),
       1.8em -1.8em 0 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.7),
-      2.5em 0em 0 0em v-bind(color),
+      2.5em 0em 0 0em v-bind(rgb),
       1.75em 1.75em 0 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.2),
       0em 2.5em 0 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.2),
       -1.8em 1.8em 0 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.2),
@@ -164,7 +163,7 @@ const b = ref(90);
     box-shadow: 0em -2.6em 0em 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.2),
       1.8em -1.8em 0 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.5),
       2.5em 0em 0 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.7),
-      1.75em 1.75em 0 0em v-bind(color),
+      1.75em 1.75em 0 0em v-bind(rgb),
       0em 2.5em 0 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.2),
       -1.8em 1.8em 0 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.2),
       -2.6em 0em 0 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.2),
@@ -175,7 +174,7 @@ const b = ref(90);
       1.8em -1.8em 0 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.2),
       2.5em 0em 0 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.5),
       1.75em 1.75em 0 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.7),
-      0em 2.5em 0 0em v-bind(color),
+      0em 2.5em 0 0em v-bind(rgb),
       -1.8em 1.8em 0 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.2),
       -2.6em 0em 0 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.2),
       -1.8em -1.8em 0 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.2);
@@ -186,7 +185,7 @@ const b = ref(90);
       2.5em 0em 0 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.2),
       1.75em 1.75em 0 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.5),
       0em 2.5em 0 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.7),
-      -1.8em 1.8em 0 0em v-bind(color),
+      -1.8em 1.8em 0 0em v-bind(rgb),
       -2.6em 0em 0 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.2),
       -1.8em -1.8em 0 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.2);
   }
@@ -197,7 +196,7 @@ const b = ref(90);
       1.75em 1.75em 0 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.2),
       0em 2.5em 0 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.5),
       -1.8em 1.8em 0 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.7),
-      -2.6em 0em 0 0em v-bind(color),
+      -2.6em 0em 0 0em v-bind(rgb),
       -1.8em -1.8em 0 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.2);
   }
   87.5% {
@@ -208,7 +207,7 @@ const b = ref(90);
       0em 2.5em 0 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.2),
       -1.8em 1.8em 0 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.5),
       -2.6em 0em 0 0em rgba(v-bind(r), v-bind(g), v-bind(b), 0.7),
-      -1.8em -1.8em 0 0em v-bind(color);
+      -1.8em -1.8em 0 0em v-bind(rgb);
   }
 }
 </style>

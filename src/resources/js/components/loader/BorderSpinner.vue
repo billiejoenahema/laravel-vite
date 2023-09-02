@@ -1,5 +1,4 @@
 <script setup>
-import { ref } from 'vue';
 
 defineProps({
   loading: {
@@ -7,10 +6,9 @@ defineProps({
     default: false,
   },
 });
-const color = ref('#fca35a');
-const r = ref(252);
-const g = ref(163);
-const b = ref(90);
+const r = 252;
+const g = 163;
+const b = 90;
 </script>
 
 <template>
@@ -45,7 +43,7 @@ const b = ref(90);
   border-top: 1.1em solid rgba(v-bind(r), v-bind(g), v-bind(b), 0.2);
   border-right: 1.1em solid rgba(v-bind(r), v-bind(g), v-bind(b), 0.2);
   border-bottom: 1.1em solid rgba(v-bind(r), v-bind(g), v-bind(b), 0.2);
-  border-left: 1.1em solid v-bind(color);
+  border-left: 1.1em solid rgb(v-bind(r), v-bind(g), v-bind(b));
   -webkit-transform: translateZ(0);
   -ms-transform: translateZ(0);
   transform: translateZ(0);
