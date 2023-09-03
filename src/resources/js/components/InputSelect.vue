@@ -52,3 +52,9 @@ const updateModelValue = (event) => {
   </select>
   <div class="invalid-feedback">{{ invalidFeedback }}</div>
 </template>
+
+<style scoped>
+.form-select {
+  background: no-repeat;
+}
+</style>
