@@ -1,5 +1,6 @@
 <script setup>
 import BaseModal from '@/components/BaseModal.vue';
+import InputPostalCode from '@/components/InputPostalCode.vue';
 import InputSelect from '@/components/InputSelect.vue';
 import InputSelectPrefecture from '@/components/InputSelectPrefecture.vue';
 import InputTel from '@/components/InputTel.vue';
@@ -158,7 +159,7 @@ const deleteCustomer = async () => {
   <h2>顧客情報詳細</h2>
   <form v-if="customer.id" class="customer-form">
     <div>
-      <div class="row align-items-center mb-3">
+      <div class="row mb-3">
         <div class="avatar-container m-auto d-flex align-items-start">
           <div
             @mouseover="avatarTrashShow = true"
@@ -186,7 +187,7 @@ const deleteCustomer = async () => {
           </div>
         </div>
       </div>
-      <div class="row align-items-center mb-3">
+      <div class="row mb-3">
         <div class="col-2">
           <label for="customerId" class="col-form-label">顧客ID</label>
         </div>
@@ -196,7 +197,7 @@ const deleteCustomer = async () => {
           </div>
         </div>
       </div>
-      <div class="row align-items-center mb-3">
+      <div class="row mb-3">
         <div class="col-2">
           <label for="customerName" class="col-form-label">氏名</label>
         </div>
@@ -211,7 +212,7 @@ const deleteCustomer = async () => {
           />
         </div>
       </div>
-      <div class="row align-items-center mb-3">
+      <div class="row mb-3">
         <div class="col-2">
           <label for="customerNameKana" class="col-form-label">ふりがな</label>
         </div>
@@ -226,7 +227,7 @@ const deleteCustomer = async () => {
           />
         </div>
       </div>
-      <div class="row align-items-center mb-3">
+      <div class="row mb-3">
         <div class="col-2">
           <label for="customerAge" class="col-form-label">年齢</label>
         </div>
@@ -236,11 +237,11 @@ const deleteCustomer = async () => {
           </div>
         </div>
       </div>
-      <div class="row align-items-center mb-3">
+      <div class="row mb-3">
         <div class="col-2">
           <label for="customerGender" class="col-form-label">性別</label>
         </div>
-        <div class="col-3">
+        <div class="col-5">
           <InputSelect
             id="customerGender"
             :options="genderFormOptions"
@@ -248,7 +249,7 @@ const deleteCustomer = async () => {
           />
         </div>
       </div>
-      <div class="row align-items-center mb-3">
+      <div class="row mb-3">
         <div class="col-2">
           <label for="customerPhone" class="col-form-label">電話番号</label>
         </div>
@@ -264,7 +265,7 @@ const deleteCustomer = async () => {
           />
         </div>
       </div>
-      <div class="row align-items-center mb-3">
+      <div class="row mb-3">
         <div class="col-2">
           <label for="customerBirthDate" class="col-form-label">生年月日</label>
         </div>
@@ -278,14 +279,14 @@ const deleteCustomer = async () => {
           />
         </div>
       </div>
-      <div class="row align-items-center mb-3">
+      <div class="row mb-3">
         <div class="col-2">
           <label for="customerPostalCode" class="col-form-label"
             >郵便番号</label
           >
         </div>
-        <div class="col-3">
-          <InputText
+        <div class="col-5">
+          <InputPostalCode
             id="customerPostalCode"
             :class-value="isInvalid('postal_code')"
             :invalid-feedback="invalidFeedback('postal_code')"
@@ -302,15 +303,15 @@ const deleteCustomer = async () => {
           </button>
         </div>
       </div>
-      <div class="row align-items-center mb-3">
+      <div class="row mb-3">
         <div class="col-2">
           <label for="customerPref" class="col-form-label">都道府県</label>
         </div>
-        <div class="col-3">
+        <div class="col-5">
           <InputSelectPrefecture id="customerPref" v-model="customer.pref" />
         </div>
       </div>
-      <div class="row align-items-center mb-3">
+      <div class="row mb-3">
         <div class="col-2">
           <label for="customerCity" class="col-form-label">市区町村</label>
         </div>
@@ -323,7 +324,7 @@ const deleteCustomer = async () => {
           />
         </div>
       </div>
-      <div class="row align-items-center mb-3">
+      <div class="row mb-3">
         <div class="col-2">
           <label for="customerStreet" class="col-form-label">番地</label>
         </div>
@@ -336,7 +337,7 @@ const deleteCustomer = async () => {
           />
         </div>
       </div>
-      <div class="row align-items-center mb-3">
+      <div class="row mb-3">
         <div class="col-2">
           <label for="customerNote" class="col-form-label">備考</label>
         </div>
@@ -351,7 +352,7 @@ const deleteCustomer = async () => {
           />
         </div>
       </div>
-      <div class="row align-items-center mb-3">
+      <div class="row mb-3">
         <div class="col-2">
           <label for="customerId" class="col-form-label">登録日</label>
         </div>
@@ -361,7 +362,7 @@ const deleteCustomer = async () => {
           </div>
         </div>
       </div>
-      <div class="row align-items-center mb-3">
+      <div class="row mb-3">
         <div class="col-2">
           <label for="customerId" class="col-form-label">更新日</label>
         </div>

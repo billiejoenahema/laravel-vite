@@ -1,13 +1,14 @@
 <script setup>
+import InputPostalCode from '@/components/InputPostalCode.vue';
 import InputSelect from '@/components/InputSelect.vue';
 import InputSelectPrefecture from '@/components/InputSelectPrefecture.vue';
 import InputTel from '@/components/InputTel.vue';
 import InputText from '@/components/InputText.vue';
 import InputTextarea from '@/components/InputTextarea.vue';
+import router from '@/router';
 import { store } from '@/store';
 import { computed, onUnmounted, reactive } from 'vue';
 import YubinBango from 'yubinbango-core2';
-import router from '../../router';
 
 const customer = reactive({
   avatar: null,
@@ -78,7 +79,6 @@ const register = async () => {
 
 onUnmounted(() => {
   store.commit('customer/setErrors', {});
-  store.commit('customer/setData', {});
 });
 </script>
 
@@ -89,7 +89,7 @@ onUnmounted(() => {
   <h2>顧客新規登録</h2>
   <form class="customer-form">
     <div>
-      <div class="row align-items-center mb-3">
+      <div class="row mb-3">
         <div class="col-2">
           <label for="customerName" class="col-form-label">氏名</label>
         </div>
@@ -104,7 +104,7 @@ onUnmounted(() => {
           />
         </div>
       </div>
-      <div class="row align-items-center mb-3">
+      <div class="row mb-3">
         <div class="col-2">
           <label for="customerNameKana" class="col-form-label">ふりがな</label>
         </div>
@@ -119,11 +119,11 @@ onUnmounted(() => {
           />
         </div>
       </div>
-      <div class="row align-items-center mb-3">
+      <div class="row mb-3">
         <div class="col-2">
           <label for="customerGender" class="col-form-label">性別</label>
         </div>
-        <div class="col-4">
+        <div class="col-5">
           <InputSelect
             id="customerGender"
             :class-value="isInvalid('gender')"
@@ -133,7 +133,7 @@ onUnmounted(() => {
           />
         </div>
       </div>
-      <div class="row align-items-center mb-3">
+      <div class="row mb-3">
         <div class="col-2">
           <label for="customerPhone" class="col-form-label">電話番号</label>
         </div>
@@ -149,7 +149,7 @@ onUnmounted(() => {
           />
         </div>
       </div>
-      <div class="row align-items-center mb-3">
+      <div class="row mb-3">
         <div class="col-2">
           <label for="customerBirthDate" class="col-form-label">生年月日</label>
         </div>
@@ -163,14 +163,14 @@ onUnmounted(() => {
           />
         </div>
       </div>
-      <div class="row align-items-center mb-3">
+      <div class="row mb-3">
         <div class="col-2">
           <label for="customerPostalCode" class="col-form-label"
             >郵便番号</label
           >
         </div>
-        <div class="col-3">
-          <InputText
+        <div class="col-5">
+          <InputPostalCode
             id="customerPostalCode"
             :class-value="isInvalid('postal_code')"
             :invalid-feedback="invalidFeedback('postal_code')"
@@ -187,15 +187,15 @@ onUnmounted(() => {
           </button>
         </div>
       </div>
-      <div class="row align-items-center mb-3">
+      <div class="row mb-3">
         <div class="col-2">
           <label for="customerPref" class="col-form-label">都道府県</label>
         </div>
-        <div class="col-3">
+        <div class="col-5">
           <InputSelectPrefecture id="customerPref" v-model="customer.pref" />
         </div>
       </div>
-      <div class="row align-items-center mb-3">
+      <div class="row mb-3">
         <div class="col-2">
           <label for="customerCity" class="col-form-label">市区町村</label>
         </div>
@@ -208,7 +208,7 @@ onUnmounted(() => {
           />
         </div>
       </div>
-      <div class="row align-items-center mb-3">
+      <div class="row mb-3">
         <div class="col-2">
           <label for="customerStreet" class="col-form-label">番地</label>
         </div>
@@ -221,7 +221,7 @@ onUnmounted(() => {
           />
         </div>
       </div>
-      <div class="row align-items-center mb-3">
+      <div class="row mb-3">
         <div class="col-2">
           <label for="customerNote" class="col-form-label">備考</label>
         </div>
