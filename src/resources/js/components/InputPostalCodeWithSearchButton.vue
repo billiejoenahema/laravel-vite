@@ -51,29 +51,35 @@ const emit = defineEmits(['update:modelValue', 'search']);
 const updateModelValue = (e) => {
   emit('update:modelValue', e.target.value);
 };
+const search = () => {
+  if (regex.test(props.modelValue)) {
+    inputCorrectness.value = '';
+  }
+  emit('search', props.modelValue);
+};
 const inputClassName = computed(() => {
   return `${props.classValue}`;
 });
 // 7桁の半角数字かどうかを判定する
 const determineInputValue = () => {
-  console.log(props.modelValue)
   if (props.modelValue === '') {
     inputCorrectness.value = '';
     return;
   }
   inputCorrectness.value = regex.test(props.modelValue)
-    ? ''
+    ? 'is-valid'
     : 'is-invalid';
 };
 </script>
 
 <template>
   <div class="input-wrapper">
+    <form @submit.prevent="search" class="input-area">
       <input
         :aria-describedby="`${id}HelpBlock`"
         autocorrect="postal-code"
         :autocomplete="autocomplete"
-        class="form-control"
+        class="form-control border-dark me-2"
         :class="inputClassName + inputCorrectness"
         :disabled="disabled"
         :id="id"
@@ -85,6 +91,10 @@ const determineInputValue = () => {
         @input="updateModelValue"
         @blur="determineInputValue"
       />
+      <button class="address-search-button" type="button" @click="search">
+        住所を検索
+      </button>
+    </form>
     <div class="form-text-wrapper">
       <div :id="`${id}HelpBlock`" class="form-text text-muted">
         {{ helperText }}
@@ -102,6 +112,16 @@ const determineInputValue = () => {
 <style scoped>
 .input-wrapper {
   position: relative;
+}
+.input-area {
+  display: flex;
+  flex-direction: row;
+}
+.input-area > input {
+  margin-right: 2rem;
+}
+.address-search-button {
+  white-space: nowrap;
 }
 .form-text-wrapper {
   display: flex;
