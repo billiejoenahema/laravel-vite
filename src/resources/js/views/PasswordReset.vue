@@ -4,7 +4,6 @@ import { store } from '@/store';
 import { useForm } from 'laravel-precognition-vue';
 import { computed, onMounted, ref } from 'vue';
 
-// const hasErrors = computed(() => store.getters['auth/hasErrors']);
 const isInvalid = computed(() => store.getters['auth/isInvalid']);
 const isNotMatchPassword = ref(false)
 const form = useForm('post', '/api/reset-password', {
