@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\CustomerController;
 use App\Http\Controllers\Api\Password\PasswordForgotController;
 use App\Http\Controllers\Api\Password\PasswordResetController;
 use App\Http\Controllers\Api\ProfileController;
+use Illuminate\Foundation\Http\Middleware\HandlePrecognitiveRequests;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,7 +22,7 @@ use Illuminate\Support\Facades\Route;
 
 // パスワードリセット
 Route::post('/forgot-password', PasswordForgotController::class);
-Route::post('/reset-password', PasswordResetController::class);
+Route::post('/reset-password', PasswordResetController::class)->middleware([HandlePrecognitiveRequests::class]);
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
 
