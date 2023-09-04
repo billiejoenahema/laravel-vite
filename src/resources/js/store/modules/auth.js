@@ -55,8 +55,15 @@ const actions = {
     await axios
       .post('/api/forgot-password', data)
       .then(() => {
-        console.log('success');
         commit('setErrors', {});
+        commit(
+          'overlay/setData',
+          {
+            message: '送信しました',
+            status: 200,
+          },
+          { root: true }
+        );
       })
       .catch((err) => {
         commit(
