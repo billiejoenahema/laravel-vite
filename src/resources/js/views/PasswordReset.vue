@@ -29,11 +29,12 @@ const submit = async () => {
 
 <template>
   <div class="login-form">
-    <form class="column" @submit.prevent="submit">
-      <p class="column">
+    <form @submit.prevent="submit">
+      <div class="mb-3">
         <label for="email">Email</label>
         <input
           :class="isInvalid('email')"
+          class="form-control"
           v-model="form.email"
           id="email"
           name="email"
@@ -41,14 +42,15 @@ const submit = async () => {
           maxlength="255"
           @change="form.validate('email')"
         />
-        <div v-if="form.invalid('email')" class="invalid-feedback d-block">
+        <div v-if="form.invalid('email')" class="invalid-feedback">
             {{ form.errors.email }}
         </div>
-      </p>
-      <p class="column">
+      </div>
+      <div class="mb-3">
         <label for="password">Password</label>
         <input
           :class="isInvalid('password')"
+          class="form-control"
           v-model="form.password"
           id="password"
           name="password"
@@ -56,13 +58,14 @@ const submit = async () => {
           maxlength="128"
           @change="form.validate('password')"
         />
-        <div v-if="form.invalid('password')" class="invalid-feedback d-block">
+        <div v-if="form.invalid('password')" class="invalid-feedback">
             {{ form.errors.password }}
         </div>
-      </p>
-      <p class="column">
+      </div>
+      <div class="mb-3">
         <label for="confirm-password">Confirm Password</label>
         <input
+          class="form-control"
           v-model="form.confirm_password"
           id="confirm-password"
           name="password"
@@ -73,13 +76,20 @@ const submit = async () => {
         <div v-if="isNotMatchPassword" class="invalid-feedback d-block">
           パスワードが一致していません
         </div>
-      </p>
-      <button
-        class="sign-in"
-        :disabled="!form.password || form.password !== form.confirm_password"
-      >
+      </div>
+      <button class="sign-in btn btn-primary mb-3">
         Password Reset
       </button>
     </form>
   </div>
 </template>
+
+<style scoped>
+.login-form {
+  max-width: 400px;
+  margin: auto;
+}
+.invalid-feedback {
+  display: block;
+}
+</style>
