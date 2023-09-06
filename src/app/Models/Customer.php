@@ -11,8 +11,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 /**
  * App\Models\Customer
@@ -77,6 +75,9 @@ class Customer extends Model
 
     /** デフォルトアイコン */
     public const DEFAULT_AVATAR = 'default-avatar.png';
+
+    /** ハイフン入りの郵便番号 */
+    public $postal_code_with_hyphen;
 
     /**
      * 複数代入可能な属性
