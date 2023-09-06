@@ -43,3 +43,21 @@
 ## Authentication
 
 Sanctum with Cookie.
+
+## php-ide-helper
+
+```
+php artisan ide-helper:models --write
+```
+
+## php-cs-fixer
+
+```
+./tools/php-cs-fixer/vendor/bin/php-cs-fixer fix -v --diff
+```
+
+## Larastan
+
+```
+./vendor/bin/phpstan analyse
+```
