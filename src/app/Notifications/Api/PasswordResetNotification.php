@@ -10,15 +10,15 @@ class PasswordResetNotification extends Notification
 {
     use Queueable;
 
-    private $token;
-    private $endpoint;
+    private string $token;
+    private string $endpoint;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($token)
+    public function __construct(string $token)
     {
         $this->token = $token;
         $this->endpoint = config('app.url') . '/password-reset';
@@ -41,7 +41,7 @@ class PasswordResetNotification extends Notification
      *
      * @return array
      */
-    public function via()
+    public function via(): array
     {
         return ['mail'];
     }
@@ -52,7 +52,7 @@ class PasswordResetNotification extends Notification
      * @param  mixed  $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
-    public function toMail($notifiable)
+    public function toMail($notifiable): MailMessage
     {
         info('URL:' . $this->resetUrl($notifiable));
         return (new MailMessage)
