@@ -12,6 +12,11 @@ class CustomerSeeder extends Seeder
      */
     public function run(): void
     {
+        // 本番環境なら実行しない
+        if (env('APP_ENV') === 'production') {
+            return;
+        }
+
         Customer::factory(1000)->create();
     }
 }
