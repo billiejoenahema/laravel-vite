@@ -111,6 +111,19 @@ class Customer extends Model
         'pref_value',
     ];
 
+    /** @var array ソート可能なカラムリスト */
+    public const SORTABLE_COLUMNS = [
+        'id',
+        'name',
+        'age',
+        'gender',
+        'phone',
+        'birth_date',
+        'pref',
+        'created_at',
+        'updated_at',
+    ];
+
     /**
      * 所有するユーザー
      *
@@ -253,21 +266,16 @@ class Customer extends Model
      */
     public function scopeSortByColumn($query, $column, $order): Builder|Customer
     {
-        $columns = [
-            'id',
-            'name',
-            'gender',
-            'phone',
-            'birth_date',
-            'pref',
-        ];
-        if (in_array($column, $columns, false)) {
-            $query->orderByRaw("{$column} is null asc")->orderBy($column, $order);
-        }
         if ($column === 'age') {
+            info('$column === age');
             // 生年月日でソートするためソート方向を反転させる
             $order = $order === 'asc' ? 'desc' : 'asc';
             $query->orderByRaw("birth_date is null asc")->orderBy('birth_date', $order);
+            return $query;
+        }
+        if (in_array($column, self::SORTABLE_COLUMNS, false)) {
+            $query->orderByRaw("{$column} is null asc")->orderBy($column, $order);
+            return $query;
         }
 
         return $query;

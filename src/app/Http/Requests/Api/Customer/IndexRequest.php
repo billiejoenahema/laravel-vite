@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Api\Customer;
 
+use App\Models\Customer;
 use Illuminate\Foundation\Http\FormRequest;
 
 class IndexRequest extends FormRequest
@@ -33,23 +34,13 @@ class IndexRequest extends FormRequest
      */
     public function getSortColumn(): string
     {
-        $columns = [
-            'id',
-            'name',
-            'age',
-            'gender',
-            'phone',
-            'birth_date',
-            'pref',
-        ];
-
-        $key = array_search($this->sort_key, $columns);
+        $key = array_search($this->sort_key, Customer::SORTABLE_COLUMNS);
 
         if (!$key) {
             return 'id';
         }
 
-        return $columns[$key];
+        return Customer::SORTABLE_COLUMNS[$key];
     }
 
     /**

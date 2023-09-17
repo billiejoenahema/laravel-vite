@@ -6,7 +6,7 @@ const setLoading = (commit, bool) =>
 
 const defaultParams = {
   sort_key: 'id',
-  is_asc: true,
+  is_asc: false,
   page: 1,
   search_value: {},
 };
