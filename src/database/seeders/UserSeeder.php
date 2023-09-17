@@ -17,6 +17,10 @@ final class UserSeeder extends Seeder
      */
     public function run()
     {
+        // 本番環境なら実行しない
+        if (env('APP_ENV') === 'production') {
+            return;
+        }
         // テストユーザー
         User::create([
             'name' => 'test_user',

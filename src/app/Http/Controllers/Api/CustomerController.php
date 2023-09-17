@@ -9,7 +9,6 @@ use App\Http\Requests\Api\Customer\SaveRequest;
 use App\Http\Resources\Api\CustomerResource;
 use App\Models\Customer;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
