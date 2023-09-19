@@ -6,7 +6,7 @@ use App\Enums\Gender;
 use App\Enums\Prefecture;
 use App\helpers\Converter;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Enum;
 
 class SaveRequest extends FormRequest
 {
@@ -30,9 +30,9 @@ class SaveRequest extends FormRequest
             'name_kana' => 'nullable|string|max:50',
             'birth_date' => 'nullable|date:Y-m-d',
             'phone' => 'nullable|string|regex:/^0\d{9,13}$/',
-            'gender' => ['required', 'string', Rule::in(Gender::values())],
+            'gender' => ['required', 'string', new Enum(Gender::class)],
             'postal_code' => 'nullable|string|size:7|regex:/^[0-9]+$/',
-            'pref' => ['nullable', Rule::in(Prefecture::values())],
+            'pref' => ['nullable', new Enum(Prefecture::class)],
             'city' => 'nullable|string|max:50',
             'street' => 'nullable|string|max:50',
             'note' => 'nullable|string|max:500',
