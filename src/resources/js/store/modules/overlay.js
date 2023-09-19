@@ -20,8 +20,11 @@ const mutations = {
   setData(state, data) {
     state.data = data;
     setTimeout(() => {
+      console.log('state.data', state.data);
+      if (state.data.status === 200) {
+        scrollToTop();
+      }
       state.data = { ...initialData };
-      scrollToTop();
     }, TIMEOUT);
   },
 };
