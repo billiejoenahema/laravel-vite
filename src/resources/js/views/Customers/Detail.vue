@@ -108,15 +108,33 @@ const deleteAvatar = async () => {
   fetchData();
 };
 
+// 郵便番号の入力値を判定
+const onBlur = (inputValue) => {
+  const regex = /\d{7}/;
+  // 入力値が空または7桁の数字ならエラー表示を消す
+  if ( inputValue === '' || inputValue.match(regex)) {
+    store.commit('customer/setErrors', {})
+  }
+  // 7桁の数字でなければエラーを表示する
+  else {
+    store.commit('customer/setErrors', {
+      postal_code: ['郵便番号は7桁の半角数字で入力してください。'],
+    });
+  }
+}
 // 住所を自動入力
 const setAddress = (code) => {
   // エラーメッセージを初期化
   store.commit('customer/setErrors', {});
   // 入力値が空なら処理を終了する
-  if (code === '') return;
+  if (code === '') {
+    store.commit('customer/setErrors', {
+      postal_code: ['郵便番号を入力してください。'],
+    });
+    return;
+  }
   // 7桁の数字でなければエラーを表示して処理を終了する
   if (!code.match(/^\d{7}/)) {
-    console.log(code);
     store.commit('customer/setErrors', {
       postal_code: ['郵便番号は7桁の半角数字で入力してください。'],
     });
@@ -128,7 +146,7 @@ const setAddress = (code) => {
     // 存在しない郵便番号だった場合はエラーメッセージを表示させる
     if (!address.region) {
       store.commit('customer/setErrors', {
-        postal_code: ['該当する住所が見つかりませんでした。'],
+        postal_code: ['該当する住所が見つかりませんでした。正しい郵便番号を入力してください。'],
       });
     }
     customer.pref = address.region_id; // Number 都道府県コード
@@ -139,6 +157,7 @@ const setAddress = (code) => {
 
 // 顧客情報更新
 const update = async () => {
+  store.commit('customer/setErrors', {})
   await store.dispatch('customer/patch', customer);
   if (hasErrors.value) return;
   fetchData();
@@ -291,6 +310,7 @@ const deleteCustomer = async () => {
             :class-value="isInvalid('postal_code')"
             :invalid-feedback="invalidFeedback('postal_code')"
             v-model="customer.postal_code"
+            @blur="onBlur(customer.postal_code)"
           />
         </div>
         <div class="col-3">
