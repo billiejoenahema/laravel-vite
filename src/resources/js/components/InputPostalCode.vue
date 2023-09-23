@@ -1,5 +1,4 @@
 <script setup>
-import { computed, ref } from 'vue';
 const props = defineProps({
   autocomplete: {
     default: 'on',
@@ -45,26 +44,14 @@ const props = defineProps({
     type: String,
   },
 });
-const inputCorrectness = ref('');
-const regex = /\d{7}/;
-const emit = defineEmits(['update:modelValue', 'search']);
+const emit = defineEmits(['update:modelValue', 'blur']);
 const updateModelValue = (e) => {
   emit('update:modelValue', e.target.value);
 };
-const inputClassName = computed(() => {
-  return `${props.classValue}`;
-});
-// 7桁の半角数字かどうかを判定する
-const determineInputValue = () => {
-  console.log(props.modelValue)
-  if (props.modelValue === '') {
-    inputCorrectness.value = '';
-    return;
-  }
-  inputCorrectness.value = regex.test(props.modelValue)
-    ? ''
-    : 'is-invalid';
-};
+const onBlur = () => {
+  emit('blur')
+}
+
 </script>
 
 <template>
@@ -74,7 +61,7 @@ const determineInputValue = () => {
         autocorrect="postal-code"
         :autocomplete="autocomplete"
         class="form-control"
-        :class="inputClassName + inputCorrectness"
+        :class="classValue"
         :disabled="disabled"
         :id="id"
         inputmode="numeric"
@@ -83,7 +70,7 @@ const determineInputValue = () => {
         type="text"
         :value="modelValue"
         @input="updateModelValue"
-        @blur="determineInputValue"
+        @blur="onBlur"
       />
     <div class="form-text-wrapper">
       <div :id="`${id}HelpBlock`" class="form-text text-muted">
@@ -91,9 +78,6 @@ const determineInputValue = () => {
       </div>
     </div>
     <div class="invalid-feedback">
-      <div v-if="inputCorrectness === 'is-invalid' && !invalidFeedback">
-        7桁の半角数字で入力してください。
-      </div>
       {{ invalidFeedback }}
     </div>
   </div>
