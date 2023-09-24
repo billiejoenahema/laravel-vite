@@ -28,6 +28,9 @@ tbody > tr:hover {
 .disabled > .page-link {
   background: #212529;
 }
+.modal {
+  background: rgba(0,0,0,0.3);
+}
 .modal-content {
   border: solid 1px #ced4da;
 }

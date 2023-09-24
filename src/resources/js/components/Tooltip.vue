@@ -49,6 +49,7 @@ const setTooltipPosition = (e) => {
   position: relative;
   cursor: pointer;
   display: flex;
+  align-items: center;
 }
 .tooltip-wrapper p {
   margin: 0;
