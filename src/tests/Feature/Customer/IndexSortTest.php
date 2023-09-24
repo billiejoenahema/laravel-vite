@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature\Customer;
 
 use App\Models\Customer;
@@ -16,7 +18,7 @@ class IndexSortTest extends TestCase
     /**
      * テスト前の共通処理
      */
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -37,7 +39,7 @@ class IndexSortTest extends TestCase
 
         $response->assertStatus(200);
         $actual = collect($response->json('data'));
-        $this->assertEquals(
+        $this->assertSame(
             $actual->sortByDesc('name')->pluck('name'),
             $actual->pluck('name')
         );
@@ -54,7 +56,7 @@ class IndexSortTest extends TestCase
 
         $response->assertStatus(200);
         $actual = collect($response->json('data'));
-        $this->assertEquals(
+        $this->assertSame(
             $actual->sortBy('name')->pluck('name'),
             $actual->pluck('name')
         );
@@ -71,7 +73,7 @@ class IndexSortTest extends TestCase
 
         $response->assertStatus(200);
         $actual = collect($response->json('data'));
-        $this->assertEquals(
+        $this->assertSame(
             $actual->sortByDesc('age')->pluck('age'),
             $actual->pluck('age')
         );
@@ -88,7 +90,7 @@ class IndexSortTest extends TestCase
 
         $response->assertStatus(200);
         $actual = collect($response->json('data'));
-        $this->assertEquals(
+        $this->assertSame(
             $actual->sortBy('age')->pluck('age'),
             $actual->pluck('age')
         );
@@ -105,7 +107,7 @@ class IndexSortTest extends TestCase
 
         $response->assertStatus(200);
         $actual = collect($response->json('data'));
-        $this->assertEquals(
+        $this->assertSame(
             $actual->sortByDesc('gender')->pluck('gender'),
             $actual->pluck('gender')
         );
@@ -122,7 +124,7 @@ class IndexSortTest extends TestCase
 
         $response->assertStatus(200);
         $actual = collect($response->json('data'));
-        $this->assertEquals(
+        $this->assertSame(
             $actual->sortBy('gender')->pluck('gender'),
             $actual->pluck('gender')
         );
@@ -139,7 +141,7 @@ class IndexSortTest extends TestCase
 
         $response->assertStatus(200);
         $actual = collect($response->json('data'));
-        $this->assertEquals(
+        $this->assertSame(
             $actual->sortByDesc('phone')->pluck('phone'),
             $actual->pluck('phone')
         );
@@ -156,7 +158,7 @@ class IndexSortTest extends TestCase
 
         $response->assertStatus(200);
         $actual = collect($response->json('data'));
-        $this->assertEquals(
+        $this->assertSame(
             $actual->sortBy('phone')->pluck('phone'),
             $actual->pluck('phone')
         );
@@ -173,7 +175,7 @@ class IndexSortTest extends TestCase
 
         $response->assertStatus(200);
         $actual = collect($response->json('data'));
-        $this->assertEquals(
+        $this->assertSame(
             $actual->sortByDesc('birth_date')->pluck('birth_date'),
             $actual->pluck('birth_date')
         );
@@ -190,7 +192,7 @@ class IndexSortTest extends TestCase
 
         $response->assertStatus(200);
         $actual = collect($response->json('data'));
-        $this->assertEquals(
+        $this->assertSame(
             $actual->sortBy('birth_date')->pluck('birth_date'),
             $actual->pluck('birth_date')
         );
@@ -207,7 +209,7 @@ class IndexSortTest extends TestCase
 
         $response->assertStatus(200);
         $actual = collect($response->json('data'));
-        $this->assertEquals(
+        $this->assertSame(
             $actual->sortByDesc('pref')->pluck('pref'),
             $actual->pluck('pref')
         );
@@ -224,7 +226,7 @@ class IndexSortTest extends TestCase
 
         $response->assertStatus(200);
         $actual = collect($response->json('data'));
-        $this->assertEquals(
+        $this->assertSame(
             $actual->sortBy('pref')->pluck('pref'),
             $actual->pluck('pref')
         );
@@ -241,7 +243,7 @@ class IndexSortTest extends TestCase
 
         $response->assertStatus(200);
         $actual = collect($response->json('data'));
-        $this->assertEquals(
+        $this->assertSame(
             $actual->sortByDesc('created_at')->pluck('created_at'),
             $actual->pluck('created_at')
         );
@@ -258,7 +260,7 @@ class IndexSortTest extends TestCase
 
         $response->assertStatus(200);
         $actual = collect($response->json('data'));
-        $this->assertEquals(
+        $this->assertSame(
             $actual->sortBy('created_at')->pluck('created_at'),
             $actual->pluck('created_at')
         );
@@ -275,7 +277,7 @@ class IndexSortTest extends TestCase
 
         $response->assertStatus(200);
         $actual = collect($response->json('data'));
-        $this->assertEquals(
+        $this->assertSame(
             $actual->sortByDesc('updated_at')->pluck('updated_at'),
             $actual->pluck('updated_at')
         );
@@ -292,7 +294,7 @@ class IndexSortTest extends TestCase
 
         $response->assertStatus(200);
         $actual = collect($response->json('data'));
-        $this->assertEquals(
+        $this->assertSame(
             $actual->sortBy('updated_at')->pluck('updated_at'),
             $actual->pluck('updated_at')
         );

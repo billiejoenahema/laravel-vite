@@ -24,13 +24,13 @@ use Illuminate\Support\Facades\Route;
 Route::post('/forgot-password', PasswordForgotController::class);
 Route::post('/reset-password', PasswordResetController::class)->middleware([HandlePrecognitiveRequests::class]);
 
-Route::group(['middleware' => ['auth:sanctum']], function () {
+Route::group(['middleware' => ['auth:sanctum']], static function () {
 
     // ログインユーザー情報
     Route::get('/profile', ProfileController::class);
 
     // 定数
-    Route::get('/const', fn () => config('const'));
+    Route::get('/const', static fn () => config('const'));
 
     // 顧客
     Route::get('/customers', [CustomerController::class, 'index']);

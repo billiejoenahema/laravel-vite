@@ -20,4 +20,4 @@ use Illuminate\Support\Facades\Route;
 Route::post('/login', LoginController::class)->name('login');
 Route::post('/logout', LogoutController::class)->name('logout');
 
-Route::get('/{any?}', fn () => view('index'))->where('any', '.+');
+Route::get('/{any?}', static fn () => view('index'))->where('any', '.+');

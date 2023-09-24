@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests\Api\Customer;
 
 use App\Models\Customer;
@@ -34,9 +36,9 @@ class IndexRequest extends FormRequest
      */
     public function getSortColumn(): string
     {
-        $key = array_search($this->sort_key, Customer::SORTABLE_COLUMNS);
+        $key = array_search($this->sort_key, Customer::SORTABLE_COLUMNS, true);
 
-        if (!$key) {
+        if (! $key) {
             return 'id';
         }
 

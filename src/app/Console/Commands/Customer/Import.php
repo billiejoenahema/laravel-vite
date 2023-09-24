@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Console\Commands\Customer;
 
 use App\Models\Customer;
@@ -7,6 +9,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx as XlsxReader;
+use function count;
 
 class Import extends Command
 {
@@ -79,7 +82,7 @@ class Import extends Command
         $progressBar = $this->output->createProgressBar($rowCount);
 
         // 登録処理
-        DB::transaction(function () use ($rows, $progressBar) {
+        DB::transaction(static function () use ($rows, $progressBar) {
             foreach ($rows as $row) {
                 $customer = new Customer();
                 $customer->name = $row[0];

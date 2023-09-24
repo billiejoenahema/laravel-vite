@@ -108,7 +108,7 @@ final class User extends Authenticatable
     ];
 
     /**
-     * @param  string  $token
+     * @param string $token
      * @return void
      */
     public function sendPasswordResetNotification($token): void

@@ -34,7 +34,7 @@ final class CreateAdminUser extends Command
         $userName = $this->argument('userName');
         $password = str()->random(16);
 
-        $user = DB::transaction(function () use ($userName, $password) {
+        $user = DB::transaction(static function () use ($userName, $password) {
             $user = User::create([
                 'name' => $userName,
                 'email' => $userName . '@example.com',

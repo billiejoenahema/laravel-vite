@@ -1,17 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use App\Enums\Gender;
 use App\Enums\Prefecture;
 use App\Http\Requests\Api\Customer\IndexRequest;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use function in_array;
 
 /**
  * App\Models\Customer
@@ -65,11 +68,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Customer extends Model
 {
     use HasFactory;
-    use SoftDeletes;
-
     // HasUlids という trait を使うと、主キーを ULID としてよしなに扱ってくれます。
     // ULIDの自動生成やオートインクリメント関連の誤爆防止などをしてくれます。
     use \Illuminate\Database\Eloquent\Concerns\HasUlids;
+
+    use SoftDeletes;
 
     public $table = 'customers';
     protected $primaryKey = 'id';
@@ -151,7 +154,7 @@ class Customer extends Model
     protected function postalCodeWithHyphen(): Attribute
     {
         return Attribute::make(
-            get: fn () => substr($this->postal_code, 0, 3) . "-" . substr($this->postal_code, 3),
+            get: fn () => mb_substr($this->postal_code, 0, 3) . "-" . mb_substr($this->postal_code, 3),
         );
     }
 
@@ -201,7 +204,7 @@ class Customer extends Model
     protected function createdAt(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => Carbon::parse($value)->format('Y/m/d H:i:s'),
+            get: static fn ($value) => Carbon::parse($value)->format('Y/m/d H:i:s'),
         );
     }
 
@@ -211,7 +214,7 @@ class Customer extends Model
     protected function updatedAt(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => Carbon::parse($value)->format('Y/m/d H:i:s'),
+            get: static fn ($value) => Carbon::parse($value)->format('Y/m/d H:i:s'),
         );
     }
 
@@ -222,7 +225,7 @@ class Customer extends Model
      * @param IndexRequest $request
      * @return Builder|Customer
      */
-    public function scopeSearchCondition($query, $request): Builder|Customer
+    public function scopeSearchCondition($query, $request): Builder|self
     {
         if ($request['search_value.is_deleted']) {
             $query->onlyTrashed();
@@ -264,7 +267,7 @@ class Customer extends Model
      * @param string $column
      * @param string $order
      */
-    public function scopeSortByColumn($query, $column, $order): Builder|Customer
+    public function scopeSortByColumn($query, $column, $order): Builder|self
     {
         if ($column === 'age') {
             info('$column === age');

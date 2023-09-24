@@ -35,7 +35,7 @@ final class LoginController extends Controller
             $request->session()->regenerate();
             $user = Auth::user();
             // 最終ログイン日時を更新する
-            DB::transaction(function () use ($user) {
+            DB::transaction(static function () use ($user) {
                 $user->fill(['last_login_at' => now()])->save();
             });
 

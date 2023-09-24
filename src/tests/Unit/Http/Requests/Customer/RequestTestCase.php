@@ -8,7 +8,7 @@ use Tests\TestCase;
 
 abstract class RequestTestCase extends TestCase
 {
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
