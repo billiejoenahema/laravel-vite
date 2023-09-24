@@ -7,7 +7,7 @@ class Converter
     /**
      * ハイフンを取り除いて数字を半角に変換する。
      *
-     * @param string|null $value
+     * @param ?string $value
      * @return ?string
      */
     public static function removeHyphen($value): ?string
