@@ -28,10 +28,11 @@ const genderFormOptions = computed(
 );
 const avatarUrl = computed(() => store.getters['customer/avatarUrl']);
 const isAdmin = computed(() => store.getters['profile/isAdmin']);
-const modalShow = ref(false);
+const searchModalShow = ref(false);
+const restoreDialogShow = ref(false)
 
-const fetchData = () => {
-  store.dispatch('customers/get', params.value);
+const fetchData = async () => {
+  await store.dispatch('customers/get', params.value);
 };
 const resetParams = () => {
   store.commit('customers/resetParams');
@@ -56,6 +57,10 @@ const changePage = (page = null) => {
 const moveToCreate = () => {
   router.push('/customers/create');
 };
+const restore = async (customerId) => {
+  await store.dispatch('customer/restore', customerId)
+  fetchData();
+}
 </script>
 
 <template>
@@ -77,7 +82,7 @@ const moveToCreate = () => {
         type="button"
         class="btn btn-info me-3"
         title="検索モーダルを開く"
-        @click="modalShow = true"
+        @click="searchModalShow = true"
       >
         絞り込み検索
       </button>
@@ -167,7 +172,7 @@ const moveToCreate = () => {
     </thead>
     <tbody>
       <tr v-for="customer in customers" :id="customer.id">
-        <td class="align-middle">
+        <td class="align-middle d-flex align-items-center">
           <Tooltip :content="customer.id">
             <img
               :src="avatarUrl(customer.avatar)"
@@ -178,6 +183,7 @@ const moveToCreate = () => {
               >{{ customer.name }}
             </router-link>
           </Tooltip>
+          <button v-if="customer.deleted_at" type="button" class="btn btn-secondary ms-2" @click="restoreDialogShow = true">復元</button>
         </td>
         <td class="align-middle">{{ customer.age }}</td>
         <td class="align-middle">{{ customer.gender_value }}</td>
@@ -186,16 +192,24 @@ const moveToCreate = () => {
         <td class="align-middle">{{ customer.pref_value }}</td>
         <td class="align-middle">{{ formatDate(customer.created_at) }}</td>
         <td class="align-middle">{{ formatDate(customer.updated_at) }}</td>
+        <BaseModal
+          :id="'restoreDialog' + customer.id"
+          :class-value="restoreDialogShow === true ? 'show' : ''"
+          title="この顧客を復元しますか？"
+          button-value="復元する"
+          @cancel="restoreDialogShow = false"
+          @submit="restore(customer.id)">
+        </BaseModal>
       </tr>
     </tbody>
   </table>
   <Pagination :links="meta?.links" @change="changePage" />
   <BaseModal
     id="searchModal"
-    :class-value="modalShow === true ? 'show' : ''"
+    :class-value="searchModalShow === true ? 'show' : ''"
     title="絞り込み検索"
     button-value="検索する"
-    @cancel="modalShow = false"
+    @cancel="searchModalShow = false"
     @submit="fetchData"
   >
     <form class="row">

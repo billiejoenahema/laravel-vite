@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Models\Customer;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
@@ -35,6 +36,16 @@ final class RouteServiceProvider extends ServiceProvider
 
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));
+        });
+
+        Route::bind('trashed_customer', function ($id) {
+            $customer = Customer::onlyTrashed()->find($id);
+
+            if ($customer === null) {
+                abort(404, '顧客が見つかりませんでした。');
+            }
+
+            return $customer;
         });
     }
 

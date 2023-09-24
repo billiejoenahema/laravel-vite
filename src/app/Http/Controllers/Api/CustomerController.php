@@ -141,11 +141,25 @@ class CustomerController extends Controller
 
     /**
      * 指定顧客を削除する。
+     *
+     * @param Customer $customer
      */
     public function destroy(Customer $customer): JsonResponse
     {
         $customer->delete();
 
         return response()->json(['message' => '削除しました'], Response::HTTP_OK);
+    }
+
+    /**
+     * 指定の削除済み顧客を復元する
+     *
+     * @param Customer $customer
+     */
+    public function restore(Customer $customer): JsonResponse
+    {
+        $customer->restore();
+
+        return response()->json(['message' => '復元しました'], Response::HTTP_OK);
     }
 }
