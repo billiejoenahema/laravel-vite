@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 final class SaveRequestTest extends RequestTestCase
 {
     /**
-     * @dataProvider dataValidationSuccessful
+     * @dataProvider provideValidationSuccessfulCases
      */
     public function testValidationSuccessful(array $data): void
     {
@@ -26,7 +26,7 @@ final class SaveRequestTest extends RequestTestCase
         $this->assertTrue($validator->passes());
     }
 
-    public static function dataValidationSuccessful(): array
+    public static function provideValidationSuccessfulCases(): iterable
     {
         return [
             '最小のテスト' => [
@@ -59,7 +59,7 @@ final class SaveRequestTest extends RequestTestCase
     }
 
     /**
-     * @dataProvider dataValidationFailure
+     * @dataProvider provideValidationFailureCases
      */
     public function testValidationFailure(array $data, array $messages): void
     {
@@ -69,7 +69,7 @@ final class SaveRequestTest extends RequestTestCase
         $this->assertSame($messages, $validator->errors()->toArray());
     }
 
-    public static function dataValidationFailure(): array
+    public static function provideValidationFailureCases(): iterable
     {
         return [
             '必須項目テスト' => [

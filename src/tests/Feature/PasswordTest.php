@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -17,7 +19,7 @@ class PasswordTest extends TestCase
     {
         // 10文字のランダムな文字列を生成
         $str = 'abcdefghijklmnopqrstuvwxyz0123456789';
-        $plainText = substr(str_shuffle(str_repeat($str, 10)), 0, 8);
+        $plainText = mb_substr(str_shuffle(str_repeat($str, 10)), 0, 8);
         $hashedPassword = Hash::make($plainText);
 
         $this->assertTrue(Hash::check($plainText, $hashedPassword));

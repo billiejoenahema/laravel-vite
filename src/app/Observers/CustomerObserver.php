@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Observers;
 
 use App\Models\Customer;
@@ -25,6 +27,8 @@ class CustomerObserver
 
     /**
      * Handle the Customer "deleted" event.
+     *
+     * @param Customer $customer
      */
     public function deleted(Customer $customer): void
     {

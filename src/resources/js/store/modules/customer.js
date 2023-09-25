@@ -209,6 +209,43 @@ const actions = {
       });
     setLoading(commit, false);
   },
+  async restore({ commit }, id) {
+    setLoading(commit, true);
+    await axios
+      .patch(`/api/customers/${id}/restore`)
+      .then((res) => {
+        commit('setErrors', {});
+        commit(
+          'overlay/setData',
+          {
+            message: res.data.message,
+            status: res.status,
+          },
+          { root: true }
+        );
+        commit('setData', res);
+      })
+      .catch((err) => {
+        // 認証エラーのときはログイン画面へ遷移させる
+        if(err.response.status === 401) {
+          router.push('/login');
+        }
+        // 404エラーのときは強制リロードさせる
+        if(err.response.status === 404) {
+          window.location.reload();
+        }
+        commit(
+          'overlay/setData',
+          {
+            message: err.response.data.message,
+            status: err.response.status,
+          },
+          { root: true }
+        );
+        commit('setErrors', err.response.data.errors);
+      });
+    setLoading(commit, false);
+  },
 };
 
 const mutations = {

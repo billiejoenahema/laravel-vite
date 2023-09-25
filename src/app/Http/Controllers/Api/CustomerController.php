@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
@@ -53,7 +55,7 @@ class CustomerController extends Controller
         // アイコンは更新しない
         unset($data['avatar']);
 
-        $customer = DB::transaction(function () use ($data) {
+        $customer = DB::transaction(static function () use ($data) {
             $customer = Customer::create($data);
 
             return $customer;
@@ -88,7 +90,7 @@ class CustomerController extends Controller
         // アイコンは更新しない
         unset($data['avatar']);
 
-        DB::transaction(function () use ($data, $customer) {
+        DB::transaction(static function () use ($data, $customer) {
             $customer->fill($data)->save();
         });
 
@@ -111,7 +113,7 @@ class CustomerController extends Controller
         // 画像をS3のlaravel-viteバケットに保存する
         $path = Storage::disk('s3')->putFile('/', $avatar);
 
-        DB::transaction(function () use ($customer, $path) {
+        DB::transaction(static function () use ($customer, $path) {
             $customer->avatar = $path;
             $customer->save();
         });
@@ -131,7 +133,7 @@ class CustomerController extends Controller
             Storage::disk('s3')->delete($customer->avatar);
         }
 
-        DB::transaction(function () use ($customer) {
+        DB::transaction(static function () use ($customer) {
             $customer->avatar = null;
             $customer->save();
         });
@@ -141,11 +143,25 @@ class CustomerController extends Controller
 
     /**
      * 指定顧客を削除する。
+     *
+     * @param Customer $customer
      */
     public function destroy(Customer $customer): JsonResponse
     {
         $customer->delete();
 
         return response()->json(['message' => '削除しました'], Response::HTTP_OK);
+    }
+
+    /**
+     * 指定の削除済み顧客を復元する
+     *
+     * @param Customer $customer
+     */
+    public function restore(Customer $customer): JsonResponse
+    {
+        $customer->restore();
+
+        return response()->json(['message' => '復元しました'], Response::HTTP_OK);
     }
 }

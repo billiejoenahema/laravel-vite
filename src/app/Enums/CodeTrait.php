@@ -13,7 +13,7 @@ trait CodeTrait
      */
     public static function toArray(): array
     {
-        return array_map(function (self $case) {
+        return array_map(static function (self $case) {
             return [
                 'id' => $case->value,
                 'name' => $case->text(),

@@ -24,13 +24,13 @@ use Illuminate\Support\Facades\Route;
 Route::post('/forgot-password', PasswordForgotController::class);
 Route::post('/reset-password', PasswordResetController::class)->middleware([HandlePrecognitiveRequests::class]);
 
-Route::group(['middleware' => ['auth:sanctum']], function () {
+Route::group(['middleware' => ['auth:sanctum']], static function () {
 
     // ログインユーザー情報
     Route::get('/profile', ProfileController::class);
 
     // 定数
-    Route::get('/const', fn () => config('const'));
+    Route::get('/const', static fn () => config('const'));
 
     // 顧客
     Route::get('/customers', [CustomerController::class, 'index']);
@@ -38,6 +38,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/customers/{customer}', [CustomerController::class, 'show']);
     Route::patch('/customers/{customer}', [CustomerController::class, 'update']);
     Route::delete('/customers/{customer}', [CustomerController::class, 'destroy'])->can('delete', 'customer');
+    Route::patch('/customers/{trashed_customer}/restore', [CustomerController::class, 'restore'])->can('restore', 'trashed_customer');
     Route::post('/customers/{customer}/avatar', [CustomerController::class, 'updateAvatar']);
     Route::delete('/customers/{customer}/avatar', [CustomerController::class, 'deleteAvatar'])->can('delete', 'customer');
 });
