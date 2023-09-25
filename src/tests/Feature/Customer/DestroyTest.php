@@ -35,7 +35,7 @@ class DestroyTest extends TestCase
     }
 
     /**
-     * 管理般ユーザーが顧客を削除できること。
+     * 管理者ユーザーが顧客を削除できること。
      */
     public function test_admin_user_can_delete_customer(): void
     {
