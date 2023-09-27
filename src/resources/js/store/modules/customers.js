@@ -8,6 +8,7 @@ const defaultParams = {
   sort_key: 'id',
   is_asc: false,
   page: 1,
+  per_page: 20,
   search_value: {},
 };
 

@@ -26,6 +26,9 @@ const isInvalid = computed(() => store.getters['customer/isInvalid']);
 const genderFormOptions = computed(
   () => store.getters['consts/genderFormOptions']
 );
+const perPageFormOptions = computed(
+  () => store.getters['consts/perPageFormOptions']
+);
 const avatarUrl = computed(() => store.getters['customer/avatarUrl']);
 const isAdmin = computed(() => store.getters['profile/isAdmin']);
 const searchModalShow = ref(false);
@@ -54,6 +57,10 @@ const changePage = (page = null) => {
     fetchData();
   }
 };
+const changePerPage = () => {
+    params.value.page = 1;
+    fetchData();
+};
 const moveToCreate = () => {
   router.push('/customers/create');
 };
@@ -77,6 +84,19 @@ const restore = async (customerId) => {
   </div>
   <div class="d-flex justify-content-between align-items-end mb-3">
     <DataCount :meta="meta" />
+    <div class="col-6 row">
+      <div class="col-2">
+        <label for="perPage" class="col-form-label">表示件数</label>
+      </div>
+      <div class="col-5">
+        <InputSelect
+          id="perPage"
+          :options="perPageFormOptions"
+          v-model="params.per_page"
+          @change="changePerPage"
+        />
+      </div>
+    </div>
     <div class="d-flex justify-content-end">
       <button
         type="button"

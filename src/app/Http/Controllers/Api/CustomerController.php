@@ -18,8 +18,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CustomerController extends Controller
 {
-    private const PER_PAGE = 10;
-
     /**
      * 顧客一覧を取得する。
      * @param IndexRequest $request
@@ -38,7 +36,7 @@ class CustomerController extends Controller
         // ソート
         $query->sortByColumn($column, $direction);
 
-        $customers = $query->paginate(self::PER_PAGE);
+        $customers = $query->paginate($request->per_page);
 
         return CustomerResource::collection($customers);
     }
