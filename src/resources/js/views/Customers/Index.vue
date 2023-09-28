@@ -51,6 +51,10 @@ const sort = (value) => {
   params.value.page = 1;
   fetchData();
 };
+const search = () => {
+  params.value.page = 1;
+  fetchData();
+}
 const changePage = (page = null) => {
   if (page) {
     params.value.page = page;
@@ -88,7 +92,7 @@ const restore = async (customerId) => {
       <div class="col-2">
         <label for="perPage" class="col-form-label">表示件数</label>
       </div>
-      <div class="col-5">
+      <div class="col-2">
         <InputSelect
           id="perPage"
           :options="perPageFormOptions"
@@ -230,7 +234,7 @@ const restore = async (customerId) => {
     title="絞り込み検索"
     button-value="検索する"
     @cancel="searchModalShow = false"
-    @submit="fetchData"
+    @submit="search"
   >
     <form class="row">
       <div>
@@ -298,11 +302,3 @@ const restore = async (customerId) => {
   </BaseModal>
 </template>
 
-<style scoped>
-.avatar {
-  height: 32px;
-  width: 32px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-</style>
