@@ -1,1 +1,3 @@
 .env
+src/certs/localhost-key.pem
+src/certs/localhost.pem
