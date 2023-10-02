@@ -33,6 +33,7 @@ const avatarUrl = computed(() => store.getters['customer/avatarUrl']);
 const isAdmin = computed(() => store.getters['profile/isAdmin']);
 const searchModalShow = ref(false);
 const restoreDialogShow = ref(false)
+const tooltipContent = computed(() => store.getters['customers/tooltipContent'])
 
 const fetchData = async () => {
   await store.dispatch('customers/get', params.value);
@@ -197,7 +198,7 @@ const restore = async (customerId) => {
     <tbody>
       <tr v-for="customer in customers" :id="customer.id">
         <td class="align-middle d-flex align-items-center">
-          <Tooltip :content="customer.id">
+          <Tooltip :content="tooltipContent(customer.id)">
             <img
               :src="avatarUrl(customer.avatar)"
               class="avatar me-2"

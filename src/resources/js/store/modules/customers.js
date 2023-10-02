@@ -48,6 +48,11 @@ const getters = {
       total: state.data?.meta?.total ?? 0,
     };
   },
+  tooltipContent: (state) => (id) => {
+    const customer = state.data.data.find((c) => c.id === id);
+    if (!customer) return '';
+    return `ID: ${customer.id}\n名前: ${customer.name}\nふりがな: ${customer.name_kana}\n住所: ${customer.address}`;
+  },
 };
 
 const actions = {
