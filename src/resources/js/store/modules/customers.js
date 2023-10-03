@@ -8,6 +8,7 @@ const defaultParams = {
   sort_key: 'id',
   is_asc: false,
   page: 1,
+  per_page: 20,
   search_value: {},
 };
 
@@ -46,6 +47,11 @@ const getters = {
       to: state.data?.meta?.to ?? 0,
       total: state.data?.meta?.total ?? 0,
     };
+  },
+  tooltipContent: (state) => (id) => {
+    const customer = state.data.data.find((c) => c.id === id);
+    if (!customer) return '';
+    return `ID: ${customer.id}\n名前: ${customer.name}\nふりがな: ${customer.name_kana}\n住所: ${customer.address}`;
   },
 };
 

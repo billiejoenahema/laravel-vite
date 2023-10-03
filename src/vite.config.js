@@ -1,4 +1,5 @@
 import vue from '@vitejs/plugin-vue';
+import fs from "fs";
 import laravel from 'laravel-vite-plugin';
 import path from 'path';
 import { defineConfig } from 'vite';
@@ -15,6 +16,10 @@ export default defineConfig({
     host: true,
     hmr: {
       host: 'localhost',
+    },
+    https: {
+      key: fs.readFileSync("./certs/localhost-key.pem"),
+      cert: fs.readFileSync("./certs/localhost.pem"),
     },
   },
   resolve: {

@@ -1,1 +1,3 @@
 .env
+src/certs/*.pem
+infra/nginx/*.pem

@@ -26,10 +26,14 @@ const isInvalid = computed(() => store.getters['customer/isInvalid']);
 const genderFormOptions = computed(
   () => store.getters['consts/genderFormOptions']
 );
+const perPageFormOptions = computed(
+  () => store.getters['consts/perPageFormOptions']
+);
 const avatarUrl = computed(() => store.getters['customer/avatarUrl']);
 const isAdmin = computed(() => store.getters['profile/isAdmin']);
 const searchModalShow = ref(false);
 const restoreDialogShow = ref(false)
+const tooltipContent = computed(() => store.getters['customers/tooltipContent'])
 
 const fetchData = async () => {
   await store.dispatch('customers/get', params.value);
@@ -48,11 +52,19 @@ const sort = (value) => {
   params.value.page = 1;
   fetchData();
 };
+const search = () => {
+  params.value.page = 1;
+  fetchData();
+}
 const changePage = (page = null) => {
   if (page) {
     params.value.page = page;
     fetchData();
   }
+};
+const changePerPage = () => {
+    params.value.page = 1;
+    fetchData();
 };
 const moveToCreate = () => {
   router.push('/customers/create');
@@ -77,6 +89,19 @@ const restore = async (customerId) => {
   </div>
   <div class="d-flex justify-content-between align-items-end mb-3">
     <DataCount :meta="meta" />
+    <div class="col-6 row">
+      <div class="col-2">
+        <label for="perPage" class="col-form-label">表示件数</label>
+      </div>
+      <div class="col-2">
+        <InputSelect
+          id="perPage"
+          :options="perPageFormOptions"
+          v-model="params.per_page"
+          @change="changePerPage"
+        />
+      </div>
+    </div>
     <div class="d-flex justify-content-end">
       <button
         type="button"
@@ -173,7 +198,7 @@ const restore = async (customerId) => {
     <tbody>
       <tr v-for="customer in customers" :id="customer.id">
         <td class="align-middle d-flex align-items-center">
-          <Tooltip :content="customer.id">
+          <Tooltip :content="tooltipContent(customer.id)">
             <img
               :src="avatarUrl(customer.avatar)"
               class="avatar me-2"
@@ -210,7 +235,7 @@ const restore = async (customerId) => {
     title="絞り込み検索"
     button-value="検索する"
     @cancel="searchModalShow = false"
-    @submit="fetchData"
+    @submit="search"
   >
     <form class="row">
       <div>
@@ -278,11 +303,3 @@ const restore = async (customerId) => {
   </BaseModal>
 </template>
 
-<style scoped>
-.avatar {
-  height: 32px;
-  width: 32px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-</style>

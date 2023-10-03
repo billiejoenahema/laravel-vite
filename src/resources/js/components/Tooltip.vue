@@ -37,9 +37,9 @@ const setTooltipPosition = (e) => {
     @click="toggleShowTooltip"
     @mouseleave="tooltipShow = false"
   >
-    <div v-if="tooltipShow" class="tooltip-content" :style="tooltipStyle">
+    <pre v-if="tooltipShow" class="tooltip-content" :style="tooltipStyle">
       {{ content }}
-    </div>
+    </pre>
     <slot />
   </div>
 </template>
@@ -64,7 +64,8 @@ const setTooltipPosition = (e) => {
   color: #f1f1f1;
   border-radius: 5px;
   background: #333;
-  min-width: 160px;
+  min-width: 240px;
   cursor: initial;
+  white-space: pre-line;
 }
 </style>

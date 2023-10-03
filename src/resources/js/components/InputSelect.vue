@@ -31,9 +31,10 @@ const props = defineProps({
     type: [String, Number],
   },
 });
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue', 'change']);
 const updateModelValue = (event) => {
   emit('update:modelValue', event.target.value);
+  emit('change')
 };
 </script>
 

@@ -14,6 +14,9 @@ const getters = {
   prefectureFormOptions(state) {
     return state.data?.PREFECTURE;
   },
+  perPageFormOptions(state) {
+    return state.data?.PER_PAGE;
+  },
   maxUploadSize(state) {
     return state.data?.MAX_UPLOAD_SIZE;
   },
