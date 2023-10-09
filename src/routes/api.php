@@ -3,9 +3,11 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\Api\CustomerController;
+use App\Http\Controllers\Api\NoticeController;
 use App\Http\Controllers\Api\Password\PasswordForgotController;
 use App\Http\Controllers\Api\Password\PasswordResetController;
 use App\Http\Controllers\Api\ProfileController;
+use App\Models\Notice;
 use Illuminate\Foundation\Http\Middleware\HandlePrecognitiveRequests;
 use Illuminate\Support\Facades\Route;
 
@@ -41,4 +43,11 @@ Route::group(['middleware' => ['auth:sanctum','cache.headers:no_store;max_age=0'
     Route::patch('/customers/{trashed_customer}/restore', [CustomerController::class, 'restore'])->can('restore', 'trashed_customer');
     Route::post('/customers/{customer}/avatar', [CustomerController::class, 'updateAvatar']);
     Route::delete('/customers/{customer}/avatar', [CustomerController::class, 'deleteAvatar'])->can('delete', 'customer');
+
+    // お知らせ
+    Route::get('/notices', [NoticeController::class, 'index']);
+    Route::post('/notices', [NoticeController::class, 'store'])->can('create', Notice::class);
+    Route::get('/notices/{notice}', [NoticeController::class, 'show']);
+    Route::patch('/notices/{notice}', [NoticeController::class, 'update'])->can('update', 'notice');
+    Route::delete('/notices/{notice}', [NoticeController::class, 'destroy'])->can('delete', 'notice');
 });
