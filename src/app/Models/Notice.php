@@ -49,7 +49,10 @@ class Notice extends Model
      *
      * @var array<int, string>
      */
-    protected $fillable = [];
+    protected $fillable = [
+        'title',
+        'content',
+    ];
 
     /** @var array ソート可能なカラムリスト */
     public const SORTABLE_COLUMNS = [
