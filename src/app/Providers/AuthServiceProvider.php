@@ -7,7 +7,9 @@ namespace App\Providers;
 // use Illuminate\Support\Facades\Gate;
 
 use App\Models\Customer;
+use App\Models\Notice;
 use App\Policies\CustomerPolicy;
+use App\Policies\NoticePolicy;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -20,6 +22,7 @@ final class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         Customer::class => CustomerPolicy::class,
+        Notice::class => NoticePolicy::class,
     ];
 
     /**
