@@ -39,4 +39,28 @@ final class UserFactory extends Factory
             'email_verified_at' => null,
         ]);
     }
+
+    /**
+     * 一般ユーザーを作成する。
+     *
+     * @return
+     */
+    public function createGeneralUser()
+    {
+        return $this->create([
+            'role' => User::ROLE_GENERAL,
+        ]);
+    }
+
+    /**
+     * 管理ユーザーを作成する。
+     *
+     * @return
+     */
+    public function createAdminUser()
+    {
+        return $this->create([
+            'role' => User::ROLE_ADMIN,
+        ]);
+    }
 }
