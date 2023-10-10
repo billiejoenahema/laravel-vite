@@ -22,8 +22,8 @@ class IndexSearchTest extends TestCase
     {
         parent::setUp();
 
-        /** @var \Illuminate\Contracts\Auth\Authenticatable $user */
-        $this->user = User::factory()->create();
+        $this->generalUser = User::factory()->createGeneralUser();
+        $this->adminUser = User::factory()->createAdminUser();
 
         $customers = Customer::factory()->count(10)->create();
         $this->name = $customers->random()->name;
@@ -41,7 +41,7 @@ class IndexSearchTest extends TestCase
      */
     public function test_search_by_name()
     {
-        $response = $this->actingAs($this->user)->getJson('/api/customers?search_value[name]=' . $this->name);
+        $response = $this->actingAs($this->generalUser)->getJson('/api/customers?search_value[name]=' . $this->name);
 
         $response->assertStatus(200)
             ->assertJsonPath('data.0.name', $this->name);
@@ -54,7 +54,7 @@ class IndexSearchTest extends TestCase
      */
     public function test_search_by_nameKana()
     {
-        $response = $this->actingAs($this->user)->getJson('/api/customers?search_value[name_kana]=' . $this->name_kana);
+        $response = $this->actingAs($this->generalUser)->getJson('/api/customers?search_value[name_kana]=' . $this->name_kana);
 
         $response->assertStatus(200)
             ->assertJsonPath('data.0.name_kana', $this->name_kana);
@@ -67,7 +67,7 @@ class IndexSearchTest extends TestCase
      */
     public function test_search_by_gender()
     {
-        $response = $this->actingAs($this->user)->getJson('/api/customers?search_value[gender]=' . $this->gender);
+        $response = $this->actingAs($this->generalUser)->getJson('/api/customers?search_value[gender]=' . $this->gender);
 
         $response->assertStatus(200)
             ->assertJsonPath('data.0.gender', $this->gender);
@@ -80,7 +80,7 @@ class IndexSearchTest extends TestCase
      */
     public function test_search_by_phone()
     {
-        $response = $this->actingAs($this->user)->getJson('/api/customers?search_value[phone]=' . $this->phone);
+        $response = $this->actingAs($this->generalUser)->getJson('/api/customers?search_value[phone]=' . $this->phone);
 
         $response->assertStatus(200)
             ->assertJsonPath('data.0.phone', $this->phone);
@@ -93,7 +93,7 @@ class IndexSearchTest extends TestCase
      */
     public function test_search_by_postalCode()
     {
-        $response = $this->actingAs($this->user)->getJson('/api/customers?search_value[postal_code]=' . $this->postal_code);
+        $response = $this->actingAs($this->generalUser)->getJson('/api/customers?search_value[postal_code]=' . $this->postal_code);
 
         $response->assertStatus(200)
             ->assertJsonPath('data.0.postal_code', $this->postal_code);
@@ -106,7 +106,7 @@ class IndexSearchTest extends TestCase
      */
     public function test_search_by_pref()
     {
-        $response = $this->actingAs($this->user)->getJson('/api/customers?search_value[pref]=' . $this->pref);
+        $response = $this->actingAs($this->generalUser)->getJson('/api/customers?search_value[pref]=' . $this->pref);
 
         $response->assertStatus(200)
             ->assertJsonPath('data.0.pref', $this->pref);

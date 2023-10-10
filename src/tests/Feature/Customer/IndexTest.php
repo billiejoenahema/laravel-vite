@@ -22,12 +22,8 @@ class IndexTest extends TestCase
     {
         parent::setUp();
 
-        /** @var \Illuminate\Contracts\Auth\Authenticatable $generalUser */
-        $this->generalUser = User::factory()->create(['role' => User::ROLE_GENERAL]);
-
-        /** @var \Illuminate\Contracts\Auth\Authenticatable $adminUser */
-        $this->adminUser = User::factory()->create(['role' => User::ROLE_ADMIN]);
-
+        $this->generalUser = User::factory()->createGeneralUser();
+        $this->adminUser = User::factory()->createAdminUser();
         $this->customers = Customer::factory()->count(10)->create();
     }
 
@@ -38,8 +34,8 @@ class IndexTest extends TestCase
      */
     public function test_general_user_get_customers(): void
     {
-        // 実行
         $response = $this->actingAs($this->generalUser)->get('/api/customers');
+
         $response
             ->assertOk()
             ->assertJsonCount(10, 'data');
@@ -52,8 +48,8 @@ class IndexTest extends TestCase
      */
     public function test_admin_user_get_customers(): void
     {
-        // 実行
         $response = $this->actingAs($this->adminUser)->get('/api/customers');
+
         $response
             ->assertOk()
             ->assertJsonCount(10, 'data');

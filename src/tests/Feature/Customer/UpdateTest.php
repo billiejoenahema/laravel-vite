@@ -22,8 +22,8 @@ class UpdateTest extends TestCase
     {
         parent::setUp();
 
-        /** @var \Illuminate\Contracts\Auth\Authenticatable $general_user */
-        $this->user = User::factory()->create();
+        $this->generalUser = User::factory()->createGeneralUser();
+        $this->adminUser = User::factory()->createAdminUser();
         $this->customer = Customer::factory()->create();
         $this->data = [
             'name' => 'test_name',
@@ -44,8 +44,8 @@ class UpdateTest extends TestCase
      */
     public function test_general_user_update_customer(): void
     {
-        // 実行
-        $response = $this->actingAs($this->user)->patchJson('/api/customers/' . $this->customer->id, $this->data);
+        $response = $this->actingAs($this->generalUser)->patchJson('/api/customers/' . $this->customer->id, $this->data);
+
         $response->assertOk();
         $this->assertDatabaseHas(
             'customers',
@@ -68,15 +68,12 @@ class UpdateTest extends TestCase
     }
 
     /**
-     * 管理ユーザーが顧客情報を更新できてること。
+     * 管理ユーザーが顧客情報を更新できること。
      */
     public function test_update_customer(): void
     {
-        $this->user->role = User::ROLE_ADMIN;
-        $this->user->save();
+        $response = $this->actingAs($this->adminUser)->patchJson('/api/customers/' . $this->customer->id, $this->data);
 
-        // 実行
-        $response = $this->actingAs($this->user)->patchJson('/api/customers/' . $this->customer->id, $this->data);
         $response->assertOk();
         $this->assertDatabaseHas(
             'customers',
@@ -96,8 +93,7 @@ class UpdateTest extends TestCase
      */
     public function test_admin_user_update_customer_phone_postal_code_with_hyphen(): void
     {
-        $this->user->role = User::ROLE_ADMIN;
-        $this->user->save();
+
 
         $data = [
             'id' => $this->customer->id,
@@ -109,7 +105,7 @@ class UpdateTest extends TestCase
         ];
 
         // 実行
-        $response = $this->actingAs($this->user)->patchJson('/api/customers/' . $this->customer->id, $data);
+        $response = $this->actingAs($this->generalUser)->patchJson('/api/customers/' . $this->customer->id, $data);
         $response->assertOk();
         $this->assertDatabaseHas(
             'customers',

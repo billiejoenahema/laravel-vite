@@ -20,8 +20,8 @@ class ShowTest extends TestCase
     {
         parent::setUp();
 
-        /** @var \Illuminate\Contracts\Auth\Authenticatable $user */
-        $this->user = User::factory()->create();
+        $this->generalUser = User::factory()->createGeneralUser();
+        $this->adminUser = User::factory()->createAdminUser();
         $this->customer = Customer::factory()->create();
     }
 
@@ -30,8 +30,8 @@ class ShowTest extends TestCase
      */
     public function test_general_user_get_customer_detail(): void
     {
-        // 実行
-        $response = $this->actingAs($this->user)->getJson('/api/customers/' . $this->customer->id);
+        $response = $this->actingAs($this->generalUser)->getJson('/api/customers/' . $this->customer->id);
+
         $response
             ->assertOK()
             ->assertJsonFragment([
@@ -53,11 +53,8 @@ class ShowTest extends TestCase
      */
     public function test_admin_user_can_customer_detail(): void
     {
-        $this->user->role = User::ROLE_ADMIN;
-        $this->user->save();
+        $response = $this->actingAs($this->adminUser)->getJson('/api/customers/' . $this->customer->id);
 
-        // 実行
-        $response = $this->actingAs($this->user)->getJson('/api/customers/' . $this->customer->id);
         $response
             ->assertOK()
             ->assertJsonFragment([

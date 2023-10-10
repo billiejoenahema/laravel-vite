@@ -22,9 +22,8 @@ class IndexSortTest extends TestCase
     {
         parent::setUp();
 
-        /** @var \Illuminate\Contracts\Auth\Authenticatable $user */
-        $this->user = User::factory()->create();
-
+        $this->generalUser = User::factory()->createGeneralUser();
+        $this->adminUser = User::factory()->createAdminUser();
         $this->customers = Customer::factory()->count(10)->create();
     }
 
@@ -35,13 +34,15 @@ class IndexSortTest extends TestCase
      */
     public function test_sort_customers_by_name_desc(): void
     {
-        $response = $this->actingAs($this->user)->getJson('/api/customers?sort_key=name&is_asc=false');
+        $response = $this->actingAs($this->generalUser)->getJson('/api/customers?sort_key=name&is_asc=false');
 
-        $response->assertStatus(200);
-        $actual = collect($response->json('data'));
+        $data = collect($response->json('data'));
+        $expected = $data->sortByDesc('name')->pluck('name')->values()->all();
+        $actual = $data->pluck('name')->values()->all();
+
         $this->assertSame(
-            $actual->sortByDesc('name')->pluck('name'),
-            $actual->pluck('name')
+            $expected,
+            $actual,
         );
     }
 
@@ -52,13 +53,16 @@ class IndexSortTest extends TestCase
      */
     public function test_sort_customers_by_name_asc(): void
     {
-        $response = $this->actingAs($this->user)->getJson('/api/customers?sort_key=name&is_asc=true');
+        $response = $this->actingAs($this->generalUser)->getJson('/api/customers?sort_key=name&is_asc=true');
 
         $response->assertStatus(200);
-        $actual = collect($response->json('data'));
+        $data = collect($response->json('data'));
+        $expected = $data->sortBy('name')->pluck('name')->values()->all();
+        $actual = $data->pluck('name')->values()->all();
+
         $this->assertSame(
-            $actual->sortBy('name')->pluck('name'),
-            $actual->pluck('name')
+            $expected,
+            $actual,
         );
     }
 
@@ -69,13 +73,15 @@ class IndexSortTest extends TestCase
      */
     public function test_sort_customers_by_age_desc(): void
     {
-        $response = $this->actingAs($this->user)->getJson('/api/customers?sort_key=age&is_asc=false');
+        $response = $this->actingAs($this->generalUser)->getJson('/api/customers?sort_key=age&is_asc=false');
 
-        $response->assertStatus(200);
-        $actual = collect($response->json('data'));
+        $data = collect($response->json('data'));
+        $expected = $data->sortByDesc('age')->pluck('age')->values()->all();
+        $actual = $data->pluck('age')->values()->all();
+
         $this->assertSame(
-            $actual->sortByDesc('age')->pluck('age'),
-            $actual->pluck('age')
+            $expected,
+            $actual,
         );
     }
 
@@ -86,13 +92,16 @@ class IndexSortTest extends TestCase
      */
     public function test_sort_customers_by_age_asc(): void
     {
-        $response = $this->actingAs($this->user)->getJson('/api/customers?sort_key=age&is_asc=true');
+        $response = $this->actingAs($this->generalUser)->getJson('/api/customers?sort_key=age&is_asc=true');
 
         $response->assertStatus(200);
-        $actual = collect($response->json('data'));
+        $data = collect($response->json('data'));
+        $expected = $data->sortBy('age')->pluck('age')->values()->all();
+        $actual = $data->pluck('age')->values()->all();
+
         $this->assertSame(
-            $actual->sortBy('age')->pluck('age'),
-            $actual->pluck('age')
+            $expected,
+            $actual,
         );
     }
 
@@ -103,13 +112,15 @@ class IndexSortTest extends TestCase
      */
     public function test_sort_customers_by_gender_desc(): void
     {
-        $response = $this->actingAs($this->user)->getJson('/api/customers?sort_key=gender&is_asc=false');
+        $response = $this->actingAs($this->generalUser)->getJson('/api/customers?sort_key=gender&is_asc=false');
 
-        $response->assertStatus(200);
-        $actual = collect($response->json('data'));
+        $data = collect($response->json('data'));
+        $expected = $data->sortByDesc('gender')->pluck('gender')->values()->all();
+        $actual = $data->pluck('gender')->values()->all();
+
         $this->assertSame(
-            $actual->sortByDesc('gender')->pluck('gender'),
-            $actual->pluck('gender')
+            $expected,
+            $actual,
         );
     }
 
@@ -120,13 +131,16 @@ class IndexSortTest extends TestCase
      */
     public function test_sort_customers_by_gender_asc(): void
     {
-        $response = $this->actingAs($this->user)->getJson('/api/customers?sort_key=gender&is_asc=true');
+        $response = $this->actingAs($this->generalUser)->getJson('/api/customers?sort_key=gender&is_asc=true');
 
         $response->assertStatus(200);
-        $actual = collect($response->json('data'));
+        $data = collect($response->json('data'));
+        $expected = $data->sortBy('gender')->pluck('gender')->values()->all();
+        $actual = $data->pluck('gender')->values()->all();
+
         $this->assertSame(
-            $actual->sortBy('gender')->pluck('gender'),
-            $actual->pluck('gender')
+            $expected,
+            $actual,
         );
     }
 
@@ -137,13 +151,15 @@ class IndexSortTest extends TestCase
      */
     public function test_sort_customers_by_phone_desc(): void
     {
-        $response = $this->actingAs($this->user)->getJson('/api/customers?sort_key=phone&is_asc=false');
+        $response = $this->actingAs($this->generalUser)->getJson('/api/customers?sort_key=phone&is_asc=false');
 
-        $response->assertStatus(200);
-        $actual = collect($response->json('data'));
+        $data = collect($response->json('data'));
+        $expected = $data->sortByDesc('phone')->pluck('phone')->values()->all();
+        $actual = $data->pluck('phone')->values()->all();
+
         $this->assertSame(
-            $actual->sortByDesc('phone')->pluck('phone'),
-            $actual->pluck('phone')
+            $expected,
+            $actual,
         );
     }
 
@@ -154,13 +170,16 @@ class IndexSortTest extends TestCase
      */
     public function test_sort_customers_by_phone_asc(): void
     {
-        $response = $this->actingAs($this->user)->getJson('/api/customers?sort_key=phone&is_asc=true');
+        $response = $this->actingAs($this->generalUser)->getJson('/api/customers?sort_key=phone&is_asc=true');
 
         $response->assertStatus(200);
-        $actual = collect($response->json('data'));
+        $data = collect($response->json('data'));
+        $expected = $data->sortBy('phone')->pluck('phone')->values()->all();
+        $actual = $data->pluck('phone')->values()->all();
+
         $this->assertSame(
-            $actual->sortBy('phone')->pluck('phone'),
-            $actual->pluck('phone')
+            $expected,
+            $actual,
         );
     }
 
@@ -171,13 +190,15 @@ class IndexSortTest extends TestCase
      */
     public function test_sort_customers_by_birth_date_asc(): void
     {
-        $response = $this->actingAs($this->user)->getJson('/api/customers?sort_key=birth_date&is_asc=false');
+        $response = $this->actingAs($this->generalUser)->getJson('/api/customers?sort_key=birth_date&is_asc=false');
 
-        $response->assertStatus(200);
-        $actual = collect($response->json('data'));
+        $data = collect($response->json('data'));
+        $expected = $data->sortByDesc('birth_date')->pluck('birth_date')->values()->all();
+        $actual = $data->pluck('birth_date')->values()->all();
+
         $this->assertSame(
-            $actual->sortByDesc('birth_date')->pluck('birth_date'),
-            $actual->pluck('birth_date')
+            $expected,
+            $actual,
         );
     }
 
@@ -188,13 +209,16 @@ class IndexSortTest extends TestCase
      */
     public function test_sort_customers_by_birth_date_desc(): void
     {
-        $response = $this->actingAs($this->user)->getJson('/api/customers?sort_key=birth_date&is_asc=true');
+        $response = $this->actingAs($this->generalUser)->getJson('/api/customers?sort_key=birth_date&is_asc=true');
 
         $response->assertStatus(200);
-        $actual = collect($response->json('data'));
+        $data = collect($response->json('data'));
+        $expected = $data->sortBy('birth_date')->pluck('birth_date')->values()->all();
+        $actual = $data->pluck('birth_date')->values()->all();
+
         $this->assertSame(
-            $actual->sortBy('birth_date')->pluck('birth_date'),
-            $actual->pluck('birth_date')
+            $expected,
+            $actual,
         );
     }
 
@@ -205,13 +229,15 @@ class IndexSortTest extends TestCase
      */
     public function test_sort_customers_by_pref_desc(): void
     {
-        $response = $this->actingAs($this->user)->getJson('/api/customers?sort_key=pref&is_asc=false');
+        $response = $this->actingAs($this->generalUser)->getJson('/api/customers?sort_key=pref&is_asc=false');
 
-        $response->assertStatus(200);
-        $actual = collect($response->json('data'));
+        $data = collect($response->json('data'));
+        $expected = $data->sortByDesc('pref')->pluck('pref')->values()->all();
+        $actual = $data->pluck('pref')->values()->all();
+
         $this->assertSame(
-            $actual->sortByDesc('pref')->pluck('pref'),
-            $actual->pluck('pref')
+            $expected,
+            $actual,
         );
     }
 
@@ -222,13 +248,16 @@ class IndexSortTest extends TestCase
      */
     public function test_sort_customers_by_pref_asc(): void
     {
-        $response = $this->actingAs($this->user)->getJson('/api/customers?sort_key=pref&is_asc=true');
+        $response = $this->actingAs($this->generalUser)->getJson('/api/customers?sort_key=pref&is_asc=true');
 
         $response->assertStatus(200);
-        $actual = collect($response->json('data'));
+        $data = collect($response->json('data'));
+        $expected = $data->sortBy('pref')->pluck('pref')->values()->all();
+        $actual = $data->pluck('pref')->values()->all();
+
         $this->assertSame(
-            $actual->sortBy('pref')->pluck('pref'),
-            $actual->pluck('pref')
+            $expected,
+            $actual,
         );
     }
 
@@ -239,13 +268,15 @@ class IndexSortTest extends TestCase
      */
     public function test_sort_customers_by_created_at_desc(): void
     {
-        $response = $this->actingAs($this->user)->getJson('/api/customers?sort_key=created_at&is_asc=false');
+        $response = $this->actingAs($this->generalUser)->getJson('/api/customers?sort_key=created_at&is_asc=false');
 
-        $response->assertStatus(200);
-        $actual = collect($response->json('data'));
+        $data = collect($response->json('data'));
+        $expected = $data->sortByDesc('created_at')->pluck('created_at')->values()->all();
+        $actual = $data->pluck('created_at')->values()->all();
+
         $this->assertSame(
-            $actual->sortByDesc('created_at')->pluck('created_at'),
-            $actual->pluck('created_at')
+            $expected,
+            $actual,
         );
     }
 
@@ -256,13 +287,16 @@ class IndexSortTest extends TestCase
      */
     public function test_sort_customers_by_created_at_asc(): void
     {
-        $response = $this->actingAs($this->user)->getJson('/api/customers?sort_key=created_at&is_asc=true');
+        $response = $this->actingAs($this->generalUser)->getJson('/api/customers?sort_key=created_at&is_asc=true');
 
         $response->assertStatus(200);
-        $actual = collect($response->json('data'));
+        $data = collect($response->json('data'));
+        $expected = $data->sortBy('created_at')->pluck('created_at')->values()->all();
+        $actual = $data->pluck('created_at')->values()->all();
+
         $this->assertSame(
-            $actual->sortBy('created_at')->pluck('created_at'),
-            $actual->pluck('created_at')
+            $expected,
+            $actual,
         );
     }
 
@@ -273,13 +307,15 @@ class IndexSortTest extends TestCase
      */
     public function test_sort_customers_by_updated_at_desc(): void
     {
-        $response = $this->actingAs($this->user)->getJson('/api/customers?sort_key=updated_at&is_asc=false');
+        $response = $this->actingAs($this->generalUser)->getJson('/api/customers?sort_key=updated_at&is_asc=false');
 
-        $response->assertStatus(200);
-        $actual = collect($response->json('data'));
+        $data = collect($response->json('data'));
+        $expected = $data->sortByDesc('updated_at')->pluck('updated_at')->values()->all();
+        $actual = $data->pluck('updated_at')->values()->all();
+
         $this->assertSame(
-            $actual->sortByDesc('updated_at')->pluck('updated_at'),
-            $actual->pluck('updated_at')
+            $expected,
+            $actual,
         );
     }
 
@@ -290,13 +326,16 @@ class IndexSortTest extends TestCase
      */
     public function test_sort_customers_by_updated_at_asc(): void
     {
-        $response = $this->actingAs($this->user)->getJson('/api/customers?sort_key=updated_at&is_asc=true');
+        $response = $this->actingAs($this->generalUser)->getJson('/api/customers?sort_key=updated_at&is_asc=true');
 
         $response->assertStatus(200);
-        $actual = collect($response->json('data'));
+        $data = collect($response->json('data'));
+        $expected = $data->sortBy('updated_at')->pluck('updated_at')->values()->all();
+        $actual = $data->pluck('updated_at')->values()->all();
+
         $this->assertSame(
-            $actual->sortBy('updated_at')->pluck('updated_at'),
-            $actual->pluck('updated_at')
+            $expected,
+            $actual,
         );
     }
 }

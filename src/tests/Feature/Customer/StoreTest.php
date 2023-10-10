@@ -21,8 +21,8 @@ class StoreTest extends TestCase
     {
         parent::setUp();
 
-        /** @var \Illuminate\Contracts\Auth\Authenticatable $general_user */
-        $this->user = User::factory()->create();
+        $this->generalUser = User::factory()->createGeneralUser();
+        $this->adminUser = User::factory()->createAdminUser();
         $this->data = [
             'name' => 'test_name',
             'name_kana' => 'test_name_kana',
@@ -42,7 +42,7 @@ class StoreTest extends TestCase
      */
     public function test_general_user_can_store_customer(): void
     {
-        $response = $this->actingAs($this->user)->postJson('/api/customers', $this->data);
+        $response = $this->actingAs($this->generalUser)->postJson('/api/customers', $this->data);
 
         $response->assertCreated();
         $this->assertDatabaseCount('customers', 1);
@@ -53,10 +53,7 @@ class StoreTest extends TestCase
      */
     public function test_admin_user_can_store_customer(): void
     {
-        $this->user->role = User::ROLE_ADMIN;
-        $this->user->save();
-
-        $response = $this->actingAs($this->user)->postJson('/api/customers', $this->data);
+        $response = $this->actingAs($this->adminUser)->postJson('/api/customers', $this->data);
 
         $response->assertCreated();
         $this->assertDatabaseCount('customers', 1);
