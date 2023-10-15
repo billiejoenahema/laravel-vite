@@ -1,10 +1,8 @@
 <?php
 
-declare(strict_types=1);
+namespace Tests\Feature\Notice;
 
-namespace Tests\Feature\Customer;
-
-use App\Models\Customer;
+use App\Models\Notice;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -24,17 +22,17 @@ class IndexTest extends TestCase
 
         $this->generalUser = User::factory()->createGeneralUser();
         $this->adminUser = User::factory()->createAdminUser();
-        $this->customers = Customer::factory()->count(10)->create();
+        $this->notices = Notice::factory()->count(10)->create();
     }
 
     /**
-     * 一般ユーザーが顧客一覧を取得できること。
+     * 一般ユーザーがお知らせ一覧を取得できること。
      *
      * @return void
      */
-    public function test_general_user_get_customers(): void
+    public function test_general_user_get_notice_index(): void
     {
-        $response = $this->actingAs($this->generalUser)->get('/api/customers');
+        $response = $this->actingAs($this->generalUser)->get('/api/notices');
 
         $response
             ->assertOk()
@@ -42,13 +40,13 @@ class IndexTest extends TestCase
     }
 
     /**
-     * 管理ユーザーが顧客一覧を取得できること。
+     * 管理ユーザーがお知らせ一覧を取得できること。
      *
      * @return void
      */
-    public function test_admin_user_get_customers(): void
+    public function test_admin_user_get_notice_index(): void
     {
-        $response = $this->actingAs($this->adminUser)->get('/api/customers');
+        $response = $this->actingAs($this->adminUser)->get('/api/notices');
 
         $response
             ->assertOk()

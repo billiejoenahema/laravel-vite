@@ -80,9 +80,6 @@ class Customer extends Model
     /** デフォルトアイコン */
     public const DEFAULT_AVATAR = 'default-avatar.png';
 
-    /** ハイフン入りの郵便番号 */
-    public $postal_code_with_hyphen;
-
     /**
      * 複数代入可能な属性
      *
@@ -149,16 +146,6 @@ class Customer extends Model
     }
 
     /**
-     * 郵便番号を操作
-     */
-    protected function postalCodeWithHyphen(): Attribute
-    {
-        return Attribute::make(
-            get: fn () => mb_substr($this->postal_code, 0, 3) . "-" . mb_substr($this->postal_code, 3),
-        );
-    }
-
-    /**
      * 性別を取得
      */
     protected function genderValue(): Attribute
@@ -174,7 +161,7 @@ class Customer extends Model
     protected function prefValue(): Attribute
     {
         return Attribute::make(
-            get: fn () => Prefecture::tryFrom($this->pref)?->text(),
+            get: fn () => Prefecture::tryFrom((int) $this->pref)?->text(),
         );
     }
 
@@ -184,7 +171,7 @@ class Customer extends Model
     protected function address(): Attribute
     {
         return Attribute::make(
-            get: fn () => '〒' . $this->postal_code_with_hyphen . ' ' .  Prefecture::tryFrom($this->pref)?->text() . $this->city . $this->street,
+            get: fn () => '〒' . mb_substr($this->postal_code, 0, 3) . "-" . mb_substr($this->postal_code, 3) . ' ' .  Prefecture::tryFrom((int) $this->pref)?->text() . $this->city . $this->street,
         );
     }
 

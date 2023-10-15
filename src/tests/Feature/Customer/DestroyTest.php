@@ -20,8 +20,8 @@ class DestroyTest extends TestCase
     {
         parent::setUp();
 
-        /** @var \Illuminate\Contracts\Auth\Authenticatable $user */
-        $this->user = User::factory()->create();
+        $this->generalUser = User::factory()->createGeneralUser();
+        $this->adminUser = User::factory()->createAdminUser();
         $this->customer = Customer::factory()->create(['avatar' => 'test.png']);
     }
 
@@ -30,7 +30,8 @@ class DestroyTest extends TestCase
      */
     public function test_general_user_cannot_delete_customer(): void
     {
-        $response = $this->actingAs($this->user)->deleteJson('/api/customers/' . $this->customer->id);
+        $response = $this->actingAs($this->generalUser)->deleteJson('/api/customers/' . $this->customer->id);
+
         $response->assertForbidden();
     }
 
@@ -39,10 +40,8 @@ class DestroyTest extends TestCase
      */
     public function test_admin_user_can_delete_customer(): void
     {
-        $this->user->role = User::ROLE_ADMIN;
-        $this->user->save();
+        $response = $this->actingAs($this->adminUser)->deleteJson('/api/customers/' . $this->customer->id);
 
-        $response = $this->actingAs($this->user)->deleteJson('/api/customers/' . $this->customer->id);
         $response->assertOk();
     }
 }
