@@ -26,18 +26,6 @@ const getters = {
   params(state) {
     return state.params ?? {};
   },
-  hasErrors(state) {
-    return Object.keys(state.errors).length > 0;
-  },
-  invalidFeedback: (state) => (key) => {
-    return state.errors?.[key]?.reduce((acc, cur) => {
-      if (acc === '') return cur;
-      return `${acc}\n${cur}`;
-    }, '');
-  },
-  isInvalid: (state) => (key) => {
-    return state.errors?.[key] ? 'is-invalid' : '';
-  },
   meta(state) {
     return {
       current_page: state.data?.meta?.current_page ?? 0,
