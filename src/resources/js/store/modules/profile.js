@@ -33,6 +33,9 @@ const getters = {
   isInvalid: (state) => (key) => {
     return state.errors?.[key] ? 'is-invalid' : '';
   },
+  unreadNoticeCount(state) {
+    return state.data?.notices.length ?? 0;
+  },
 };
 
 const actions = {
