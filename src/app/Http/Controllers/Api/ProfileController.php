@@ -16,6 +16,8 @@ final class ProfileController extends Controller
      */
     public function __invoke(): ProfileResource
     {
-        return new ProfileResource(auth()->user());
+        $user = auth()->user()->load(['notices']);
+
+        return new ProfileResource($user);
     }
 }

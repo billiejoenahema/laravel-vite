@@ -124,7 +124,7 @@ final class User extends Authenticatable
      */
     public function notices(): BelongsToMany
     {
-        return $this->belongsToMany(Notice::class);
+        return $this->belongsToMany(Notice::class)->withPivot('read_at');
     }
 
     /**

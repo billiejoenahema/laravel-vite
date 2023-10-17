@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('notice_reads', function (Blueprint $table) {
+        Schema::create('notice_user', function (Blueprint $table) {
             $table->comment('お知らせ既読');
 
             $table->id();
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('notice_reads');
+        Schema::dropIfExists('notice_user');
     }
 };
