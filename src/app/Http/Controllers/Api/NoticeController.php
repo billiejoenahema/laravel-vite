@@ -22,7 +22,7 @@ class NoticeController extends Controller
      */
     public function index(): AnonymousResourceCollection
     {
-        $query = Notice::query();
+        $query = auth()->user()->notices();
 
         $notices = $query->paginate(self::PER_PAGE);
 
@@ -50,6 +50,12 @@ class NoticeController extends Controller
      */
     public function show(Notice $notice): NoticeResource
     {
+        // 未読なら既読にする
+        if (isNull($notice->read_at)) {
+            $notice->read_at = now();
+            $notice->save();
+        }
+
         return new NoticeResource($notice);
     }
 
