@@ -3,6 +3,7 @@ import CustomerCreate from '@/views/Customers/Create.vue';
 import CustomerDetail from '@/views/Customers/Detail.vue';
 import CustomerIndex from '@/views/Customers/Index.vue';
 import Login from '@/views/Login.vue';
+import NoticeIndex from '@/views/Notices/Index.vue';
 import PasswordReset from '@/views/PasswordReset.vue';
 import Top from '@/views/Top.vue';
 import { createRouter, createWebHistory } from 'vue-router';
@@ -26,6 +27,11 @@ const routes = [
   {
     path: '/customers/create',
     component: CustomerCreate,
+    meta: { isPublic: false },
+  },
+  {
+    path: '/notices',
+    component: NoticeIndex,
     meta: { isPublic: false },
   },
   {
