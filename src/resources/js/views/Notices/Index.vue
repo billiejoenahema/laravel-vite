@@ -39,6 +39,11 @@ const resetParams = () => {
 const setAllNoticesAsRead = async () => {
   await store.dispatch('notices/setAllRead')
 }
+const searchUnreadOnly = () => {
+  params.value.page = 1;
+  params.value.unread_only = true;
+  fetchData();
+}
 </script>
 
 <template>
@@ -55,6 +60,9 @@ const setAllNoticesAsRead = async () => {
     </div>
     <button type="button" class="btn btn-info me-3" title="お知らせをすべて既読にする" @click="setAllNoticesAsRead">
       すべて既読にする
+    </button>
+    <button type="button" class="btn btn-info me-3" title="未読のみを表示" @click="searchUnreadOnly">
+      未読のみを表示
     </button>
     <button type="button" class="btn btn-secondary" title="リセット" @click="resetParams">
       リセット

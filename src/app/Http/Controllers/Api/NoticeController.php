@@ -24,6 +24,9 @@ class NoticeController extends Controller
     {
         $query = Notice::query();
 
+        // 検索
+        $query->searchCondition($request);
+
         $notices = $query->paginate($request->per_page);
 
         return NoticeResource::collection($notices);

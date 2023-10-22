@@ -7,6 +7,7 @@ const setLoading = (commit, bool) =>
 const defaultParams = {
   page: 1,
   per_page: 20,
+  unread_only: false,
 };
 
 const state = {
