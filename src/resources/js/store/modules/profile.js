@@ -1,7 +1,7 @@
-import axios from 'axios';
+import axios from "axios";
 
 const setLoading = (commit, bool) =>
-  commit('loading/setLoading', bool, { root: true });
+  commit("loading/setLoading", bool, { root: true });
 
 const state = {
   data: {},
@@ -26,15 +26,16 @@ const getters = {
   },
   invalidFeedback: (state) => (key) => {
     return state.errors?.[key]?.reduce((acc, cur) => {
-      if (acc === '') return cur;
+      if (acc === "") return cur;
       return `${acc}\n${cur}`;
-    }, '');
+    }, "");
   },
   isInvalid: (state) => (key) => {
-    return state.errors?.[key] ? 'is-invalid' : '';
+    return state.errors?.[key] ? "is-invalid" : "";
   },
   unreadNoticeCount(state) {
-    return state.data?.notices.length ?? 0;
+    const unreadNotices = state.data.notices.filter((n) => !n.read_at);
+    return unreadNotices.length ?? 0;
   },
 };
 
@@ -42,31 +43,31 @@ const actions = {
   async get({ commit }) {
     setLoading(commit, true);
     await axios
-      .get('/api/profile')
+      .get("/api/profile")
       .then((res) => {
-        commit('setErrors', {});
-        commit('setData', res.data);
+        commit("setErrors", {});
+        commit("setData", res.data);
       })
       .catch((err) => {
-        commit('setErrors', err.message);
-        commit('setData', {});
+        commit("setErrors", err.message);
+        commit("setData", {});
       });
     setLoading(commit, false);
   },
   async getIfNeeded({ dispatch, getters }) {
     if (getters.isLoggedIn) return;
-    await dispatch('get');
+    await dispatch("get");
   },
   async post({ commit }, data) {
     setLoading(commit, true);
     delete data.last_login_at;
     await axios
-      .post('/api/profile', data)
+      .post("/api/profile", data)
       .then(() => {
-        commit('setErrors', {});
+        commit("setErrors", {});
       })
       .catch((err) => {
-        commit('setErrors', err.response.data.errors);
+        commit("setErrors", err.response.data.errors);
       });
     setLoading(commit, false);
   },
