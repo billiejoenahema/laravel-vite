@@ -17,32 +17,32 @@ const logout = async () => {
 <template>
   <nav class="navbar sticky-top navbar-dark bg-dark mt-2 mb-3">
     <div class="container-fluid">
-      <router-link to="/"
-        ><div title="トップページ">Laravel Vite</div></router-link
-      >
+      <router-link to="/">
+        <div title="トップページ">Laravel Vite</div>
+      </router-link>
       <div v-if="isLoggedIn">
-        <router-link to="/notices" class="position-relative me-5">
+        <router-link v-if="isAdmin" to="/notices-all" class="position-relative me-5">
+          お知らせ
+        </router-link>
+        <router-link v-else to="/notices" class="position-relative me-5">
           お知らせ
           <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
             {{ unreadNoticeCount }}
             <span class="visually-hidden">unread messages</span>
           </span>
         </router-link>
-        <font-awesome-icon
-          class="right-from-bracket-icon icon text-primary"
-          icon="right-from-bracket"
-          title="ログアウト"
-          @click="logout"
-        />
+        <font-awesome-icon class="right-from-bracket-icon icon text-primary" icon="right-from-bracket" title="ログアウト"
+          @click="logout" />
       </div>
     </div>
   </nav>
 </template>
 
 <style scoped>
-.container-fluid > a {
+.container-fluid>a {
   text-decoration: none;
 }
+
 .icon {
   cursor: pointer;
 }
