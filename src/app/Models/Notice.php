@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -54,6 +55,15 @@ class Notice extends Model
         'content',
     ];
 
+    /**
+     * モデルの配列フォームに追加するアクセサ
+     *
+     * @var array
+     */
+    protected $appends = [
+        'read_at',
+    ];
+
     /** @var array ソート可能なカラムリスト */
     public const SORTABLE_COLUMNS = [
         'id',
@@ -69,6 +79,16 @@ class Notice extends Model
      */
     public function users(): BelongsToMany
     {
-        return $this->belongsToMany(User::class)->withPivot('read_at', );
+        return $this->belongsToMany(User::class)->withPivot('read_at');
+    }
+
+    /**
+     * 既読フラグ
+     */
+    protected function readAt(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->pivot->read_at,
+        );
     }
 }

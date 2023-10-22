@@ -16,6 +16,7 @@ const perPageFormOptions = computed(
   () => store.getters['consts/perPageFormOptions']
 );
 const deleteButtonShow = ref(false)
+const readAtValue = computed(() => store.getters['notices/readAtValue'])
 
 const fetchData = async () => {
   await store.dispatch('notices/get', params.value);
@@ -31,9 +32,6 @@ const changePerPage = () => {
   fetchData();
 };
 
-const moveToEdit = (id) => {
-  console.log(id)
-}
 </script>
 
 <template>
@@ -52,10 +50,13 @@ const moveToEdit = (id) => {
   <table class="table table-striped">
     <thead class="table-dark">
       <tr class="sticky-top">
-        <th class="col-6" title="氏名">
+        <th class="col-1" title="未読">
+          未読
+        </th>
+        <th class="col-6" title="タイトル">
           タイトル
         </th>
-        <th scope="col-4" title="更新日">
+        <th scope="col-3" title="更新日">
           更新日
         </th>
         <th scope="col-2"></th>
@@ -64,10 +65,13 @@ const moveToEdit = (id) => {
     <tbody>
       <tr v-for="notice in notices" :id="notice.id" @mouseover.self="deleteButtonShow = true"
         @mouseleave.self="deleteButtonShow = false">
+        <td class="align-middle">{{ readAtValue(notice.id) }}</td>
         <td class="align-middle">{{ notice.title }}</td>
         <td class="align-middle">{{ formatDate(notice.updated_at) }}</td>
         <td class="align-middle">
-          <button type="button" class="btn btn-primary" @click="moveToEdit(notice.id)">編集</button>
+          <router-link :to="`/notices/` + notice.id">
+            <button type="button" class="btn btn-primary">詳細</button>
+          </router-link>
         </td>
       </tr>
     </tbody>

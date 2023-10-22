@@ -50,9 +50,12 @@ class NoticeController extends Controller
      */
     public function show(Notice $notice): NoticeResource
     {
+        $notice->load('users');
+        $userId = auth()->id();
+        $readAt = $notice->users()->where('user_id', $userId)->value('read_at');
         // 未読なら既読にする
-        if (isNull($notice->read_at)) {
-            $notice->read_at = now();
+        if ($readAt === null) {
+            $notice->users()->syncWithPivotValues($userId, ['read_at' => now()], false);
             $notice->save();
         }
 
