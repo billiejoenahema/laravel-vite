@@ -57,6 +57,23 @@ const actions = {
       });
     setLoading(commit, false);
   },
+  async setAllRead({ commit }) {
+    setLoading(commit, true);
+    await axios
+      .patch("/api/notices")
+      .then((res) => {
+        commit("setErrors", {});
+        commit("setData", res);
+      })
+      .catch((err) => {
+        // 認証エラーのときはログイン画面へ遷移させる
+        if (err.response.status === 401) {
+          router.push("/login");
+        }
+        commit("setErrors", err.response.data.errors);
+      });
+    setLoading(commit, false);
+  },
 };
 
 const mutations = {

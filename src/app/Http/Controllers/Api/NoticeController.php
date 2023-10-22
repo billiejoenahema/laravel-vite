@@ -64,6 +64,7 @@ class NoticeController extends Controller
 
     /**
      * 指定のお知らせを更新する。
+     *
      * @param Request $request
      * @param Notice $notice
      */
@@ -73,6 +74,28 @@ class NoticeController extends Controller
 
         DB::transaction(static function () use ($data, $notice) {
             $notice->fill($data)->save();
+        });
+
+        return response()->json('success', Response::HTTP_OK);
+    }
+
+    /**
+     * お知らせをすべて既読にする。
+     */
+    public function setAllRead(): JsonResponse
+    {
+        DB::transaction(static function ()  {
+            $user = auth()->user();
+            $notices = $user->notices()->get();
+
+            foreach ($notices as $notice) {
+                // 未読なら既読にする
+                $readAt = $notice->users()->where('user_id', $user->id)->value('read_at');
+                if ($readAt === null) {
+                    $notice->users()->syncWithPivotValues($user->id, ['read_at' => now()], false);
+                    $notice->save();
+                }
+            }
         });
 
         return response()->json('success', Response::HTTP_OK);

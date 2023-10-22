@@ -31,7 +31,9 @@ const changePerPage = () => {
   params.value.page = 1;
   fetchData();
 };
-
+const setAllNoticesAsRead = async () => {
+  await store.dispatch('notices/setAllRead')
+}
 </script>
 
 <template>
@@ -46,6 +48,9 @@ const changePerPage = () => {
         <InputSelect id="perPage" :options="perPageFormOptions" v-model="params.per_page" @change="changePerPage" />
       </div>
     </div>
+    <button type="button" class="btn btn-info me-3" title="お知らせをすべて既読にする" @click="setAllNoticesAsRead">
+      すべて既読にする
+    </button>
   </div>
   <table class="table table-striped">
     <thead class="table-dark">
