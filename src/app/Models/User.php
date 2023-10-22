@@ -108,6 +108,7 @@ final class User extends Authenticatable
      */
     protected $appends = [
         'is_admin',
+        'unread_notice_count',
     ];
 
     /**
@@ -124,7 +125,21 @@ final class User extends Authenticatable
      */
     public function notices(): BelongsToMany
     {
-        return $this->belongsToMany(Notice::class)->withPivot('read_at');
+        return $this->belongsToMany(Notice::class, 'notice_reads', 'user_id', 'notice_id');
+    }
+
+    /**
+     * このユーザーに属する未読のお知らせID
+     */
+    protected function unreadNoticeCount(): Attribute
+    {
+        // すべてのお知らせ数
+        $noticeCount = Notice::all()->pluck('id')->count();
+        // 既読のお知らせ数
+        $readCount = $this->notices->pluck('id')->count();
+        return Attribute::make(
+            get: static fn () => $noticeCount - $readCount,
+        );
     }
 
     /**

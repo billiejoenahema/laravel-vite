@@ -34,8 +34,8 @@ const getters = {
     return state.errors?.[key] ? "is-invalid" : "";
   },
   unreadNoticeCount(state) {
-    const unreadNotices = state.data.notices.filter((n) => !n.read_at);
-    return unreadNotices.length ?? 0;
+    const count = state.data?.unread_notice_count ?? 0;
+    return count < 100 ? count : "99+";
   },
 };
 

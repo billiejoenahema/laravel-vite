@@ -6,7 +6,3 @@ parameters:
         - app
 
     level: 4
-
-    # pivot関連のエラーをignore設定する
-    ignoreErrors:
-        - '#^Access to an undefined property .*::\$pivot\.$#'

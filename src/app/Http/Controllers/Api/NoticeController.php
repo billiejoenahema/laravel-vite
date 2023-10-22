@@ -15,16 +15,16 @@ use Symfony\Component\HttpFoundation\Response;
 
 class NoticeController extends Controller
 {
-    private const PER_PAGE = 20;
-
     /**
      * お知らせ一覧を取得する。
+     *
+     * @param Request $request
      */
-    public function index(): AnonymousResourceCollection
+    public function index(Request $request): AnonymousResourceCollection
     {
-        $query = auth()->user()->notices();
+        $query = Notice::query();
 
-        $notices = $query->paginate(self::PER_PAGE);
+        $notices = $query->paginate($request->per_page);
 
         return NoticeResource::collection($notices);
     }
@@ -52,12 +52,8 @@ class NoticeController extends Controller
     {
         $notice->load('users');
         $userId = auth()->id();
-        $readAt = $notice->users()->where('user_id', $userId)->value('read_at');
         // 未読なら既読にする
-        if ($readAt === null) {
-            $notice->users()->syncWithPivotValues($userId, ['read_at' => now()], false);
-            $notice->save();
-        }
+        $notice->users()->syncWithoutDetaching($userId);
 
         return new NoticeResource($notice);
     }

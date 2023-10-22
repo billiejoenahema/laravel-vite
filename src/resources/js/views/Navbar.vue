@@ -5,6 +5,7 @@ import { computed } from 'vue';
 
 const isLoggedIn = computed(() => store.getters['profile/isLoggedIn']);
 const unreadNoticeCount = computed(() => store.getters['profile/unreadNoticeCount']);
+const isAdmin = computed(() => store.getters['profile/isAdmin']);
 const logout = async () => {
   if (confirm('ログアウトしますか？')) {
     await store.dispatch('auth/logout');

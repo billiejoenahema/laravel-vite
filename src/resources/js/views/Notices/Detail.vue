@@ -22,6 +22,7 @@ onMounted(async () => {
 const fetchData = async () => {
   await store.dispatch('notice/get', noticeId);
   Object.assign(notice, store.getters['notice/data']);
+  await store.dispatch('profile/get');
 };
 </script>
 
