@@ -16,7 +16,7 @@ const perPageFormOptions = computed(
   () => store.getters['consts/perPageFormOptions']
 );
 const deleteButtonShow = ref(false)
-const readAtValue = computed(() => store.getters['notices/readAtValue'])
+const isReadClassValue = computed(() => store.getters['notices/isReadClassValue'])
 
 const fetchData = async () => {
   await store.dispatch('notices/get', params.value);
@@ -24,6 +24,7 @@ const fetchData = async () => {
 const changePage = (page = null) => {
   if (page) {
     params.value.page = page;
+    console.log(params.value.page)
     fetchData();
   }
 };
@@ -31,8 +32,17 @@ const changePerPage = () => {
   params.value.page = 1;
   fetchData();
 };
+const resetParams = () => {
+  store.commit('notices/resetParams');
+  fetchData();
+};
 const setAllNoticesAsRead = async () => {
   await store.dispatch('notices/setAllRead')
+}
+const searchUnreadOnly = () => {
+  params.value.page = 1;
+  params.value.unread_only = true;
+  fetchData();
 }
 </script>
 
@@ -51,26 +61,26 @@ const setAllNoticesAsRead = async () => {
     <button type="button" class="btn btn-info me-3" title="お知らせをすべて既読にする" @click="setAllNoticesAsRead">
       すべて既読にする
     </button>
+    <button type="button" class="btn btn-info me-3" title="未読のみを表示" @click="searchUnreadOnly">
+      未読のみを表示
+    </button>
+    <button type="button" class="btn btn-secondary" title="リセット" @click="resetParams">
+      リセット
+    </button>
   </div>
   <table class="table table-striped">
     <thead class="table-dark">
       <tr class="sticky-top">
-        <th class="col-1" title="未読">
-          未読
-        </th>
-        <th class="col-6" title="タイトル">
+        <th class="col-7" title="タイトル">
           タイトル
         </th>
-        <th scope="col-3" title="更新日">
-          更新日
-        </th>
+        <th scope="col-3" title="更新日"></th>
         <th scope="col-2"></th>
       </tr>
     </thead>
     <tbody>
       <tr v-for="notice in notices" :id="notice.id" @mouseover.self="deleteButtonShow = true"
-        @mouseleave.self="deleteButtonShow = false">
-        <td class="align-middle">{{ readAtValue(notice.id) }}</td>
+        @mouseleave.self="deleteButtonShow = false" :class="isReadClassValue(notice.is_read)">
         <td class="align-middle">{{ notice.title }}</td>
         <td class="align-middle">{{ formatDate(notice.updated_at) }}</td>
         <td class="align-middle">

@@ -11,15 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('notice_user', function (Blueprint $table) {
+        Schema::create('notice_reads', function (Blueprint $table) {
             $table->comment('お知らせ既読');
 
             $table->id();
-            $table->foreignId('user_id')->comment('ユーザーID')->index();
-            $table->foreignId('notice_id')->comment('おしらせID')->index();
-            $table->timestamp('read_at')->nullable()->comment('既読日時');
+            $table->foreignId('user_id')->index();
+            $table->foreignId('notice_id')->index();
 
-            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -29,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('notice_user');
+        Schema::dropIfExists('notice_reads');
     }
 };

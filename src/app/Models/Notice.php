@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Http\Request;
+use function in_array;
 
 /**
  * App\Models\Notice
@@ -36,6 +39,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|Notice withoutTrashed()
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
  * @property-read int|null $users_count
+ * @method static \Illuminate\Database\Eloquent\Builder|Notice searchCondition($request)
  * @mixin \Eloquent
  */
 class Notice extends Model
@@ -61,7 +65,7 @@ class Notice extends Model
      * @var array
      */
     protected $appends = [
-        'read_at',
+        'is_read',
     ];
 
     /** @var array ソート可能なカラムリスト */
@@ -79,16 +83,41 @@ class Notice extends Model
      */
     public function users(): BelongsToMany
     {
-        return $this->belongsToMany(User::class)->withPivot('read_at');
+        return $this->belongsToMany(User::class, 'notice_reads', 'notice_id', 'user_id')->withPivot('created_at');
     }
 
     /**
-     * 既読フラグ
+     * このお知らせが既読かどうか
      */
-    protected function readAt(): Attribute
+    protected function isRead(): Attribute
     {
+        $user = auth()->user();
+        $readNoticeIds  = $user->notices->pluck('id')->toArray();
+
         return Attribute::make(
-            get: fn () => $this->pivot->read_at,
+            get: fn () => in_array($this->id, $readNoticeIds, true),
         );
+    }
+
+    /**
+     * 検索条件
+     *
+     * @param Builder|Notice $query
+     * @param Request $request
+     * @return Builder|Notice
+     */
+    public function scopeSearchCondition($query, $request): Builder|self
+    {
+        // 未読のお知らせ
+        if ($request['unread_only'] === 'true') {
+
+            $user = auth()->user();
+            // 既読のお知らせID
+            $readNoticeIds = $user->notices->pluck('id')->toArray();
+
+            $query->whereNotIn('id', $readNoticeIds);
+        }
+
+        return $query;
     }
 }

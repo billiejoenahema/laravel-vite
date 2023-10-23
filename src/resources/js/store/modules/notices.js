@@ -7,6 +7,7 @@ const setLoading = (commit, bool) =>
 const defaultParams = {
   page: 1,
   per_page: 20,
+  unread_only: false,
 };
 
 const state = {
@@ -33,17 +34,17 @@ const getters = {
       total: state.data?.meta?.total ?? 0,
     };
   },
-  readAtValue: (state) => (id) => {
-    const notice = state.data.data.find((notice) => notice.id === id);
-    return notice?.read_at ? "既読" : "未読";
+  isReadClassValue: (state) => (bool) => {
+    console.log(bool);
+    return bool ? "is-read" : "";
   },
 };
 
 const actions = {
-  async get({ commit }) {
+  async get({ commit }, params) {
     setLoading(commit, true);
     await axios
-      .get("/api/notices")
+      .get("/api/notices", { params })
       .then((res) => {
         commit("setErrors", {});
         commit("setData", res);

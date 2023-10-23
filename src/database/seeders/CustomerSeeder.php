@@ -19,6 +19,6 @@ class CustomerSeeder extends Seeder
             return;
         }
 
-        Customer::factory(500)->create();
+        Customer::factory(100)->create();
     }
 }
