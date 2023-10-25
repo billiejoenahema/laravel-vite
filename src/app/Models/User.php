@@ -134,11 +134,13 @@ final class User extends Authenticatable
     protected function unreadNoticeCount(): Attribute
     {
         // すべてのお知らせ数
-        $noticeCount = Notice::all()->pluck('id')->count();
-        // 既読のお知らせ数
-        $readCount = $this->notices->pluck('id')->count();
+        // 既読のお知らせID
+        $readNoticesId = $this->notices->pluck('id');
+        // 未読のお知らせ数
+        $unreadNoticeCount = Notice::whereNotIn('id', $readNoticesId)->count();;
+
         return Attribute::make(
-            get: static fn () => $noticeCount - $readCount,
+            get: static fn () => $unreadNoticeCount,
         );
     }
 
