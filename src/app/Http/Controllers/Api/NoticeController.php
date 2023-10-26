@@ -85,16 +85,12 @@ class NoticeController extends Controller
     {
         DB::transaction(static function ()  {
             $user = auth()->user();
-            $notices = $user->notices()->get();
-
-            foreach ($notices as $notice) {
-                // 未読なら既読にする
-                $readAt = $notice->users()->where('user_id', $user->id)->value('read_at');
-                if ($readAt === null) {
-                    $notice->users()->syncWithPivotValues($user->id, ['read_at' => now()], false);
-                    $notice->save();
-                }
-            }
+            // 既読のお知らせID配列
+            $readNoticeIds = $user->notices->pluck('id');
+            // 未読のお知らせID配列
+            $noticeIds = Notice::whereNotIn('id', $readNoticeIds)->pluck('id');
+            // 既読にする
+            $user->notices()->attach($noticeIds);
         });
 
         return response()->json('success', Response::HTTP_OK);

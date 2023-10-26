@@ -15,6 +15,7 @@ const params = computed(() => store.getters['notices/params']);
 const perPageFormOptions = computed(
   () => store.getters['consts/perPageFormOptions']
 );
+const loading = computed(() => store.getters['loading/loading']);
 const deleteButtonShow = ref(false)
 const isReadClassValue = computed(() => store.getters['notices/isReadClassValue'])
 
@@ -37,7 +38,10 @@ const resetParams = () => {
   fetchData();
 };
 const setAllNoticesAsRead = async () => {
-  await store.dispatch('notices/setAllRead')
+  if (!confirm('お知らせをすべて既読にしますか？')) return;
+  await store.dispatch('notices/setAllRead');
+  await store.dispatch('notices/get');
+  await store.dispatch('profile/get');
 }
 const searchUnreadOnly = () => {
   params.value.page = 1;
@@ -49,24 +53,28 @@ const searchUnreadOnly = () => {
 <template>
   <h2>お知らせ一覧</h2>
   <div class="d-flex justify-content-between align-items-end mb-3">
-    <DataCount :meta="meta" />
-    <div class="col-6 row">
-      <div class="col-2">
+    <div class="col-3 row">
+      <DataCount :meta="meta" />
+    </div>
+    <div class="col-4 row">
+      <div class="col-4">
         <label for="perPage" class="col-form-label">表示件数</label>
       </div>
-      <div class="col-3">
+      <div class="col-6">
         <InputSelect id="perPage" :options="perPageFormOptions" v-model="params.per_page" @change="changePerPage" />
       </div>
     </div>
-    <button type="button" class="btn btn-info me-3" title="お知らせをすべて既読にする" @click="setAllNoticesAsRead">
-      すべて既読にする
-    </button>
-    <button type="button" class="btn btn-info me-3" title="未読のみを表示" @click="searchUnreadOnly">
-      未読のみを表示
-    </button>
-    <button type="button" class="btn btn-secondary" title="リセット" @click="resetParams">
-      リセット
-    </button>
+    <div class="col-5">
+      <button type="button" class="btn btn-info me-3" title="お知らせをすべて既読にする" @click="setAllNoticesAsRead">
+        すべて既読にする
+      </button>
+      <button type="button" class="btn btn-info me-3" title="未読のみを表示" @click="searchUnreadOnly">
+        未読のみを表示
+      </button>
+      <button type="button" class="btn btn-secondary" title="リセット" @click="resetParams">
+        リセット
+      </button>
+    </div>
   </div>
   <table class="table table-striped">
     <thead class="table-dark">
@@ -78,7 +86,7 @@ const searchUnreadOnly = () => {
         <th scope="col-2"></th>
       </tr>
     </thead>
-    <tbody>
+    <tbody v-if="notices.length && !loading">
       <tr v-for="notice in notices" :id="notice.id" @mouseover.self="deleteButtonShow = true"
         @mouseleave.self="deleteButtonShow = false" :class="isReadClassValue(notice.is_read)">
         <td class="align-middle">{{ notice.title }}</td>
@@ -90,6 +98,7 @@ const searchUnreadOnly = () => {
         </td>
       </tr>
     </tbody>
+    <div v-else>データが存在しません。</div>
   </table>
   <Pagination :links="meta?.links" @change="changePage" />
 </template>

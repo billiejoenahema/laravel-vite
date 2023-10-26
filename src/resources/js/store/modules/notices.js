@@ -61,7 +61,7 @@ const actions = {
   async setAllRead({ commit }) {
     setLoading(commit, true);
     await axios
-      .patch("/api/notices")
+      .patch("/api/notices/set-all-read")
       .then((res) => {
         commit("setErrors", {});
         commit("setData", res);

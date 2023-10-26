@@ -133,7 +133,6 @@ final class User extends Authenticatable
      */
     protected function unreadNoticeCount(): Attribute
     {
-        // すべてのお知らせ数
         // 既読のお知らせID
         $readNoticesId = $this->notices->pluck('id');
         // 未読のお知らせ数
