@@ -92,7 +92,7 @@ class Notice extends Model
     protected function isRead(): Attribute
     {
         $user = auth()->user();
-        $readNoticeIds  = $user->notices->pluck('id')->toArray();
+        $readNoticeIds = $user->notices->pluck('id')->toArray();
 
         return Attribute::make(
             get: fn () => in_array($this->id, $readNoticeIds, true),
@@ -110,7 +110,6 @@ class Notice extends Model
     {
         // 未読のお知らせ
         if ($request['unread_only'] === 'true') {
-
             $user = auth()->user();
             // 既読のお知らせID
             $readNoticeIds = $user->notices->pluck('id')->toArray();

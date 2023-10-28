@@ -86,19 +86,21 @@ const searchUnreadOnly = () => {
         <th scope="col-2"></th>
       </tr>
     </thead>
-    <tbody v-if="notices.length && !loading">
+    <tbody>
       <tr v-for="notice in notices" :id="notice.id" @mouseover.self="deleteButtonShow = true"
         @mouseleave.self="deleteButtonShow = false" :class="isReadClassValue(notice.is_read)">
         <td class="align-middle">{{ notice.title }}</td>
         <td class="align-middle">{{ formatDate(notice.updated_at) }}</td>
         <td class="align-middle">
           <router-link :to="`/notices/` + notice.id">
-            <button type="button" class="btn btn-primary">詳細</button>
+            <button type="button" class="btn btn-primary">
+              詳細
+            </button>
           </router-link>
         </td>
       </tr>
     </tbody>
-    <div v-else>データが存在しません。</div>
+    <div v-if="!notices && !loading">データが存在しません。</div>
   </table>
   <Pagination :links="meta?.links" @change="changePage" />
 </template>
