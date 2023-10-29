@@ -170,8 +170,10 @@ class Customer extends Model
      */
     protected function address(): Attribute
     {
+        $postalCode = $this->postal_code ? '〒' . mb_substr($this->postal_code, 0, 3) . "-" . mb_substr($this->postal_code, 3) . ' ' : '';
+
         return Attribute::make(
-            get: fn () => '〒' . mb_substr($this->postal_code, 0, 3) . "-" . mb_substr($this->postal_code, 3) . ' ' .  Prefecture::tryFrom((int) $this->pref)?->text() . $this->city . $this->street,
+            get: fn () => $postalCode . Prefecture::tryFrom((int) $this->pref)?->text() . $this->city . $this->street,
         );
     }
 
@@ -257,7 +259,6 @@ class Customer extends Model
     public function scopeSortByColumn($query, $column, $order): Builder|self
     {
         if ($column === 'age') {
-            info('$column === age');
             // 生年月日でソートするためソート方向を反転させる
             $order = $order === 'asc' ? 'desc' : 'asc';
             $query->orderByRaw("birth_date is null asc")->orderBy('birth_date', $order);

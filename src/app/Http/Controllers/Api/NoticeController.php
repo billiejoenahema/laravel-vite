@@ -15,16 +15,19 @@ use Symfony\Component\HttpFoundation\Response;
 
 class NoticeController extends Controller
 {
-    private const PER_PAGE = 20;
-
     /**
      * お知らせ一覧を取得する。
+     *
+     * @param Request $request
      */
-    public function index(): AnonymousResourceCollection
+    public function index(Request $request): AnonymousResourceCollection
     {
         $query = Notice::query();
 
-        $notices = $query->paginate(self::PER_PAGE);
+        // 検索
+        $query->searchCondition($request);
+
+        $notices = $query->paginate($request->per_page);
 
         return NoticeResource::collection($notices);
     }
@@ -50,11 +53,17 @@ class NoticeController extends Controller
      */
     public function show(Notice $notice): NoticeResource
     {
+        $notice->load('users');
+        $userId = auth()->id();
+        // 未読なら既読にする
+        $notice->users()->syncWithoutDetaching($userId);
+
         return new NoticeResource($notice);
     }
 
     /**
      * 指定のお知らせを更新する。
+     *
      * @param Request $request
      * @param Notice $notice
      */
@@ -64,6 +73,24 @@ class NoticeController extends Controller
 
         DB::transaction(static function () use ($data, $notice) {
             $notice->fill($data)->save();
+        });
+
+        return response()->json('success', Response::HTTP_OK);
+    }
+
+    /**
+     * お知らせをすべて既読にする。
+     */
+    public function setAllRead(): JsonResponse
+    {
+        DB::transaction(static function ()  {
+            $user = auth()->user();
+            // 既読のお知らせID配列
+            $readNoticeIds = $user->notices->pluck('id');
+            // 未読のお知らせID配列
+            $noticeIds = Notice::whereNotIn('id', $readNoticeIds)->pluck('id');
+            // 既読にする
+            $user->notices()->attach($noticeIds);
         });
 
         return response()->json('success', Response::HTTP_OK);

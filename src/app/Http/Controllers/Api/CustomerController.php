@@ -50,13 +50,8 @@ class CustomerController extends Controller
     {
         $data = $request->all();
 
-        // アイコンは更新しない
-        unset($data['avatar']);
-
         $customer = DB::transaction(static function () use ($data) {
-            $customer = Customer::create($data);
-
-            return $customer;
+            return Customer::create($data);
         });
 
         return new CustomerResource($customer);

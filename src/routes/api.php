@@ -46,6 +46,7 @@ Route::group(['middleware' => ['auth:sanctum','cache.headers:no_store;max_age=0'
 
     // お知らせ
     Route::get('/notices', [NoticeController::class, 'index']);
+    Route::patch('/notices/set-all-read', [NoticeController::class, 'setAllRead']);
     Route::post('/notices', [NoticeController::class, 'store'])->can('create', Notice::class);
     Route::get('/notices/{notice}', [NoticeController::class, 'show']);
     Route::patch('/notices/{notice}', [NoticeController::class, 'update'])->can('update', 'notice');

@@ -15,11 +15,9 @@ return new class extends Migration
             $table->comment('お知らせ既読');
 
             $table->id();
-            $table->foreignId('user_id')->comment('ユーザーID')->index();
-            $table->foreignId('notice_id')->comment('おしらせID')->index();
-            $table->timestamp('read_at')->nullable()->comment('既読日時');
+            $table->foreignId('user_id')->index();
+            $table->foreignId('notice_id')->index();
 
-            $table->softDeletes();
             $table->timestamps();
         });
     }
