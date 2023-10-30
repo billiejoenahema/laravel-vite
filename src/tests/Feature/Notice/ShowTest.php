@@ -26,9 +26,9 @@ class ShowTest extends TestCase
     }
 
     /**
-     * 一般ユーザーが指定のお知らせを取得できること。
+     * 一般ユーザーが指定のお知らせを取得できて既読になること。
      */
-    public function test_general_user_get_notice_detail(): void
+    public function test_general_user_can_get_notice_detail_and_set_read(): void
     {
         $response = $this->actingAs($this->generalUser)->getJson('/api/notices/' . $this->notice->id);
 
@@ -38,12 +38,19 @@ class ShowTest extends TestCase
                 'title' => $this->notice->title,
                 'content' => $this->notice->content,
             ]);
+        $this->assertDatabaseHas(
+            'notice_reads',
+            [
+                'notice_id' => $this->notice->id,
+                'user_id' => $this->generalUser->id,
+            ]
+        );
     }
 
     /**
-     * 管理ユーザーが指定のお知らせを取得できること。
+     * 管理ユーザーが指定のお知らせを取得できて既読になること。
      */
-    public function test_admin_user_get_notice_detail(): void
+    public function test_admin_user_can_get_notice_detail_and_set_read(): void
     {
         $response = $this->actingAs($this->adminUser)->getJson('/api/notices/' . $this->notice->id);
 
@@ -53,5 +60,12 @@ class ShowTest extends TestCase
                 'title' => $this->notice->title,
                 'content' => $this->notice->content,
             ]);
+        $this->assertDatabaseHas(
+            'notice_reads',
+            [
+                'notice_id' => $this->notice->id,
+                'user_id' => $this->adminUser->id,
+            ]
+        );
     }
 }
