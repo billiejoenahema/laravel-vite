@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
+use App\Enums\Role;
 use App\Models\User;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
@@ -43,7 +44,7 @@ final class CreateAdminUser extends Command
             return $user;
         });
 
-        $user->role = User::ROLE_ADMIN;
+        $user->role = Role::ADMIN->value;
         $user->save();
 
         $this->info("email: {$user->email}");

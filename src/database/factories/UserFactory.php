@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
+use App\Enums\Role;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
@@ -60,7 +61,7 @@ final class UserFactory extends Factory
     public function createAdminUser()
     {
         return $this->create([
-            'role' => User::ROLE_ADMIN,
+            'role' => Role::ADMIN->value,
         ]);
     }
 }
