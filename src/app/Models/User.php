@@ -6,6 +6,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Enums\Role;
 use App\Notifications\Api\PasswordResetNotification;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -65,12 +66,6 @@ final class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    /** 管理者 */
-    public const ROLE_ADMIN = '01';
-
-    /** 一般ユーザー */
-    public const ROLE_GENERAL = '02';
-
     /**
      * The attributes that are mass assignable.
      *
@@ -108,6 +103,7 @@ final class User extends Authenticatable
      */
     protected $appends = [
         'is_admin',
+        'role_value',
         'unread_notice_count',
     ];
 
@@ -149,7 +145,17 @@ final class User extends Authenticatable
     protected function isAdmin(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->role === self::ROLE_ADMIN,
+            get: fn () => $this->role === Role::ADMIN->value,
+        );
+    }
+
+    /**
+     * 権限の値
+     */
+    protected function roleValue(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => Role::tryFrom($this->role)->text(),
         );
     }
 }

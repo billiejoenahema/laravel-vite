@@ -58,7 +58,8 @@ tbody > tr:hover {
     width: 200px;
     object-fit: cover;
 }
-.customer-form {
+.customer-form,
+.profile-form {
     max-width: 600px;
 }
 .is-read > td {
