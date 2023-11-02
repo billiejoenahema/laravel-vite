@@ -8,7 +8,6 @@ namespace App\Models;
 
 use App\Enums\Role;
 use App\Notifications\Api\PasswordResetNotification;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -60,6 +59,9 @@ use Laravel\Sanctum\HasApiTokens;
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Notice> $notices
  * @property-read int|null $notices_count
+ * @property-read bool $is_admin
+ * @property-read string $role_value
+ * @property-read int $unread_notice_count
  * @mixin \Eloquent
  */
 final class User extends Authenticatable
@@ -125,37 +127,32 @@ final class User extends Authenticatable
     }
 
     /**
-     * このユーザーに属する未読のお知らせID
+     * 未読のお知らせ数を取得するアクセサ
      */
-    protected function unreadNoticeCount(): Attribute
+    public function getUnreadNoticeCountAttribute(): int
     {
         // 既読のお知らせID
         $readNoticesId = $this->notices->pluck('id');
         // 未読のお知らせ数
-        $unreadNoticeCount = Notice::whereNotIn('id', $readNoticesId)->count();;
+        $unreadNoticeCount = Notice::whereNotIn('id', $readNoticesId)->count();
 
-        return Attribute::make(
-            get: static fn () => $unreadNoticeCount,
-        );
+        return $unreadNoticeCount;
     }
 
     /**
-     * 管理者かどうか
+     * 管理者かどうかを示すアクセサ
      */
-    protected function isAdmin(): Attribute
+    public function getIsAdminAttribute(): bool
     {
-        return Attribute::make(
-            get: fn () => $this->role === Role::ADMIN->value,
-        );
+        return $this->role === Role::ADMIN->value;
     }
 
     /**
-     * 権限の値
+     * 権限の値を取得するアクセサ
      */
-    protected function roleValue(): Attribute
+    public function getRoleValueAttribute(): string
     {
-        return Attribute::make(
-            get: fn () => Role::tryFrom($this->role)->text(),
-        );
+        // 権限の値を取得するコードをここに記述
+        return Role::tryFrom($this->role)->text();
     }
 }
