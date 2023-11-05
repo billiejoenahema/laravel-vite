@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
+use App\Enums\Role;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -26,7 +27,7 @@ final class UserSeeder extends Seeder
             'name' => 'test_user',
             'email' => 'test@example.com',
             'password' => Hash::make('test_user'),
-            'role' => User::ROLE_GENERAL,
+            'role' => Role::GENERAL->value,
         ]);
     }
 }
