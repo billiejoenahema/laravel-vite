@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Illuminate\Contracts\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -40,6 +39,8 @@ use function in_array;
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
  * @property-read int|null $users_count
  * @method static \Illuminate\Database\Eloquent\Builder|Notice searchCondition($request)
+ * @property-read bool $is_read
+ * @property-read array $read_notice_ids
  * @mixin \Eloquent
  */
 class Notice extends Model
@@ -87,16 +88,19 @@ class Notice extends Model
     }
 
     /**
-     * このお知らせが既読かどうか
+     * このお知らせが既読かどうかを示すアクセサ
      */
-    protected function isRead(): Attribute
+    public function getIsReadAttribute(): bool
     {
-        $user = auth()->user();
-        $readNoticeIds = $user->notices->pluck('id')->toArray();
+        return in_array($this->id, $this->read_notice_ids, true);
+    }
 
-        return Attribute::make(
-            get: fn () => in_array($this->id, $readNoticeIds, true),
-        );
+    /**
+     * 既読のお知らせID配列を取得するアクセサ
+     */
+    public function getReadNoticeIdsAttribute(): array
+    {
+        return auth()->user()->notices->pluck('id')->toArray();
     }
 
     /**
@@ -110,11 +114,7 @@ class Notice extends Model
     {
         // 未読のお知らせ
         if ($request['unread_only'] === 'true') {
-            $user = auth()->user();
-            // 既読のお知らせID
-            $readNoticeIds = $user->notices->pluck('id')->toArray();
-
-            $query->whereNotIn('id', $readNoticeIds);
+            $query->whereNotIn('id', $this->read_notice_ids);
         }
 
         return $query;
