@@ -7,22 +7,10 @@ install:
 	docker compose exec app php artisan storage:link
 	docker compose exec app chmod -R 777 storage bootstrap/cache
 	@make fresh
-create-project:
-	mkdir -p src
-	docker compose build
-	docker compose up -d
-	docker compose exec app composer create-project --prefer-dist laravel/laravel .
-	docker compose exec app php artisan key:generate
-	docker compose exec app php artisan storage:link
-	docker compose exec app chmod -R 777 storage bootstrap/cache
-	@make fresh
 up:
 	docker compose up -d
 build:
 	docker compose build
-remake:
-	@make destroy
-	@make install
 stop:
 	docker compose stop
 down:
@@ -32,8 +20,6 @@ down-v:
 restart:
 	@make down
 	@make up
-destroy:
-	docker compose down --rmi all --volumes --remove-orphans
 ps:
 	docker compose ps
 logs:
@@ -62,8 +48,6 @@ fresh:
 	docker compose exec app php artisan migrate:fresh --seed
 seed:
 	docker compose exec app php artisan db:seed
-dacapo:
-	docker compose exec app php artisan dacapo
 rollback-test:
 	docker compose exec app php artisan migrate:fresh
 	docker compose exec app php artisan migrate:refresh
@@ -99,5 +83,6 @@ check-all:
 	docker-compose exec app php artisan ide-helper:models --write
 	docker-compose exec app ./tools/php-cs-fixer/vendor/bin/php-cs-fixer fix -v --diff
 	docker-compose exec app ./vendor/bin/phpstan analyse
-run-dev:
+	docker-compose exec app php artisan test
+npm-run-dev:
 	docker-compose exec app npm run dev
