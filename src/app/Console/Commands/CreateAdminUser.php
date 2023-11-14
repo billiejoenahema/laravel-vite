@@ -8,6 +8,7 @@ use App\Enums\Role;
 use App\Models\User;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 final class CreateAdminUser extends Command
 {
@@ -16,7 +17,7 @@ final class CreateAdminUser extends Command
      *
      * @var string
      */
-    protected $signature = 'generate:admin-user {userName}';
+    protected $signature = 'generate:admin-user {email}';
 
     /**
      * The console command description.
@@ -32,13 +33,21 @@ final class CreateAdminUser extends Command
      */
     public function handle()
     {
-        $userName = $this->argument('userName');
+        $email = $this->argument('email');
         $password = str()->random(16);
 
-        $user = DB::transaction(static function () use ($userName, $password) {
+        $validator = Validator::make(['email' =>$email], [
+            'email' => ['required', 'string', 'max:255', 'email:filter,rfc,spoof'],
+        ]);
+        if ($validator->fails()) {
+            $this->error('Invalid email address');
+            return 1;
+        }
+
+        $user = DB::transaction(function () use ($email, $password) {
             $user = User::create([
-                'name' => $userName,
-                'email' => $userName . '@example.com',
+                'name' => explode('@', $email)[0],
+                'email' => $email,
                 'password' => bcrypt($password),
             ]);
             return $user;
