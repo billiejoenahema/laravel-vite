@@ -34,8 +34,7 @@ const getters = {
       total: state.data?.meta?.total ?? 0,
     };
   },
-  isReadClassValue: (state) => (bool) => {
-    console.log(bool);
+  isReadClassValue: () => (bool) => {
     return bool ? "is-read" : "";
   },
 };

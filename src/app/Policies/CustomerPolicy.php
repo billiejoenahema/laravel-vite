@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Policies;
 
+use App\Enums\Role;
 use App\Models\Customer;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
@@ -47,7 +48,7 @@ class CustomerPolicy
      */
     public function delete(User $user): Response
     {
-        return $user->role === User::ROLE_ADMIN
+        return $user->role === Role::ADMIN->value
             ? Response::allow()
             : Response::deny('権限がありません');
     }
@@ -57,7 +58,7 @@ class CustomerPolicy
      */
     public function restore(User $user): Response
     {
-        return $user->role === User::ROLE_ADMIN
+        return $user->role === Role::ADMIN->value
             ? Response::allow()
             : Response::deny('権限がありません');
     }

@@ -16,11 +16,13 @@ final class ProfileResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        /** @var \App\Models\User $this */
         return [
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
             'role' => $this->role,
+            'role_value' => $this->role_value,
             'is_admin' => $this->is_admin,
             'last_login_at' => $this->last_login_at,
             'unread_notice_count' => $this->unread_notice_count,

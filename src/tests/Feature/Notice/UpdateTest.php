@@ -32,7 +32,7 @@ class UpdateTest extends TestCase
     /**
      * 一般ユーザーがお知らせを更新できないこと。
      */
-    public function test_general_user_update_notice(): void
+    public function test_general_user_cannot_update_notice(): void
     {
         $response = $this->actingAs($this->generalUser)->patchJson('/api/notices/' . $this->notice->id, $this->data);
 
@@ -42,7 +42,7 @@ class UpdateTest extends TestCase
     /**
      * 管理ユーザーがお知らせを更新できること。
      */
-    public function test_update_notice(): void
+    public function test_admin_user_can_update_notice(): void
     {
         $response = $this->actingAs($this->adminUser)->patchJson('/api/notices/' . $this->notice->id, $this->data);
 

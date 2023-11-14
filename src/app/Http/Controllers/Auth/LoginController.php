@@ -10,7 +10,6 @@ use Illuminate\Auth\AuthManager;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 final class LoginController extends Controller
 {
@@ -35,9 +34,8 @@ final class LoginController extends Controller
             $request->session()->regenerate();
             $user = Auth::user();
             // 最終ログイン日時を更新する
-            DB::transaction(static function () use ($user) {
-                $user->fill(['last_login_at' => now()])->save();
-            });
+            $user->last_login_at = now();
+            $user->save();
 
             return new JsonResponse([
                 'message' => 'ログイン成功。',

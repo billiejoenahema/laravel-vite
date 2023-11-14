@@ -24,7 +24,10 @@ class IndexTest extends TestCase
 
         $this->generalUser = User::factory()->createGeneralUser();
         $this->adminUser = User::factory()->createAdminUser();
-        $this->notices = Notice::factory()->count(10)->create();
+        $notices = Notice::factory()->count(10)->create();
+        $notices[rand(0, 9)]->users()->attach($this->generalUser->id);
+        $notices[0]->users()->attach($this->adminUser->id);
+        $notices[rand(1, 9)]->users()->attach($this->adminUser->id);
     }
 
     /**
@@ -53,5 +56,33 @@ class IndexTest extends TestCase
         $response
             ->assertOk()
             ->assertJsonCount(10, 'data');
+    }
+
+    /**
+     * 一般ユーザーが未読のお知らせのみの一覧を取得できること。
+     *
+     * @return void
+     */
+    public function test_general_user_get_unread_notice_index(): void
+    {
+        $response = $this->actingAs($this->generalUser)->get('/api/notices?unread_only=true');
+
+        $response
+            ->assertOk()
+            ->assertJsonCount(9, 'data');
+    }
+
+    /**
+     * 管理ユーザーが未読のお知らせのみの一覧を取得できること。
+     *
+     * @return void
+     */
+    public function test_admin_user_get_unread_notice_index(): void
+    {
+        $response = $this->actingAs($this->adminUser)->get('/api/notices?unread_only=true');
+
+        $response
+            ->assertOk()
+            ->assertJsonCount(8, 'data');
     }
 }

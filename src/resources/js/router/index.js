@@ -7,6 +7,7 @@ import NoticeDetail from "@/views/Notices/Detail.vue";
 import NoticeIndex from "@/views/Notices/Index.vue";
 import NoticeIndexAll from "@/views/Notices/IndexAll.vue";
 import PasswordReset from "@/views/PasswordReset.vue";
+import Profile from "@/views/Profile.vue";
 import Top from "@/views/Top.vue";
 import { createRouter, createWebHistory } from "vue-router";
 
@@ -54,6 +55,11 @@ const routes = [
   {
     path: "/password-reset",
     component: PasswordReset,
+    meta: { isPublic: true },
+  },
+  {
+    path: "/profile",
+    component: Profile,
     meta: { isPublic: true },
   },
 ];
