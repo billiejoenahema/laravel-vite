@@ -28,322 +28,179 @@ class IndexSortTest extends TestCase
     }
 
     /**
-     * 氏名で顧客一覧を降順ソートできること。
+     * 顧客一覧を取得し想定どおりにソートできていることをアサートする
+     *
+     * @param string $column ソートキー
+     * @param bool $order ソート順
+     */
+    private function sortAndAssert($column, $order): void
+    {
+        $response = $this->actingAs($this->generalUser)->getJson("/api/customers?sort_key={$column}&is_asc={$order}");
+
+        $data = collect($response->json('data'));
+        $expected = $data->sortByDesc($column)->pluck($column)->values()->all();
+        $actual = $data->pluck($column)->values()->all();
+
+        $this->assertSame($expected, $actual);
+    }
+
+    /**
+     * 顧客一覧を氏名で降順ソートできること。
      *
      * @return void
      */
     public function test_sort_customers_by_name_desc(): void
     {
-        $column = 'name';
-        $response = $this->actingAs($this->generalUser)->getJson('/api/customers?sort_key=' . $column . '&is_asc=false');
-
-        $data = collect($response->json('data'));
-        $expected = $data->sortByDesc($column)->pluck($column)->values()->all();
-        $actual = $data->pluck($column)->values()->all();
-
-        $this->assertSame(
-            $expected,
-            $actual,
-        );
+        $this->sortAndAssert('name', false);
     }
 
     /**
-     * 氏名で顧客一覧を昇順ソートできること。
+     * 顧客一覧を氏名で昇順ソートできること。
      *
      * @return void
      */
     public function test_sort_customers_by_name_asc(): void
     {
-        $column = 'name';
-        $response = $this->actingAs($this->generalUser)->getJson('/api/customers?sort_key=' . $column . '&is_asc=false');
-
-        $data = collect($response->json('data'));
-        $expected = $data->sortByDesc($column)->pluck($column)->values()->all();
-        $actual = $data->pluck($column)->values()->all();
-
-        $this->assertSame(
-            $expected,
-            $actual,
-        );
+        $this->sortAndAssert('name', true);
     }
 
     /**
-     * 年齢で顧客一覧を降順ソートできること。
+     * 顧客一覧を年齢で降順ソートできること。
      *
      * @return void
      */
     public function test_sort_customers_by_age_desc(): void
     {
-        $column = 'age';
-        $response = $this->actingAs($this->generalUser)->getJson('/api/customers?sort_key=' . $column . '&is_asc=false');
-
-        $data = collect($response->json('data'));
-        $expected = $data->sortByDesc($column)->pluck($column)->values()->all();
-        $actual = $data->pluck($column)->values()->all();
-
-        $this->assertSame(
-            $expected,
-            $actual,
-        );
+        $this->sortAndAssert('age', false);
     }
 
     /**
-     * 年齢で顧客一覧を昇順ソートできること。
+     * 顧客一覧を年齢で昇順ソートできること。
      *
      * @return void
      */
     public function test_sort_customers_by_age_asc(): void
     {
-        $column = 'age';
-        $response = $this->actingAs($this->generalUser)->getJson('/api/customers?sort_key=' . $column . '&is_asc=false');
-
-        $data = collect($response->json('data'));
-        $expected = $data->sortByDesc($column)->pluck($column)->values()->all();
-        $actual = $data->pluck($column)->values()->all();
-
-        $this->assertSame(
-            $expected,
-            $actual,
-        );
+        $this->sortAndAssert('age', true);
     }
 
     /**
-     * 性別で顧客一覧を降順ソートできること。
+     * 顧客一覧を性別で降順ソートできること。
      *
      * @return void
      */
     public function test_sort_customers_by_gender_desc(): void
-    {
-        $column = 'gender';
-        $response = $this->actingAs($this->generalUser)->getJson('/api/customers?sort_key=' . $column . '&is_asc=false');
-
-        $data = collect($response->json('data'));
-        $expected = $data->sortByDesc($column)->pluck($column)->values()->all();
-        $actual = $data->pluck($column)->values()->all();
-
-        $this->assertSame(
-            $expected,
-            $actual,
-        );
+    {;
+        $this->sortAndAssert('gender', false);
     }
 
     /**
-     * 性別で顧客一覧を昇順ソートできること。
+     * 顧客一覧を性別で昇順ソートできること。
      *
      * @return void
      */
     public function test_sort_customers_by_gender_asc(): void
-    {
-        $column = 'gender';
-        $response = $this->actingAs($this->generalUser)->getJson('/api/customers?sort_key=' . $column . '&is_asc=false');
-
-        $data = collect($response->json('data'));
-        $expected = $data->sortByDesc($column)->pluck($column)->values()->all();
-        $actual = $data->pluck($column)->values()->all();
-
-        $this->assertSame(
-            $expected,
-            $actual,
-        );
+    {;
+        $this->sortAndAssert('gender', true);
     }
 
     /**
-     * 電話番号で顧客一覧を降順ソートできること。
+     * 顧客一覧を電話番号で降順ソートできること。
      *
      * @return void
      */
     public function test_sort_customers_by_phone_desc(): void
     {
-        $column = 'phone';
-        $response = $this->actingAs($this->generalUser)->getJson('/api/customers?sort_key=' . $column . '&is_asc=false');
-
-        $data = collect($response->json('data'));
-        $expected = $data->sortByDesc($column)->pluck($column)->values()->all();
-        $actual = $data->pluck($column)->values()->all();
-
-        $this->assertSame(
-            $expected,
-            $actual,
-        );
+        $this->sortAndAssert('phone', false);
     }
 
     /**
-     * 電話番号で顧客一覧を昇順ソートできること。
+     * 顧客一覧を電話番号で昇順ソートできること。
      *
      * @return void
      */
     public function test_sort_customers_by_phone_asc(): void
     {
-        $column = 'phone';
-        $response = $this->actingAs($this->generalUser)->getJson('/api/customers?sort_key=' . $column . '&is_asc=false');
-
-        $data = collect($response->json('data'));
-        $expected = $data->sortByDesc($column)->pluck($column)->values()->all();
-        $actual = $data->pluck($column)->values()->all();
-
-        $this->assertSame(
-            $expected,
-            $actual,
-        );
+        $this->sortAndAssert('phone', true);
     }
 
     /**
-     * 生年月日で顧客一覧を降順ソートできること。
+     * 顧客一覧を生年月日で降順ソートできること。
      *
      * @return void
      */
     public function test_sort_customers_by_birth_date_asc(): void
     {
-        $column = 'birth_date';
-        $response = $this->actingAs($this->generalUser)->getJson('/api/customers?sort_key=' . $column . '&is_asc=false');
-
-        $data = collect($response->json('data'));
-        $expected = $data->sortByDesc($column)->pluck($column)->values()->all();
-        $actual = $data->pluck($column)->values()->all();
-
-        $this->assertSame(
-            $expected,
-            $actual,
-        );
+        $this->sortAndAssert('birth_date', false);
     }
 
     /**
-     * 生年月日で顧客一覧を昇順ソートできること。
+     * 顧客一覧を生年月日で昇順ソートできること。
      *
      * @return void
      */
     public function test_sort_customers_by_birth_date_desc(): void
     {
-        $column = 'birth_date';
-        $response = $this->actingAs($this->generalUser)->getJson('/api/customers?sort_key=' . $column . '&is_asc=false');
-
-        $data = collect($response->json('data'));
-        $expected = $data->sortByDesc($column)->pluck($column)->values()->all();
-        $actual = $data->pluck($column)->values()->all();
-
-        $this->assertSame(
-            $expected,
-            $actual,
-        );
+        $this->sortAndAssert('birth_date', true);
     }
 
     /**
-     * 都道府県で顧客一覧を降順ソートできること。
+     * 顧客一覧を都道府県で降順ソートできること。
      *
      * @return void
      */
     public function test_sort_customers_by_pref_desc(): void
     {
-        $column = 'pref';
-        $response = $this->actingAs($this->generalUser)->getJson('/api/customers?sort_key=' . $column . '&is_asc=false');
-
-        $data = collect($response->json('data'));
-        $expected = $data->sortByDesc($column)->pluck($column)->values()->all();
-        $actual = $data->pluck($column)->values()->all();
-
-        $this->assertSame(
-            $expected,
-            $actual,
-        );
+        $this->sortAndAssert('pref', false);
     }
 
     /**
-     * 都道府県で顧客一覧を昇順ソートできること。
+     * 顧客一覧を都道府県で昇順ソートできること。
      *
      * @return void
      */
     public function test_sort_customers_by_pref_asc(): void
     {
-        $column = 'pref';
-        $response = $this->actingAs($this->generalUser)->getJson('/api/customers?sort_key=' . $column . '&is_asc=false');
-
-        $data = collect($response->json('data'));
-        $expected = $data->sortByDesc($column)->pluck($column)->values()->all();
-        $actual = $data->pluck($column)->values()->all();
-
-        $this->assertSame(
-            $expected,
-            $actual,
-        );
+        $this->sortAndAssert('pref', true);
     }
 
     /**
-     * 登録日で顧客一覧を降順ソートできること。
+     * 顧客一覧を登録日で降順ソートできること。
      *
      * @return void
      */
     public function test_sort_customers_by_created_at_desc(): void
     {
-        $column = 'created_at';
-        $response = $this->actingAs($this->generalUser)->getJson('/api/customers?sort_key=' . $column . '&is_asc=false');
-
-        $data = collect($response->json('data'));
-        $expected = $data->sortByDesc($column)->pluck($column)->values()->all();
-        $actual = $data->pluck($column)->values()->all();
-
-        $this->assertSame(
-            $expected,
-            $actual,
-        );
+        $this->sortAndAssert('created_at', false);
     }
 
     /**
-     * 登録日で顧客一覧を昇順ソートできること。
+     * 顧客一覧を登録日で昇順ソートできること。
      *
      * @return void
      */
     public function test_sort_customers_by_created_at_asc(): void
     {
-        $column = 'created_at';
-        $response = $this->actingAs($this->generalUser)->getJson('/api/customers?sort_key=' . $column . '&is_asc=false');
-
-        $data = collect($response->json('data'));
-        $expected = $data->sortByDesc($column)->pluck($column)->values()->all();
-        $actual = $data->pluck($column)->values()->all();
-
-        $this->assertSame(
-            $expected,
-            $actual,
-        );
+        $this->sortAndAssert('created_at', true);
     }
 
     /**
-     * 更新日で顧客一覧を降順ソートできること。
+     * 顧客一覧を更新日で降順ソートできること。
      *
      * @return void
      */
     public function test_sort_customers_by_updated_at_desc(): void
     {
-        $column = 'updated_at';
-        $response = $this->actingAs($this->generalUser)->getJson('/api/customers?sort_key=' . $column . '&is_asc=false');
-
-        $data = collect($response->json('data'));
-        $expected = $data->sortByDesc($column)->pluck($column)->values()->all();
-        $actual = $data->pluck($column)->values()->all();
-
-        $this->assertSame(
-            $expected,
-            $actual,
-        );
+        $this->sortAndAssert('updated_at', false);
     }
 
     /**
-     * 更新日で顧客一覧を昇順ソートできること。
+     * 顧客一覧を更新日で昇順ソートできること。
      *
      * @return void
      */
     public function test_sort_customers_by_updated_at_asc(): void
     {
-        $column = 'updated_at';
-        $response = $this->actingAs($this->generalUser)->getJson('/api/customers?sort_key=' . $column . '&is_asc=false');
-
-        $data = collect($response->json('data'));
-        $expected = $data->sortByDesc($column)->pluck($column)->values()->all();
-        $actual = $data->pluck($column)->values()->all();
-
-        $this->assertSame(
-            $expected,
-            $actual,
-        );
+        $this->sortAndAssert('updated_at', true);
     }
 }
