@@ -35,16 +35,27 @@ class IndexSearchTest extends TestCase
     }
 
     /**
+     * 顧客一覧を取得し指定したカラムで検索できていることをアサートする
+     *
+     * @param string $column 検索カラム
+     * @param string $searchValue 検索ワード
+     */
+    private function searchAndAssert($column, $searchValue): void
+    {
+        $response = $this->actingAs($this->generalUser)->getJson("/api/customers?search_value[{$column}]={$searchValue}");
+
+        $response->assertStatus(200)
+            ->assertJsonPath("data.0.{$column}", $searchValue);
+    }
+
+    /**
      * 氏名で検索できること。
      *
      * @return void
      */
     public function test_search_by_name()
     {
-        $response = $this->actingAs($this->generalUser)->getJson('/api/customers?search_value[name]=' . $this->name);
-
-        $response->assertStatus(200)
-            ->assertJsonPath('data.0.name', $this->name);
+        $this->searchAndAssert('name', $this->name);
     }
 
     /**
@@ -54,10 +65,7 @@ class IndexSearchTest extends TestCase
      */
     public function test_search_by_nameKana()
     {
-        $response = $this->actingAs($this->generalUser)->getJson('/api/customers?search_value[name_kana]=' . $this->name_kana);
-
-        $response->assertStatus(200)
-            ->assertJsonPath('data.0.name_kana', $this->name_kana);
+        $this->searchAndAssert('name_kana', $this->name_kana);
     }
 
     /**
@@ -67,10 +75,7 @@ class IndexSearchTest extends TestCase
      */
     public function test_search_by_gender()
     {
-        $response = $this->actingAs($this->generalUser)->getJson('/api/customers?search_value[gender]=' . $this->gender);
-
-        $response->assertStatus(200)
-            ->assertJsonPath('data.0.gender', $this->gender);
+        $this->searchAndAssert('gender', $this->gender);
     }
 
     /**
@@ -80,10 +85,7 @@ class IndexSearchTest extends TestCase
      */
     public function test_search_by_phone()
     {
-        $response = $this->actingAs($this->generalUser)->getJson('/api/customers?search_value[phone]=' . $this->phone);
-
-        $response->assertStatus(200)
-            ->assertJsonPath('data.0.phone', $this->phone);
+        $this->searchAndAssert('phone', $this->phone);
     }
 
     /**
@@ -93,10 +95,7 @@ class IndexSearchTest extends TestCase
      */
     public function test_search_by_postalCode()
     {
-        $response = $this->actingAs($this->generalUser)->getJson('/api/customers?search_value[postal_code]=' . $this->postal_code);
-
-        $response->assertStatus(200)
-            ->assertJsonPath('data.0.postal_code', $this->postal_code);
+        $this->searchAndAssert('postal_code', $this->postal_code);
     }
 
     /**
@@ -106,9 +105,6 @@ class IndexSearchTest extends TestCase
      */
     public function test_search_by_pref()
     {
-        $response = $this->actingAs($this->generalUser)->getJson('/api/customers?search_value[pref]=' . $this->pref);
-
-        $response->assertStatus(200)
-            ->assertJsonPath('data.0.pref', $this->pref);
+        $this->searchAndAssert('pref', $this->pref);
     }
 }
