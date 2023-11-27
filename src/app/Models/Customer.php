@@ -54,15 +54,15 @@ use function in_array;
  * @method static \Illuminate\Database\Eloquent\Builder|Customer whereUserId($value)
  * @property-read \App\Models\User|null $user
  * @method static \Database\Factories\CustomerFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder|Customer sortByColumn($column, $order)
  * @property string $id ULID
  * @method static \Illuminate\Database\Eloquent\Builder|Customer onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Customer whereUlid($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Customer withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Customer withoutTrashed()
  * @property string|null $note 備考
- * @method static \Illuminate\Database\Eloquent\Builder|Customer searchCondition($request)
  * @method static \Illuminate\Database\Eloquent\Builder|Customer whereNote($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Customer search($request)
+ * @method static \Illuminate\Database\Eloquent\Builder|Customer sort($request)
  * @mixin \Eloquent
  */
 class Customer extends Model
@@ -111,7 +111,7 @@ class Customer extends Model
         'pref_value',
     ];
 
-    /** @var array ソート可能なカラムリスト */
+    /** @var array ソート対象カラム */
     public const SORTABLE_COLUMNS = [
         'id',
         'name',
@@ -124,11 +124,11 @@ class Customer extends Model
         'updated_at',
     ];
 
+    /** @var string デフォルトのソート対象カラム */
+    public const DEFAULT_SORT_COLUMN = 'id';
+
     /**
      * 所有するユーザー
-     *
-     * @return BelongsTo
-     *
      */
     public function user(): BelongsTo
     {
@@ -212,9 +212,8 @@ class Customer extends Model
      *
      * @param Builder|Customer $query
      * @param IndexRequest $request
-     * @return Builder|Customer
      */
-    public function scopeSearchCondition($query, $request): Builder|self
+    public function scopeSearch($query, $request): Builder|self
     {
         if ($request['search_value.is_deleted']) {
             $query->onlyTrashed();
@@ -253,11 +252,13 @@ class Customer extends Model
      * 指定のカラムでソートするスコープ
      *
      * @param Builder|Customer $query
-     * @param string $column
-     * @param string $order
+     * @param IndexRequest $request
      */
-    public function scopeSortByColumn($query, $column, $order): Builder|self
+    public function scopeSort($query, $request): Builder|self
     {
+        $column = $request->getSortColumn();
+        $order = $request->getSortDirection();
+
         if ($column === 'age') {
             // 生年月日でソートするためソート方向を反転させる
             $order = $order === 'asc' ? 'desc' : 'asc';
@@ -265,8 +266,9 @@ class Customer extends Model
             return $query;
         }
         if (in_array($column, self::SORTABLE_COLUMNS, false)) {
-            $query->orderByRaw("{$column} is null asc")->orderBy($column, $order);
-            return $query;
+            $query->orderBy($column, $order);
+        } else {
+            $query->orderBy(self::DEFAULT_SORT_COLUMN, 'asc');
         }
 
         return $query;

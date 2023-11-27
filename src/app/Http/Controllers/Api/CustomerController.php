@@ -28,13 +28,10 @@ class CustomerController extends Controller
         $query = Customer::query()->with(['user']);
 
         // 検索
-        $query->searchCondition($request);
-
-        $direction = $request->getSortDirection();
-        $column = $request->getSortColumn();
+        $query->search($request);
 
         // ソート
-        $query->sortByColumn($column, $direction);
+        $query->sort($request);
 
         $customers = $query->paginate($request->per_page);
 

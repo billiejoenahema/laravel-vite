@@ -69,7 +69,7 @@ class Notice extends Model
         'is_read',
     ];
 
-    /** @var array ソート可能なカラムリスト */
+    /** @var array ソート対象カラム */
     public const SORTABLE_COLUMNS = [
         'id',
         'title',
@@ -78,6 +78,9 @@ class Notice extends Model
         'created_at',
         'updated_at',
     ];
+
+    /** @var string デフォルトのソート対象カラム */
+    public const DEFAULT_SORT_COLUMN = 'id';
 
     /**
      * このお知らせに属するユーザー
