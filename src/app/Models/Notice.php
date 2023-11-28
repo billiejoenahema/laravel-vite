@@ -21,13 +21,16 @@ use function in_array;
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\NoticeRead> $reads
- * @property-read int|null $reads_count
+ * @property-read bool $is_read
+ * @property-read array $read_notice_ids
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
+ * @property-read int|null $users_count
  * @method static \Database\Factories\NoticeFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Notice newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Notice newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Notice onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Notice query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Notice search($request)
  * @method static \Illuminate\Database\Eloquent\Builder|Notice whereContent($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Notice whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Notice whereDeletedAt($value)
@@ -36,11 +39,6 @@ use function in_array;
  * @method static \Illuminate\Database\Eloquent\Builder|Notice whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Notice withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Notice withoutTrashed()
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
- * @property-read int|null $users_count
- * @method static \Illuminate\Database\Eloquent\Builder|Notice searchCondition($request)
- * @property-read bool $is_read
- * @property-read array $read_notice_ids
  * @mixin \Eloquent
  */
 class Notice extends Model
@@ -113,7 +111,7 @@ class Notice extends Model
      * @param Request $request
      * @return Builder|Notice
      */
-    public function scopeSearchCondition($query, $request): Builder|self
+    public function scopeSearch($query, $request): Builder|self
     {
         // 未読のお知らせ
         if ($request['unread_only'] === 'true') {

@@ -25,7 +25,7 @@ class NoticeController extends Controller
         $query = Notice::query();
 
         // 検索
-        $query->searchCondition($request);
+        $query->search($request);
 
         $notices = $query->paginate($request->per_page);
 
@@ -83,7 +83,7 @@ class NoticeController extends Controller
      */
     public function setAllRead(): JsonResponse
     {
-        DB::transaction(static function ()  {
+        DB::transaction(static function () {
             $user = auth()->user();
             // 既読のお知らせID配列
             $readNoticeIds = $user->notices->pluck('id');

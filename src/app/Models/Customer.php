@@ -16,10 +16,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use function in_array;
 
+
 /**
  * App\Models\Customer
  *
- * @property int $id
+ * @property string $id ULID
  * @property int|null $user_id ユーザーID
  * @property string|null $name 氏名
  * @property string|null $name_kana ふりがな
@@ -27,16 +28,22 @@ use function in_array;
  * @property string|null $gender 性別
  * @property string|null $birth_date 生年月日
  * @property string|null $postal_code 郵便番号
- * @property string|null $pref 都道府県
+ * @property int|null $pref 都道府県
  * @property string|null $city 市区町村
  * @property string|null $street 番地
  * @property string|null $avatar アイコン画像URL
- * @property string|null $deleted_at
+ * @property string|null $note 備考
+ * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\User|null $user
+ * @method static \Database\Factories\CustomerFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Customer newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Customer newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Customer onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Customer query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Customer search($request)
+ * @method static \Illuminate\Database\Eloquent\Builder|Customer sort($request)
  * @method static \Illuminate\Database\Eloquent\Builder|Customer whereAvatar($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Customer whereBirthDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Customer whereCity($value)
@@ -46,23 +53,15 @@ use function in_array;
  * @method static \Illuminate\Database\Eloquent\Builder|Customer whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Customer whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Customer whereNameKana($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Customer whereNote($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Customer wherePhone($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Customer wherePostalCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Customer wherePref($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Customer whereStreet($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Customer whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Customer whereUserId($value)
- * @property-read \App\Models\User|null $user
- * @method static \Database\Factories\CustomerFactory factory($count = null, $state = [])
- * @property string $id ULID
- * @method static \Illuminate\Database\Eloquent\Builder|Customer onlyTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder|Customer whereUlid($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Customer withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Customer withoutTrashed()
- * @property string|null $note 備考
- * @method static \Illuminate\Database\Eloquent\Builder|Customer whereNote($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Customer search($request)
- * @method static \Illuminate\Database\Eloquent\Builder|Customer sort($request)
  * @mixin \Eloquent
  */
 class Customer extends Model
