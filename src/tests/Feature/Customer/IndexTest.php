@@ -29,8 +29,6 @@ class IndexTest extends TestCase
 
     /**
      * 一般ユーザーが顧客一覧を取得できること。
-     *
-     * @return void
      */
     public function test_general_user_get_customers(): void
     {
@@ -43,8 +41,6 @@ class IndexTest extends TestCase
 
     /**
      * 管理ユーザーが顧客一覧を取得できること。
-     *
-     * @return void
      */
     public function test_admin_user_get_customers(): void
     {

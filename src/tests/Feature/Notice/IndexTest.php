@@ -32,8 +32,6 @@ class IndexTest extends TestCase
 
     /**
      * 一般ユーザーがお知らせ一覧を取得できること。
-     *
-     * @return void
      */
     public function test_general_user_get_notice_index(): void
     {
@@ -46,8 +44,6 @@ class IndexTest extends TestCase
 
     /**
      * 管理ユーザーがお知らせ一覧を取得できること。
-     *
-     * @return void
      */
     public function test_admin_user_get_notice_index(): void
     {
@@ -60,8 +56,6 @@ class IndexTest extends TestCase
 
     /**
      * 一般ユーザーが未読のお知らせのみの一覧を取得できること。
-     *
-     * @return void
      */
     public function test_general_user_get_unread_notice_index(): void
     {
@@ -74,8 +68,6 @@ class IndexTest extends TestCase
 
     /**
      * 管理ユーザーが未読のお知らせのみの一覧を取得できること。
-     *
-     * @return void
      */
     public function test_admin_user_get_unread_notice_index(): void
     {

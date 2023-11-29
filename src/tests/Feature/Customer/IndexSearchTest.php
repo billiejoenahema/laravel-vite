@@ -50,60 +50,48 @@ class IndexSearchTest extends TestCase
 
     /**
      * 氏名で検索できること。
-     *
-     * @return void
      */
-    public function test_search_by_name()
+    public function test_search_by_name(): void
     {
         $this->searchAndAssert('name', $this->name);
     }
 
     /**
      * ふりがなで検索できること。
-     *
-     * @return void
      */
-    public function test_search_by_nameKana()
+    public function test_search_by_nameKana(): void
     {
         $this->searchAndAssert('name_kana', $this->name_kana);
     }
 
     /**
      * 性別で検索できること。
-     *
-     * @return void
      */
-    public function test_search_by_gender()
+    public function test_search_by_gender(): void
     {
         $this->searchAndAssert('gender', $this->gender);
     }
 
     /**
      * 電話番号で検索できること。
-     *
-     * @return void
      */
-    public function test_search_by_phone()
+    public function test_search_by_phone(): void
     {
         $this->searchAndAssert('phone', $this->phone);
     }
 
     /**
      * 郵便番号で検索できること。
-     *
-     * @return void
      */
-    public function test_search_by_postalCode()
+    public function test_search_by_postalCode(): void
     {
         $this->searchAndAssert('postal_code', $this->postal_code);
     }
 
     /**
      * 都道府県で検索できること。
-     *
-     * @return void
      */
-    public function test_search_by_pref()
+    public function test_search_by_pref(): void
     {
         $this->searchAndAssert('pref', $this->pref);
     }

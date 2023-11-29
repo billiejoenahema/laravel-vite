@@ -21,7 +21,6 @@ class CustomerController extends Controller
     /**
      * 顧客一覧を取得する。
      * @param IndexRequest $request
-     * @return AnonymousResourceCollection
      */
     public function index(IndexRequest $request): AnonymousResourceCollection
     {
@@ -58,7 +57,6 @@ class CustomerController extends Controller
      * 指定の顧客を取得する。
      *
      * @param Customer $customer
-     * @return CustomerResource
      */
     public function show(Customer $customer): CustomerResource
     {

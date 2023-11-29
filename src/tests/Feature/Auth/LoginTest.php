@@ -42,10 +42,8 @@ final class LoginTest extends TestCase
 
     /**
      * 正しいメールアドレスとパスワードでゲストログインできること。
-     *
-     * @return void
      */
-    public function test_loginSuccess()
+    public function test_loginSuccess(): void
     {
         $this->getJson($this->url);
         $this->postJson('/login', $this->correctData)->assertOk();
@@ -53,10 +51,8 @@ final class LoginTest extends TestCase
 
     /**
      * メールアドレスが誤っているとログインできないこと。
-     *
-     * @return void
      */
-    public function test_wrongEmailLoginFailure()
+    public function test_wrongEmailLoginFailure(): void
     {
         $this->getJson($this->url);
         $this->postJson('/login', $this->wrongEmailData)->assertUnauthorized();
@@ -64,10 +60,8 @@ final class LoginTest extends TestCase
 
     /**
      * パスワードが誤っているとログインできないこと。
-     *
-     * @return void
      */
-    public function test_wrongPasswordLoginFailure()
+    public function test_wrongPasswordLoginFailure(): void
     {
         $this->getJson($this->url);
         $this->postJson('/login', $this->wrongPasswordData)->assertUnauthorized();
