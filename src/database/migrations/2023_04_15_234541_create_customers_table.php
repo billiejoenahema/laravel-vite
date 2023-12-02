@@ -29,7 +29,8 @@ return new class extends Migration
             $table->string('note')->nullable()->comment('備考');
 
             $table->softDeletes();
-            $table->timestamps();
+            $table->datetime('created_at')->nullable()->comment('登録日時');
+            $table->datetime('updated_at')->nullable()->comment('更新日時');
         });
     }
 
