@@ -46,8 +46,6 @@ class IndexSortTest extends TestCase
 
     /**
      * 顧客一覧を氏名で降順ソートできること。
-     *
-     * @return void
      */
     public function test_sort_customers_by_name_desc(): void
     {
@@ -56,8 +54,6 @@ class IndexSortTest extends TestCase
 
     /**
      * 顧客一覧を氏名で昇順ソートできること。
-     *
-     * @return void
      */
     public function test_sort_customers_by_name_asc(): void
     {
@@ -66,8 +62,6 @@ class IndexSortTest extends TestCase
 
     /**
      * 顧客一覧を年齢で降順ソートできること。
-     *
-     * @return void
      */
     public function test_sort_customers_by_age_desc(): void
     {
@@ -76,8 +70,6 @@ class IndexSortTest extends TestCase
 
     /**
      * 顧客一覧を年齢で昇順ソートできること。
-     *
-     * @return void
      */
     public function test_sort_customers_by_age_asc(): void
     {
@@ -86,8 +78,6 @@ class IndexSortTest extends TestCase
 
     /**
      * 顧客一覧を性別で降順ソートできること。
-     *
-     * @return void
      */
     public function test_sort_customers_by_gender_desc(): void
     {;
@@ -96,8 +86,6 @@ class IndexSortTest extends TestCase
 
     /**
      * 顧客一覧を性別で昇順ソートできること。
-     *
-     * @return void
      */
     public function test_sort_customers_by_gender_asc(): void
     {;
@@ -106,8 +94,6 @@ class IndexSortTest extends TestCase
 
     /**
      * 顧客一覧を電話番号で降順ソートできること。
-     *
-     * @return void
      */
     public function test_sort_customers_by_phone_desc(): void
     {
@@ -116,8 +102,6 @@ class IndexSortTest extends TestCase
 
     /**
      * 顧客一覧を電話番号で昇順ソートできること。
-     *
-     * @return void
      */
     public function test_sort_customers_by_phone_asc(): void
     {
@@ -126,8 +110,6 @@ class IndexSortTest extends TestCase
 
     /**
      * 顧客一覧を生年月日で降順ソートできること。
-     *
-     * @return void
      */
     public function test_sort_customers_by_birth_date_asc(): void
     {
@@ -136,8 +118,6 @@ class IndexSortTest extends TestCase
 
     /**
      * 顧客一覧を生年月日で昇順ソートできること。
-     *
-     * @return void
      */
     public function test_sort_customers_by_birth_date_desc(): void
     {
@@ -146,8 +126,6 @@ class IndexSortTest extends TestCase
 
     /**
      * 顧客一覧を都道府県で降順ソートできること。
-     *
-     * @return void
      */
     public function test_sort_customers_by_pref_desc(): void
     {
@@ -156,8 +134,6 @@ class IndexSortTest extends TestCase
 
     /**
      * 顧客一覧を都道府県で昇順ソートできること。
-     *
-     * @return void
      */
     public function test_sort_customers_by_pref_asc(): void
     {
@@ -166,8 +142,6 @@ class IndexSortTest extends TestCase
 
     /**
      * 顧客一覧を登録日で降順ソートできること。
-     *
-     * @return void
      */
     public function test_sort_customers_by_created_at_desc(): void
     {
@@ -176,8 +150,6 @@ class IndexSortTest extends TestCase
 
     /**
      * 顧客一覧を登録日で昇順ソートできること。
-     *
-     * @return void
      */
     public function test_sort_customers_by_created_at_asc(): void
     {
@@ -186,8 +158,6 @@ class IndexSortTest extends TestCase
 
     /**
      * 顧客一覧を更新日で降順ソートできること。
-     *
-     * @return void
      */
     public function test_sort_customers_by_updated_at_desc(): void
     {
@@ -196,8 +166,6 @@ class IndexSortTest extends TestCase
 
     /**
      * 顧客一覧を更新日で昇順ソートできること。
-     *
-     * @return void
      */
     public function test_sort_customers_by_updated_at_asc(): void
     {

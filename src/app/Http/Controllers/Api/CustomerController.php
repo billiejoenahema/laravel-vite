@@ -21,20 +21,16 @@ class CustomerController extends Controller
     /**
      * 顧客一覧を取得する。
      * @param IndexRequest $request
-     * @return AnonymousResourceCollection
      */
     public function index(IndexRequest $request): AnonymousResourceCollection
     {
         $query = Customer::query()->with(['user']);
 
         // 検索
-        $query->searchCondition($request);
-
-        $direction = $request->getSortDirection();
-        $column = $request->getSortColumn();
+        $query->search($request);
 
         // ソート
-        $query->sortByColumn($column, $direction);
+        $query->sort($request);
 
         $customers = $query->paginate($request->per_page);
 
@@ -61,7 +57,6 @@ class CustomerController extends Controller
      * 指定の顧客を取得する。
      *
      * @param Customer $customer
-     * @return CustomerResource
      */
     public function show(Customer $customer): CustomerResource
     {

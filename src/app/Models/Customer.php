@@ -16,10 +16,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use function in_array;
 
+
 /**
  * App\Models\Customer
  *
- * @property int $id
+ * @property string $id ULID
  * @property int|null $user_id ユーザーID
  * @property string|null $name 氏名
  * @property string|null $name_kana ふりがな
@@ -27,16 +28,22 @@ use function in_array;
  * @property string|null $gender 性別
  * @property string|null $birth_date 生年月日
  * @property string|null $postal_code 郵便番号
- * @property string|null $pref 都道府県
+ * @property int|null $pref 都道府県
  * @property string|null $city 市区町村
  * @property string|null $street 番地
  * @property string|null $avatar アイコン画像URL
- * @property string|null $deleted_at
+ * @property string|null $note 備考
+ * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\User|null $user
+ * @method static \Database\Factories\CustomerFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Customer newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Customer newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Customer onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Customer query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Customer search($request)
+ * @method static \Illuminate\Database\Eloquent\Builder|Customer sort($request)
  * @method static \Illuminate\Database\Eloquent\Builder|Customer whereAvatar($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Customer whereBirthDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Customer whereCity($value)
@@ -46,23 +53,15 @@ use function in_array;
  * @method static \Illuminate\Database\Eloquent\Builder|Customer whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Customer whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Customer whereNameKana($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Customer whereNote($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Customer wherePhone($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Customer wherePostalCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Customer wherePref($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Customer whereStreet($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Customer whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Customer whereUserId($value)
- * @property-read \App\Models\User|null $user
- * @method static \Database\Factories\CustomerFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder|Customer sortByColumn($column, $order)
- * @property string $id ULID
- * @method static \Illuminate\Database\Eloquent\Builder|Customer onlyTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder|Customer whereUlid($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Customer withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|Customer withoutTrashed()
- * @property string|null $note 備考
- * @method static \Illuminate\Database\Eloquent\Builder|Customer searchCondition($request)
- * @method static \Illuminate\Database\Eloquent\Builder|Customer whereNote($value)
  * @mixin \Eloquent
  */
 class Customer extends Model
@@ -111,7 +110,7 @@ class Customer extends Model
         'pref_value',
     ];
 
-    /** @var array ソート可能なカラムリスト */
+    /** @var array ソート対象カラム */
     public const SORTABLE_COLUMNS = [
         'id',
         'name',
@@ -124,11 +123,11 @@ class Customer extends Model
         'updated_at',
     ];
 
+    /** @var string デフォルトのソート対象カラム */
+    public const DEFAULT_SORT_COLUMN = 'id';
+
     /**
      * 所有するユーザー
-     *
-     * @return BelongsTo
-     *
      */
     public function user(): BelongsTo
     {
@@ -212,9 +211,8 @@ class Customer extends Model
      *
      * @param Builder|Customer $query
      * @param IndexRequest $request
-     * @return Builder|Customer
      */
-    public function scopeSearchCondition($query, $request): Builder|self
+    public function scopeSearch($query, $request): Builder|self
     {
         if ($request['search_value.is_deleted']) {
             $query->onlyTrashed();
@@ -253,11 +251,13 @@ class Customer extends Model
      * 指定のカラムでソートするスコープ
      *
      * @param Builder|Customer $query
-     * @param string $column
-     * @param string $order
+     * @param IndexRequest $request
      */
-    public function scopeSortByColumn($query, $column, $order): Builder|self
+    public function scopeSort($query, $request): Builder|self
     {
+        $column = $request->getSortColumn();
+        $order = $request->getSortDirection();
+
         if ($column === 'age') {
             // 生年月日でソートするためソート方向を反転させる
             $order = $order === 'asc' ? 'desc' : 'asc';
@@ -265,8 +265,9 @@ class Customer extends Model
             return $query;
         }
         if (in_array($column, self::SORTABLE_COLUMNS, false)) {
-            $query->orderByRaw("{$column} is null asc")->orderBy($column, $order);
-            return $query;
+            $query->orderBy($column, $order);
+        } else {
+            $query->orderBy(self::DEFAULT_SORT_COLUMN, 'asc');
         }
 
         return $query;
