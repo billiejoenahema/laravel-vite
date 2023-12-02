@@ -19,12 +19,13 @@ return new class extends Migration
             $table->string('email')->unique()->comment('メールアドレス');
             $table->char('role', 2)->default('00')->comment('ユーザー権限');
             $table->datetime('last_login_at')->nullable()->comment('最終ログイン日時');
-            $table->timestamp('email_verified_at')->nullable()->comment('メール認証日時');
+            $table->datetime('email_verified_at')->nullable()->comment('メール認証日時');
             $table->string('password')->comment('パスワード');
             $table->rememberToken();
 
             $table->softDeletes();
-            $table->timestamps();
+            $table->datetime('created_at')->nullable()->comment('登録日時');
+            $table->datetime('updated_at')->nullable()->comment('更新日時');
         });
     }
 

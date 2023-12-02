@@ -18,7 +18,8 @@ return new class extends Migration
             $table->foreignId('user_id')->index();
             $table->foreignId('notice_id')->index();
 
-            $table->timestamps();
+            $table->datetime('created_at')->nullable()->comment('登録日時');
+            $table->datetime('updated_at')->nullable()->comment('更新日時');
         });
     }
 
