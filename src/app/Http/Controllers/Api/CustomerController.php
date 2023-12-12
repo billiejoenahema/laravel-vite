@@ -20,7 +20,6 @@ class CustomerController extends Controller
 {
     /**
      * 顧客一覧を取得する。
-     * @param IndexRequest $request
      */
     public function index(IndexRequest $request): AnonymousResourceCollection
     {
@@ -39,8 +38,6 @@ class CustomerController extends Controller
 
     /**
      * 顧客を新規登録する。
-     *
-     * @param SaveRequest $request
      */
     public function store(SaveRequest $request): CustomerResource
     {
@@ -55,8 +52,6 @@ class CustomerController extends Controller
 
     /**
      * 指定の顧客を取得する。
-     *
-     * @param Customer $customer
      */
     public function show(Customer $customer): CustomerResource
     {
@@ -67,9 +62,6 @@ class CustomerController extends Controller
 
     /**
      * 指定の顧客を更新する。
-     *
-     * @param SaveRequest $request
-     * @param Customer $customer
      */
     public function update(SaveRequest $request, Customer $customer): JsonResponse
     {
@@ -87,9 +79,6 @@ class CustomerController extends Controller
 
     /**
      * 指定顧客のアイコンを更新する。
-     *
-     * @param SaveAvatarRequest $request
-     * @param Customer $customer
      */
     public function updateAvatar(SaveAvatarRequest $request, Customer $customer): JsonResponse
     {
@@ -111,8 +100,6 @@ class CustomerController extends Controller
 
     /**
      * 指定顧客のアイコンを削除する。
-     *
-     * @param Customer $customer
      */
     public function deleteAvatar(Customer $customer): JsonResponse
     {
@@ -131,8 +118,6 @@ class CustomerController extends Controller
 
     /**
      * 指定顧客を削除する。
-     *
-     * @param Customer $customer
      */
     public function destroy(Customer $customer): JsonResponse
     {
@@ -143,8 +128,6 @@ class CustomerController extends Controller
 
     /**
      * 指定の削除済み顧客を復元する
-     *
-     * @param Customer $customer
      */
     public function restore(Customer $customer): JsonResponse
     {

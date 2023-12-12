@@ -12,9 +12,6 @@ class PasswordTest extends TestCase
 {
     use RefreshDatabase;
 
-    /**
-     *
-     */
     public function test_hashCheck(): void
     {
         // 10文字のランダムな文字列を生成

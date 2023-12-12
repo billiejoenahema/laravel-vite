@@ -80,7 +80,7 @@ class IndexSortTest extends TestCase
      * 顧客一覧を性別で降順ソートできること。
      */
     public function test_sort_customers_by_gender_desc(): void
-    {;
+    {
         $this->sortAndAssert('gender', false);
     }
 
@@ -88,7 +88,7 @@ class IndexSortTest extends TestCase
      * 顧客一覧を性別で昇順ソートできること。
      */
     public function test_sort_customers_by_gender_asc(): void
-    {;
+    {
         $this->sortAndAssert('gender', true);
     }
 

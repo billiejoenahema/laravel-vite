@@ -93,8 +93,6 @@ class UpdateTest extends TestCase
      */
     public function test_admin_user_update_customer_phone_postal_code_with_hyphen(): void
     {
-
-
         $data = [
             'id' => $this->customer->id,
             'user_id' => null,

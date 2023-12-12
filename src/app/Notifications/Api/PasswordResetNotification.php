@@ -13,6 +13,7 @@ class PasswordResetNotification extends Notification
     use Queueable;
 
     private string $token;
+
     private string $endpoint;
 
     /**
@@ -24,9 +25,6 @@ class PasswordResetNotification extends Notification
         $this->endpoint = config('app.url') . '/password-reset';
     }
 
-    /**
-     * @param mixed $notifiable
-     */
     protected function resetUrl($notifiable): string
     {
         return $this->endpoint . '?' . http_build_query([
@@ -45,13 +43,12 @@ class PasswordResetNotification extends Notification
 
     /**
      * Get the mail representation of the notification.
-     *
-     * @param mixed $notifiable
      */
     public function toMail($notifiable): MailMessage
     {
         info('URL:' . $this->resetUrl($notifiable));
-        return (new MailMessage)
+
+        return (new MailMessage())
             ->line('アカウントのパスワードリセットリクエストを受けつけました。')
             ->action('パスワードリセット', $this->resetUrl($notifiable))
             ->line('このパスワードリセットリンクの使用期限は60分です。')

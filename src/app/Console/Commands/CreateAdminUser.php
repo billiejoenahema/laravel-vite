@@ -27,8 +27,6 @@ final class CreateAdminUser extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return mixed
      */
     public function handle()
     {
@@ -41,6 +39,7 @@ final class CreateAdminUser extends Command
                 'email' => $userName . '@example.com',
                 'password' => bcrypt($password),
             ]);
+
             return $user;
         });
 

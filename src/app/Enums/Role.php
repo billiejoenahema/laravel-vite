@@ -11,9 +11,6 @@ enum Role: string
     case ADMIN = '01';
     case GENERAL = '02';
 
-    /**
-     * @return string
-     */
     public function text(): string
     {
         return match ($this) {

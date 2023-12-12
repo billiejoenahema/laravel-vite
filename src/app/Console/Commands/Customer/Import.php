@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Console\Commands\Customer;
 
 use App\Models\Customer;
+use function count;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx as XlsxReader;
-use function count;
 
 class Import extends Command
 {
@@ -67,6 +67,7 @@ class Import extends Command
         if ($diff) {
             $this->error('ヘッダ不一致');
             $this->error(implode(',', $diff));
+
             return;
         }
 
@@ -75,6 +76,7 @@ class Import extends Command
         // 行数が0なら処理を終了する
         if ($rowCount === 0) {
             $this->error('データが存在しません');
+
             return;
         }
 
@@ -104,6 +106,6 @@ class Import extends Command
         // プログレスバーの表示を完了状態にする
         $progressBar->finish();
 
-        $this->info("\n" . "登録完了！");
+        $this->info("\n" . '登録完了！');
     }
 }

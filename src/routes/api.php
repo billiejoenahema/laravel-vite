@@ -26,7 +26,7 @@ use Illuminate\Support\Facades\Route;
 Route::post('/forgot-password', PasswordForgotController::class);
 Route::post('/reset-password', PasswordResetController::class)->middleware([HandlePrecognitiveRequests::class]);
 
-Route::group(['middleware' => ['auth:sanctum','cache.headers:no_store;max_age=0',]], static function () {
+Route::group(['middleware' => ['auth:sanctum', 'cache.headers:no_store;max_age=0']], static function () {
 
     // ログインユーザー情報
     Route::get('/profile', ProfileController::class);

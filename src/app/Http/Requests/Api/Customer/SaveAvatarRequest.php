@@ -24,7 +24,7 @@ class SaveAvatarRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'avatar' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:10240'
+            'avatar' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:10240',
         ];
     }
 }

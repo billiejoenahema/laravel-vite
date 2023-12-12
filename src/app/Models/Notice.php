@@ -109,7 +109,6 @@ class Notice extends Model
      *
      * @param Builder|Notice $query
      * @param Request $request
-     * @return Builder|Notice
      */
     public function scopeSearch($query, $request): Builder|self
     {

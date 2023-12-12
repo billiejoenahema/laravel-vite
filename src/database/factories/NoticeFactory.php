@@ -19,8 +19,8 @@ class NoticeFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' =>  $this->faker->realText(10, 5),
-            'content' =>  $this->faker->realText(50, 5),
+            'title' => $this->faker->realText(10, 5),
+            'content' => $this->faker->realText(50, 5),
         ];
     }
 }

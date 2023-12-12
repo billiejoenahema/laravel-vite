@@ -17,8 +17,6 @@ class NoticeController extends Controller
 {
     /**
      * お知らせ一覧を取得する。
-     *
-     * @param Request $request
      */
     public function index(Request $request): AnonymousResourceCollection
     {
@@ -34,7 +32,6 @@ class NoticeController extends Controller
 
     /**
      * お知らせを新規登録する。
-     * @param Request $request
      */
     public function store(Request $request): NoticeResource
     {
@@ -49,7 +46,6 @@ class NoticeController extends Controller
 
     /**
      * 指定のお知らせを取得する。
-     * @param Notice $notice
      */
     public function show(Notice $notice): NoticeResource
     {
@@ -63,9 +59,6 @@ class NoticeController extends Controller
 
     /**
      * 指定のお知らせを更新する。
-     *
-     * @param Request $request
-     * @param Notice $notice
      */
     public function update(Request $request, Notice $notice): JsonResponse
     {

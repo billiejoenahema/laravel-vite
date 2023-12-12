@@ -11,8 +11,6 @@ final class ProfileController extends Controller
 {
     /**
      * Handle the incoming request.
-     *
-     * @return ProfileResource
      */
     public function __invoke(): ProfileResource
     {

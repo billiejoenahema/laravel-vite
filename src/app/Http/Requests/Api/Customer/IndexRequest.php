@@ -45,8 +45,6 @@ class IndexRequest extends FormRequest
 
     /**
      * ソートの方向を返す。
-     *
-     * @return string
      */
     public function getSortDirection(): string
     {
@@ -59,8 +57,6 @@ class IndexRequest extends FormRequest
 
     /**
      * 入力値（年齢）から生年月日を絞り込むfromの値を返す。
-     *
-     * @return string
      */
     public function getBirthDateValueByAgeFrom(): string
     {
@@ -69,8 +65,6 @@ class IndexRequest extends FormRequest
 
     /**
      * 入力値（年齢）から生年月日を絞り込むtoの値を返す。
-     *
-     * @return string
      */
     public function getBirthDateValueByAgeTo(): string
     {

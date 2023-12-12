@@ -42,8 +42,6 @@ final class UserFactory extends Factory
 
     /**
      * 一般ユーザーを作成する。
-     *
-     * @return
      */
     public function createGeneralUser()
     {
@@ -54,8 +52,6 @@ final class UserFactory extends Factory
 
     /**
      * 管理ユーザーを作成する。
-     *
-     * @return
      */
     public function createAdminUser()
     {

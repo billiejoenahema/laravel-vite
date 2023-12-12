@@ -6,7 +6,6 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
-
 class DisplayProgressBar extends Command
 {
     /**
@@ -48,7 +47,7 @@ class DisplayProgressBar extends Command
         // ③プログレスバーの表示を完了状態にします
         $progressBar->finish();
 
-        $this->info("\n" . "Done!" . "\n");
+        $this->info("\n" . 'Done!' . "\n");
 
         return 0;
     }

@@ -16,7 +16,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use function in_array;
 
-
 /**
  * App\Models\Customer
  *
@@ -67,13 +66,14 @@ use function in_array;
 class Customer extends Model
 {
     use HasFactory;
+
     // HasUlids という trait を使うと、主キーを ULID としてよしなに扱ってくれます。
     // ULIDの自動生成やオートインクリメント関連の誤爆防止などをしてくれます。
     use \Illuminate\Database\Eloquent\Concerns\HasUlids;
-
     use SoftDeletes;
 
     public $table = 'customers';
+
     protected $primaryKey = 'id';
 
     /** デフォルトアイコン */
@@ -169,7 +169,7 @@ class Customer extends Model
      */
     protected function address(): Attribute
     {
-        $postalCode = $this->postal_code ? '〒' . mb_substr($this->postal_code, 0, 3) . "-" . mb_substr($this->postal_code, 3) . ' ' : '';
+        $postalCode = $this->postal_code ? '〒' . mb_substr($this->postal_code, 0, 3) . '-' . mb_substr($this->postal_code, 3) . ' ' : '';
 
         return Attribute::make(
             get: fn () => $postalCode . Prefecture::tryFrom((int) $this->pref)?->text() . $this->city . $this->street,
@@ -261,7 +261,8 @@ class Customer extends Model
         if ($column === 'age') {
             // 生年月日でソートするためソート方向を反転させる
             $order = $order === 'asc' ? 'desc' : 'asc';
-            $query->orderByRaw("birth_date is null asc")->orderBy('birth_date', $order);
+            $query->orderByRaw('birth_date is null asc')->orderBy('birth_date', $order);
+
             return $query;
         }
         if (in_array($column, self::SORTABLE_COLUMNS, false)) {

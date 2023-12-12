@@ -27,8 +27,6 @@ class CustomerObserver
 
     /**
      * Handle the Customer "deleted" event.
-     *
-     * @param Customer $customer
      */
     public function deleted(Customer $customer): void
     {

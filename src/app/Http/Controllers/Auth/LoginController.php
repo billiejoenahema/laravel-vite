@@ -13,17 +13,12 @@ use Illuminate\Support\Facades\Auth;
 
 final class LoginController extends Controller
 {
-    /**
-     * @param AuthManager $auth
-     */
     public function __construct(
         private AuthManager $auth,
     ) {
     }
 
     /**
-     * @param Request $request
-     * @return JsonResponse
      * @throws AuthenticationException
      */
     public function __invoke(Request $request): JsonResponse

@@ -56,9 +56,6 @@ enum Prefecture: int
     case KAGOSHIMA = 46;
     case OKINAWA = 47;
 
-    /**
-     * @return string
-     */
     public function text(): string
     {
         return match ($this) {
