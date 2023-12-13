@@ -1,6 +1,4 @@
 .env
 src/certs/*.pem
 infra/nginx/*.pem
-src/_ide_helper_models.php
-src/_ide_helper.php
-src/.phpstorm.meta.php
+src/.pint.cache
