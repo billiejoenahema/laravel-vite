@@ -72,10 +72,6 @@ class Customer extends Model
     use \Illuminate\Database\Eloquent\Concerns\HasUlids;
     use SoftDeletes;
 
-    public $table = 'customers';
-
-    protected $primaryKey = 'id';
-
     /** デフォルトアイコン */
     public const DEFAULT_AVATAR = 'default-avatar.png';
 
@@ -192,7 +188,7 @@ class Customer extends Model
     protected function createdAt(): Attribute
     {
         return Attribute::make(
-            get: static fn ($value) => Carbon::parse($value)->format('Y/m/d H:i:s'),
+            get: fn (string $value) => Carbon::parse($value)->format('Y/m/d H:i:s'),
         );
     }
 
@@ -202,7 +198,7 @@ class Customer extends Model
     protected function updatedAt(): Attribute
     {
         return Attribute::make(
-            get: static fn ($value) => Carbon::parse($value)->format('Y/m/d H:i:s'),
+            get: fn (string $value) => Carbon::parse($value)->format('Y/m/d H:i:s'),
         );
     }
 

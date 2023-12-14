@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Customer;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -24,7 +25,7 @@ return new class extends Migration
             $table->char('postal_code', 7)->nullable()->comment('郵便番号');
             $table->integer('pref')->nullable()->comment('都道府県');
             $table->string('city')->nullable()->comment('市区町村');
-            $table->string('street')->nullable()->comment('番地');
+            $table->string('street')->nullable(Customer::DEFAULT_AVATAR)->comment('番地');
             $table->string('avatar')->nullable()->comment('アイコン画像URL');
             $table->string('note')->nullable()->comment('備考');
 

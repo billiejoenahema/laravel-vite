@@ -52,7 +52,7 @@ class NoticeController extends Controller
         $notice->load('users');
         $userId = auth()->id();
         // 未読なら既読にする
-        $notice->users()->syncWithoutDetaching($userId);
+        $notice->users()->syncWithoutDetaching([$userId]);
 
         return new NoticeResource($notice);
     }

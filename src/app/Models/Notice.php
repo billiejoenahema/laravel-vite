@@ -46,8 +46,6 @@ class Notice extends Model
     use HasFactory;
     use SoftDeletes;
 
-    public $table = 'notices';
-
     /**
      * 複数代入可能な属性
      *

@@ -28,7 +28,7 @@ final class CreateAdminUser extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(): void
     {
         $userName = $this->argument('userName');
         $password = str()->random(16);

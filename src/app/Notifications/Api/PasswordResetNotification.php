@@ -25,7 +25,7 @@ class PasswordResetNotification extends Notification
         $this->endpoint = config('app.url') . '/password-reset';
     }
 
-    protected function resetUrl($notifiable): string
+    protected function resetUrl(object $notifiable): string
     {
         return $this->endpoint . '?' . http_build_query([
             'token' => $this->token,
@@ -44,7 +44,7 @@ class PasswordResetNotification extends Notification
     /**
      * Get the mail representation of the notification.
      */
-    public function toMail($notifiable): MailMessage
+    public function toMail(object $notifiable): MailMessage
     {
         info('URL:' . $this->resetUrl($notifiable));
 
