@@ -16,7 +16,7 @@ final class CreateAdminUser extends Command
      *
      * @var string
      */
-    protected $signature = 'generate:admin-user {userName}';
+    protected $signature = 'generate:admin-user {user_name}';
 
     /**
      * The console command description.
@@ -30,8 +30,14 @@ final class CreateAdminUser extends Command
      */
     public function handle(): void
     {
-        $userName = $this->argument('userName');
+        $userName = $this->argument('user_name');
         $password = str()->random(16);
+
+        // ユーザー名が既に存在するかどうかを確認
+        if (User::where('name', $userName)->exists()) {
+            $this->error("ユーザー名: '{$userName}'は既に存在します。別のユーザー名を指定してください。");
+            return;
+        }
 
         $user = DB::transaction(static function () use ($userName, $password) {
             $user = User::create([
@@ -46,6 +52,7 @@ final class CreateAdminUser extends Command
         $user->role = Role::ADMIN->value;
         $user->save();
 
+        $this->info("id: {$user->id}");
         $this->info("email: {$user->email}");
         $this->info("password: {$password}");
     }
