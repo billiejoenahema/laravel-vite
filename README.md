@@ -19,16 +19,6 @@
 
 - Base image
   - mysql/mysql-server:8.0
-- architecture
-  - Laravel 10.0
-  - Vite 4.0
-  - Vue 3.2
-  - Vuex 4.0
-  - Vue-router 4.1
-  - Docker
-  - nginx 1.2
-  - MySQL 8.0
-  - Bootstrap 5.2
 
 ### mailhog container
 
@@ -39,6 +29,18 @@
 
 - Base image
   - quay.io/minio/minio
+
+## architecture
+
+- Laravel 11.16.0
+- Vite 4.0
+- Vue 3.2
+- Vuex 4.0
+- Vue-router 4.1
+- Docker
+- nginx 1.2
+- MySQL 8.0
+- Bootstrap 5.2
 
 ## Authentication
 
