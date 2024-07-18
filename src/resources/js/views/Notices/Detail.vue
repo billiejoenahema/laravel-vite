@@ -1,7 +1,7 @@
 <script setup>
-import router from '@/router';
-import { store } from '@/store';
-import { computed, onMounted, reactive } from 'vue';
+import router from "@/router";
+import { store } from "@/store";
+import { computed, onMounted, reactive } from "vue";
 
 const notice = reactive({
   id: null,
@@ -12,7 +12,7 @@ const notice = reactive({
   read_at: null,
 });
 const noticeId = router.currentRoute.value?.params?.id;
-const loading = computed(() => store.getters['loading/loading']);
+const loading = computed(() => store.getters["loading/loading"]);
 
 onMounted(async () => {
   await fetchData();
@@ -20,9 +20,9 @@ onMounted(async () => {
 
 // お知らせ取得
 const fetchData = async () => {
-  await store.dispatch('notice/get', noticeId);
-  Object.assign(notice, store.getters['notice/data']);
-  await store.dispatch('profile/get');
+  await store.dispatch("notice/get", noticeId);
+  Object.assign(notice, store.getters["notice/data"]);
+  await store.dispatch("profile/get");
 };
 </script>
 

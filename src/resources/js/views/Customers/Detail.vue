@@ -1,17 +1,17 @@
 <script setup>
-import BaseModal from '@/components/BaseModal.vue';
-import InputPostalCode from '@/components/InputPostalCode.vue';
-import InputSelect from '@/components/InputSelect.vue';
-import InputSelectPrefecture from '@/components/InputSelectPrefecture.vue';
-import InputTel from '@/components/InputTel.vue';
-import InputText from '@/components/InputText.vue';
-import InputTextarea from '@/components/InputTextarea.vue';
-import InvalidFeedback from '@/components/InvalidFeedback.vue';
-import router from '@/router';
-import { store } from '@/store';
-import { formatDate } from '@/utils/formatter.js';
-import { computed, onMounted, onUnmounted, reactive, ref } from 'vue';
-import YubinBango from 'yubinbango-core2';
+import BaseModal from "@/components/BaseModal.vue";
+import InputPostalCode from "@/components/InputPostalCode.vue";
+import InputSelect from "@/components/InputSelect.vue";
+import InputSelectPrefecture from "@/components/InputSelectPrefecture.vue";
+import InputTel from "@/components/InputTel.vue";
+import InputText from "@/components/InputText.vue";
+import InputTextarea from "@/components/InputTextarea.vue";
+import InvalidFeedback from "@/components/InvalidFeedback.vue";
+import router from "@/router";
+import { store } from "@/store";
+import { formatDate } from "@/utils/formatter.js";
+import { computed, onMounted, onUnmounted, reactive, ref } from "vue";
+import YubinBango from "yubinbango-core2";
 
 const initialCustomer = {
   id: null,
@@ -33,18 +33,18 @@ const customer = reactive({
   ...initialCustomer,
 });
 const customerId = router.currentRoute.value?.params?.id;
-const isAdmin = computed(() => store.getters['profile/isAdmin']);
+const isAdmin = computed(() => store.getters["profile/isAdmin"]);
 const genderFormOptions = ref([]);
-const hasErrors = computed(() => store.getters['customer/hasErrors']);
+const hasErrors = computed(() => store.getters["customer/hasErrors"]);
 const invalidFeedback = computed(
-  () => store.getters['customer/invalidFeedback']
+  () => store.getters["customer/invalidFeedback"]
 );
-const avatarUrl = computed(() => store.getters['customer/avatarUrl']);
-const loading = computed(() => store.getters['loading/loading']);
-const isInvalid = computed(() => store.getters['customer/isInvalid']);
+const avatarUrl = computed(() => store.getters["customer/avatarUrl"]);
+const loading = computed(() => store.getters["loading/loading"]);
+const isInvalid = computed(() => store.getters["customer/isInvalid"]);
 const modalShow = ref(false);
 const inputFileRef = ref(null);
-const maxUploadSize = computed(() => store.getters['consts/maxUploadSize']);
+const maxUploadSize = computed(() => store.getters["consts/maxUploadSize"]);
 const isFileSizeOver = ref(false);
 const inputFile = ref(null);
 const avatarTrashShow = ref(false);
@@ -53,35 +53,35 @@ onMounted(async () => {
   await fetchData();
   Object.assign(
     genderFormOptions.value,
-    store.getters['consts/genderFormOptions']
+    store.getters["consts/genderFormOptions"]
   );
 });
 onUnmounted(() => {
-  store.commit('customer/setErrors', {});
-  store.commit('customer/setData', {});
+  store.commit("customer/setErrors", {});
+  store.commit("customer/setData", {});
   URL.revokeObjectURL(inputFile.value);
 });
 
 // 顧客情報取得
 const fetchData = async () => {
-  await store.dispatch('customer/get', customerId);
-  Object.assign(customer, store.getters['customer/data']);
+  await store.dispatch("customer/get", customerId);
+  Object.assign(customer, store.getters["customer/data"]);
 };
 
 // ユーザーアイコン画像操作
 const fileUrl = () => {
   if (!inputFile.value) return null;
-  return URL.createObjectURL(inputFile.value) ?? '';
+  return URL.createObjectURL(inputFile.value) ?? "";
 };
 // ファイル選択
 const changeFile = (e) => {
   inputFile.value = e.target.files[0];
-  store.commit('customer/setErrors', {});
+  store.commit("customer/setErrors", {});
   isFileSizeOver.value = false;
   // ファイルサイズが大きすぎる場合はエラーメッセージを表示させてボタンを無効化する
   if (inputFile.value?.size > maxUploadSize.value) {
-    store.commit('customer/setErrors', {
-      avatar: ['10MB以下のファイルを選択してください。'],
+    store.commit("customer/setErrors", {
+      avatar: ["10MB以下のファイルを選択してください。"],
     });
     isFileSizeOver.value = true;
     return;
@@ -89,7 +89,7 @@ const changeFile = (e) => {
 };
 // アイコン画像更新
 const updateAvatar = async () => {
-  await store.dispatch('customer/updateAvatar', {
+  await store.dispatch("customer/updateAvatar", {
     id: customerId,
     file: inputFile.value,
   });
@@ -100,8 +100,8 @@ const updateAvatar = async () => {
 };
 // アイコン画像削除
 const deleteAvatar = async () => {
-  if (!confirm('アイコンを削除しますか？')) return;
-  await store.dispatch('customer/deleteAvatar', customerId);
+  if (!confirm("アイコンを削除しますか？")) return;
+  await store.dispatch("customer/deleteAvatar", customerId);
   if (hasErrors.value) return;
   inputFile.value = null;
   inputFileRef.value.value = null;
@@ -112,31 +112,31 @@ const deleteAvatar = async () => {
 const onBlur = (inputValue) => {
   const regex = /\d{7}/;
   // 入力値が空または7桁の数字ならエラー表示を消す
-  if ( inputValue === '' || inputValue.match(regex)) {
-    store.commit('customer/setErrors', {})
+  if (inputValue === "" || inputValue.match(regex)) {
+    store.commit("customer/setErrors", {});
   }
   // 7桁の数字でなければエラーを表示する
   else {
-    store.commit('customer/setErrors', {
-      postal_code: ['郵便番号は7桁の半角数字で入力してください。'],
+    store.commit("customer/setErrors", {
+      postal_code: ["郵便番号は7桁の半角数字で入力してください。"],
     });
   }
-}
+};
 // 住所を自動入力
 const setAddress = (code) => {
   // エラーメッセージを初期化
-  store.commit('customer/setErrors', {});
+  store.commit("customer/setErrors", {});
   // 入力値が空なら処理を終了する
-  if (code === '') {
-    store.commit('customer/setErrors', {
-      postal_code: ['郵便番号を入力してください。'],
+  if (code === "") {
+    store.commit("customer/setErrors", {
+      postal_code: ["郵便番号を入力してください。"],
     });
     return;
   }
   // 7桁の数字でなければエラーを表示して処理を終了する
   if (!code.match(/^\d{7}/)) {
-    store.commit('customer/setErrors', {
-      postal_code: ['郵便番号は7桁の半角数字で入力してください。'],
+    store.commit("customer/setErrors", {
+      postal_code: ["郵便番号は7桁の半角数字で入力してください。"],
     });
     return;
   }
@@ -145,8 +145,10 @@ const setAddress = (code) => {
   new YubinBango.Core(code, (address) => {
     // 存在しない郵便番号だった場合はエラーメッセージを表示させる
     if (!address.region) {
-      store.commit('customer/setErrors', {
-        postal_code: ['該当する住所が見つかりませんでした。正しい郵便番号を入力してください。'],
+      store.commit("customer/setErrors", {
+        postal_code: [
+          "該当する住所が見つかりませんでした。正しい郵便番号を入力してください。",
+        ],
       });
     }
     customer.pref = address.region_id; // Number 都道府県コード
@@ -157,15 +159,15 @@ const setAddress = (code) => {
 
 // 顧客情報更新
 const update = async () => {
-  store.commit('customer/setErrors', {})
-  await store.dispatch('customer/patch', customer);
+  store.commit("customer/setErrors", {});
+  await store.dispatch("customer/patch", customer);
   if (hasErrors.value) return;
   fetchData();
 };
 // 顧客情報削除
 const deleteCustomer = async () => {
-  if (!confirm('本当に顧客情報を削除してもよろしいですか？')) return;
-  await store.dispatch('customer/delete', customerId);
+  if (!confirm("本当に顧客情報を削除してもよろしいですか？")) return;
+  await store.dispatch("customer/delete", customerId);
   if (hasErrors.value) return;
   Object.assign(customer, { ...initialCustomer });
 };

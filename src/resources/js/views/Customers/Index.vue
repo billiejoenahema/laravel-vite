@@ -1,45 +1,47 @@
 <script setup>
-import BaseModal from '@/components/BaseModal.vue';
-import DataCount from '@/components/DataCount.vue';
-import InputCheckBox from '@/components/InputCheckBox.vue';
-import InputSelect from '@/components/InputSelect.vue';
-import InputSelectPrefecture from '@/components/InputSelectPrefecture.vue';
-import InputText from '@/components/InputText.vue';
-import Pagination from '@/components/Pagination.vue';
-import SortIcon from '@/components/SortIcon.vue';
-import Tooltip from '@/components/Tooltip.vue';
-import { store } from '@/store';
-import { formatDate } from '@/utils/formatter';
-import { computed, onMounted, ref } from 'vue';
-import router from '../../router';
+import BaseModal from "@/components/BaseModal.vue";
+import DataCount from "@/components/DataCount.vue";
+import InputCheckBox from "@/components/InputCheckBox.vue";
+import InputSelect from "@/components/InputSelect.vue";
+import InputSelectPrefecture from "@/components/InputSelectPrefecture.vue";
+import InputText from "@/components/InputText.vue";
+import Pagination from "@/components/Pagination.vue";
+import SortIcon from "@/components/SortIcon.vue";
+import Tooltip from "@/components/Tooltip.vue";
+import { store } from "@/store";
+import { formatDate } from "@/utils/formatter";
+import { computed, onMounted, ref } from "vue";
+import router from "../../router";
 
 onMounted(async () => {
   await fetchData();
 });
-const customers = computed(() => store.getters['customers/data']);
-const meta = computed(() => store.getters['customers/meta']);
-const params = computed(() => store.getters['customers/params']);
+const customers = computed(() => store.getters["customers/data"]);
+const meta = computed(() => store.getters["customers/meta"]);
+const params = computed(() => store.getters["customers/params"]);
 const invalidFeedback = computed(
-  () => store.getters['customer/invalidFeedback']
+  () => store.getters["customer/invalidFeedback"]
 );
-const isInvalid = computed(() => store.getters['customer/isInvalid']);
+const isInvalid = computed(() => store.getters["customer/isInvalid"]);
 const genderFormOptions = computed(
-  () => store.getters['consts/genderFormOptions']
+  () => store.getters["consts/genderFormOptions"]
 );
 const perPageFormOptions = computed(
-  () => store.getters['consts/perPageFormOptions']
+  () => store.getters["consts/perPageFormOptions"]
 );
-const avatarUrl = computed(() => store.getters['customer/avatarUrl']);
-const isAdmin = computed(() => store.getters['profile/isAdmin']);
+const avatarUrl = computed(() => store.getters["customer/avatarUrl"]);
+const isAdmin = computed(() => store.getters["profile/isAdmin"]);
 const searchModalShow = ref(false);
-const restoreDialogShow = ref(false)
-const tooltipContent = computed(() => store.getters['customers/tooltipContent'])
+const restoreDialogShow = ref(false);
+const tooltipContent = computed(
+  () => store.getters["customers/tooltipContent"]
+);
 
 const fetchData = async () => {
-  await store.dispatch('customers/get', params.value);
+  await store.dispatch("customers/get", params.value);
 };
 const resetParams = () => {
-  store.commit('customers/resetParams');
+  store.commit("customers/resetParams");
   fetchData();
 };
 const sort = (value) => {
@@ -55,7 +57,7 @@ const sort = (value) => {
 const search = () => {
   params.value.page = 1;
   fetchData();
-}
+};
 const changePage = (page = null) => {
   if (page) {
     params.value.page = page;
@@ -63,16 +65,16 @@ const changePage = (page = null) => {
   }
 };
 const changePerPage = () => {
-    params.value.page = 1;
-    fetchData();
+  params.value.page = 1;
+  fetchData();
 };
 const moveToCreate = () => {
-  router.push('/customers/create');
+  router.push("/customers/create");
 };
 const restore = async (customerId) => {
-  await store.dispatch('customer/restore', customerId)
+  await store.dispatch("customer/restore", customerId);
   fetchData();
-}
+};
 </script>
 
 <template>
@@ -208,7 +210,14 @@ const restore = async (customerId) => {
               >{{ customer.name }}
             </router-link>
           </Tooltip>
-          <button v-if="customer.deleted_at" type="button" class="btn btn-secondary ms-2" @click="restoreDialogShow = true">復元</button>
+          <button
+            v-if="customer.deleted_at"
+            type="button"
+            class="btn btn-secondary ms-2"
+            @click="restoreDialogShow = true"
+          >
+            復元
+          </button>
         </td>
         <td class="align-middle">{{ customer.age }}</td>
         <td class="align-middle">{{ customer.gender_value }}</td>
@@ -223,7 +232,8 @@ const restore = async (customerId) => {
           title="この顧客を復元しますか？"
           button-value="復元する"
           @cancel="restoreDialogShow = false"
-          @submit="restore(customer.id)">
+          @submit="restore(customer.id)"
+        >
         </BaseModal>
       </tr>
     </tbody>
@@ -302,4 +312,3 @@ const restore = async (customerId) => {
     </form>
   </BaseModal>
 </template>
-

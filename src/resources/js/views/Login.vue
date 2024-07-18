@@ -1,25 +1,25 @@
 <script setup>
-import InputText from '@/components/InputText.vue';
-import { computed, reactive, ref } from 'vue';
-import router from '@/router';
-import { store } from '@/store';
+import InputText from "@/components/InputText.vue";
+import router from "@/router";
+import { store } from "@/store";
+import { computed, reactive, ref } from "vue";
 
 const user = reactive({
-  email: '',
-  password: '',
+  email: "",
+  password: "",
 });
-const hasErrors = computed(() => store.getters['auth/hasErrors']);
+const hasErrors = computed(() => store.getters["auth/hasErrors"]);
 const isForgotPassword = ref(false);
 
 const login = async () => {
-  store.commit('auth/setErrors', {});
-  await store.dispatch('auth/login', user);
+  store.commit("auth/setErrors", {});
+  await store.dispatch("auth/login", user);
   if (!hasErrors.value) {
-    router.push('/');
+    router.push("/");
   }
 };
 const forgotPassword = async () => {
-  await store.dispatch('auth/forgotPassword', { email: user.email });
+  await store.dispatch("auth/forgotPassword", { email: user.email });
 };
 </script>
 

@@ -1,16 +1,16 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, ref } from "vue";
 const props = defineProps({
   autocomplete: {
-    default: 'on',
+    default: "on",
     required: false,
     type: [String],
     validator(value) {
-      return ['on', 'off'].includes(value);
+      return ["on", "off"].includes(value);
     },
   },
   classValue: {
-    default: '',
+    default: "",
     required: false,
     type: String,
   },
@@ -20,55 +20,55 @@ const props = defineProps({
     type: Boolean,
   },
   helperText: {
-    default: '',
+    default: "",
     required: false,
     type: String,
   },
   id: {
-    default: '',
+    default: "",
     required: true,
     type: String,
   },
   invalidFeedback: {
-    default: '',
+    default: "",
     required: false,
     type: String,
   },
   modelValue: {
-    default: '',
+    default: "",
     required: false,
     type: [String, Number],
   },
   placeholder: {
-    default: '',
+    default: "",
     required: false,
     type: String,
   },
 });
-const inputCorrectness = ref('');
+const inputCorrectness = ref("");
 const regex = /\d{7}/;
-const emit = defineEmits(['update:modelValue', 'search']);
+const emit = defineEmits(["update:modelValue", "search"]);
 const updateModelValue = (e) => {
-  emit('update:modelValue', e.target.value);
+  emit("update:modelValue", e.target.value);
 };
 const search = () => {
   if (regex.test(props.modelValue)) {
-    inputCorrectness.value = '';
+    inputCorrectness.value = "";
   }
-  emit('search', props.modelValue);
+  emit("search", props.modelValue);
 };
 const inputClassName = computed(() => {
   return `${props.classValue}`;
 });
 // 7桁の半角数字かどうかを判定する
 const determineInputValue = () => {
-  if (props.modelValue === '') {
-    inputCorrectness.value = '';
+  if (props.modelValue === "") {
+    inputCorrectness.value = "";
     return;
   }
   inputCorrectness.value = regex.test(props.modelValue)
-    ? 'is-valid'
-    : 'is-invalid';
+    ? "is-valid"
+    : "is-invalid";
 };
 </script>
 

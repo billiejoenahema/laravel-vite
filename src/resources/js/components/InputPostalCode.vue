@@ -1,15 +1,15 @@
 <script setup>
 const props = defineProps({
   autocomplete: {
-    default: 'on',
+    default: "on",
     required: false,
     type: [String],
     validator(value) {
-      return ['on', 'off'].includes(value);
+      return ["on", "off"].includes(value);
     },
   },
   classValue: {
-    default: '',
+    default: "",
     required: false,
     type: String,
   },
@@ -19,59 +19,58 @@ const props = defineProps({
     type: Boolean,
   },
   helperText: {
-    default: '',
+    default: "",
     required: false,
     type: String,
   },
   id: {
-    default: '',
+    default: "",
     required: true,
     type: String,
   },
   invalidFeedback: {
-    default: '',
+    default: "",
     required: false,
     type: String,
   },
   modelValue: {
-    default: '',
+    default: "",
     required: false,
     type: [String, Number],
   },
   placeholder: {
-    default: '',
+    default: "",
     required: false,
     type: String,
   },
 });
-const emit = defineEmits(['update:modelValue', 'blur']);
+const emit = defineEmits(["update:modelValue", "blur"]);
 const updateModelValue = (e) => {
-  emit('update:modelValue', e.target.value);
+  emit("update:modelValue", e.target.value);
 };
 const onBlur = () => {
-  emit('blur')
-}
-
+  emit("blur");
+};
 </script>
 
 <template>
   <div class="input-wrapper">
-      <input
-        :aria-describedby="`${id}HelpBlock`"
-        autocorrect="postal-code"
-        :autocomplete="autocomplete"
-        class="form-control"
-        :class="classValue"
-        :disabled="disabled"
-        :id="id"
-        inputmode="numeric"
-        maxlength="8"
-        :placeholder="placeholder"
-        type="text"
-        :value="modelValue"
-        @input="updateModelValue"
-        @blur="onBlur"
-      />
+    <input
+      :aria-describedby="`${id}HelpBlock`"
+      autocorrect="postal-code"
+      :autocomplete="autocomplete"
+      class="form-control"
+      :class="classValue"
+      :disabled="disabled"
+      :id="id"
+      inputmode="numeric"
+      maxlength="8"
+      :placeholder="placeholder"
+      type="text"
+      :value="modelValue"
+      @input="updateModelValue"
+      @blur="onBlur"
+    />
     <div class="form-text-wrapper">
       <div :id="`${id}HelpBlock`" class="form-text text-muted">
         {{ helperText }}

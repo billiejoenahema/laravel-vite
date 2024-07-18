@@ -6,14 +6,14 @@ const props = defineProps({
     default: () => [],
   },
 });
-const emit = defineEmits(['change']);
+const emit = defineEmits(["change"]);
 const changePage = (url = null) => {
   if (!url) return;
-  const page = url.substring(url.indexOf('=') + 1);
-  emit('change', page);
+  const page = url.substring(url.indexOf("=") + 1);
+  emit("change", page);
 };
 const linkLabel = (label) => {
-  return label.replace('&laquo;', '«').replace('&raquo;', '»');
+  return label.replace("&laquo;", "«").replace("&raquo;", "»");
 };
 </script>
 

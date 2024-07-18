@@ -3,7 +3,7 @@ const props = defineProps({
   classValue: {
     type: String,
     required: false,
-    default: '',
+    default: "",
   },
   disabled: {
     default: false,
@@ -11,24 +11,24 @@ const props = defineProps({
     type: Boolean,
   },
   id: {
-    default: '',
+    default: "",
     required: true,
     type: String,
   },
   invalidFeedback: {
-    default: '',
+    default: "",
     required: false,
     type: String,
   },
   modelValue: {
-    default: '',
+    default: "",
     required: false,
     type: [String, Number],
   },
 });
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(["update:modelValue"]);
 const updateModelValue = (event) => {
-  emit('update:modelValue', event.target.value);
+  emit("update:modelValue", event.target.value);
 };
 </script>
 

@@ -3,12 +3,12 @@ defineProps({
   id: {
     type: String,
     required: true,
-    default: 'example',
+    default: "example",
   },
   classValue: {
     type: String,
     required: false,
-    default: '',
+    default: "",
   },
   disabled: {
     type: Boolean,
@@ -18,21 +18,21 @@ defineProps({
   title: {
     type: String,
     required: false,
-    default: '',
+    default: "",
   },
   buttonValue: {
     type: String,
     required: false,
-    default: '',
+    default: "",
   },
 });
-const emit = defineEmits(['submit', 'cancel']);
+const emit = defineEmits(["submit", "cancel"]);
 const close = () => {
-  emit('cancel');
+  emit("cancel");
 };
 const submit = () => {
   close();
-  emit('submit');
+  emit("submit");
 };
 </script>
 

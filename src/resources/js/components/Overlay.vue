@@ -7,12 +7,12 @@ const props = defineProps({
 });
 const bgColor = () => {
   if (props.data?.status === 200) {
-    return 'bg-success';
+    return "bg-success";
   }
   if (props.data?.status === 500) {
-    return 'bg-danger';
+    return "bg-danger";
   }
-  return '';
+  return "";
 };
 </script>
 

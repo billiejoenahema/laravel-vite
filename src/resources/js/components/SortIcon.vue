@@ -1,30 +1,30 @@
 <script setup>
-import { computed } from 'vue';
+import { computed } from "vue";
 const props = defineProps({
   isAsc: {
     type: Boolean,
     required: false,
-    default: '',
+    default: "",
   },
   activeSortKey: {
     type: String,
     required: false,
-    default: '',
+    default: "",
   },
   label: {
     type: String,
     required: false,
-    default: '',
+    default: "",
   },
 });
 const icon = computed(() => {
   if (props.activeSortKey !== props.label) {
-    return 'sort';
+    return "sort";
   }
   if (props.isAsc) {
-    return 'sort-up';
+    return "sort-up";
   } else {
-    return 'sort-down';
+    return "sort-down";
   }
 });
 </script>

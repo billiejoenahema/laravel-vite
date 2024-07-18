@@ -1,8 +1,8 @@
-import router from '@/router';
-import axios from 'axios';
+import router from "@/router";
+import axios from "axios";
 
 const setLoading = (commit, bool) =>
-  commit('loading/setLoading', bool, { root: true });
+  commit("loading/setLoading", bool, { root: true });
 
 const state = {
   data: {},
@@ -18,12 +18,12 @@ const getters = {
   },
   invalidFeedback: (state) => (key) => {
     return state.errors?.[key]?.reduce((acc, cur) => {
-      if (acc === '') return cur;
+      if (acc === "") return cur;
       return `${acc}\n${cur}`;
-    }, '');
+    }, "");
   },
   isInvalid: (state) => (key) => {
-    return state.errors?.[key] ? 'is-invalid' : '';
+    return state.errors?.[key] ? "is-invalid" : "";
   },
   avatarUrl: () => (avatar) => {
     const fileName = avatar ?? import.meta.env.VITE_DEFAULT_AVATAR;
@@ -38,15 +38,15 @@ const actions = {
     await axios
       .get(`/api/customers/${id}`)
       .then((res) => {
-        commit('setErrors', {});
-        commit('setData', res);
+        commit("setErrors", {});
+        commit("setData", res);
       })
       .catch((err) => {
         // 認証エラーのときはログイン画面へ遷移させる
-        if(err.response.status === 401) {
-          router.push('/login');
+        if (err.response.status === 401) {
+          router.push("/login");
         }
-        commit('setErrors', err.response.data.errors);
+        commit("setErrors", err.response.data.errors);
       });
     setLoading(commit, false);
   },
@@ -55,12 +55,12 @@ const actions = {
     await axios
       .post(`/api/customers`, data)
       .then((res) => {
-        commit('setErrors', {});
-        commit('setData', res);
+        commit("setErrors", {});
+        commit("setData", res);
         commit(
-          'overlay/setData',
+          "overlay/setData",
           {
-            message: '登録しました',
+            message: "登録しました",
             status: 200,
           },
           { root: true }
@@ -68,45 +68,45 @@ const actions = {
       })
       .catch((err) => {
         // 認証エラーのときはログイン画面へ遷移させる
-        if(err.response.status === 401) {
-          router.push('/login');
+        if (err.response.status === 401) {
+          router.push("/login");
         }
-        commit('setErrors', err.response.data.errors);
+        commit("setErrors", err.response.data.errors);
       });
     setLoading(commit, false);
   },
   async updateAvatar({ commit }, { id, file }) {
     setLoading(commit, true);
     const formData = new FormData();
-    formData.append('avatar', file);
+    formData.append("avatar", file);
     await axios
       .post(`/api/customers/${id}/avatar`, formData)
       .then((res) => {
-        commit('setErrors', {});
+        commit("setErrors", {});
         commit(
-          'overlay/setData',
+          "overlay/setData",
           {
             message: res.data.message,
             status: res.status,
           },
           { root: true }
         );
-        commit('setData', res);
+        commit("setData", res);
       })
       .catch((err) => {
         // 認証エラーのときはログイン画面へ遷移させる
-        if(err.response.status === 401) {
-          router.push('/login');
+        if (err.response.status === 401) {
+          router.push("/login");
         }
         commit(
-          'overlay/setData',
+          "overlay/setData",
           {
-            message: 'エラー',
+            message: "エラー",
             status: err.response.status,
           },
           { root: true }
         );
-        commit('setErrors', err.response.data.errors);
+        commit("setErrors", err.response.data.errors);
       });
     setLoading(commit, false);
   },
@@ -115,31 +115,31 @@ const actions = {
     await axios
       .delete(`/api/customers/${id}/avatar`)
       .then((res) => {
-        commit('setErrors', {});
+        commit("setErrors", {});
         commit(
-          'overlay/setData',
+          "overlay/setData",
           {
             message: res.data.message,
             status: res.status,
           },
           { root: true }
         );
-        commit('setData', res);
+        commit("setData", res);
       })
       .catch((err) => {
         // 認証エラーのときはログイン画面へ遷移させる
-        if(err.response.status === 401) {
-          router.push('/login');
+        if (err.response.status === 401) {
+          router.push("/login");
         }
         commit(
-          'overlay/setData',
+          "overlay/setData",
           {
-            message: 'エラー',
+            message: "エラー",
             status: err.response.status,
           },
           { root: true }
         );
-        commit('setErrors', err.response.data.errors);
+        commit("setErrors", err.response.data.errors);
       });
     setLoading(commit, false);
   },
@@ -148,31 +148,31 @@ const actions = {
     await axios
       .patch(`/api/customers/${data.id}`, data)
       .then((res) => {
-        commit('setErrors', {});
+        commit("setErrors", {});
         commit(
-          'overlay/setData',
+          "overlay/setData",
           {
             message: res.data.message,
             status: res.status,
           },
           { root: true }
         );
-        commit('setData', res);
+        commit("setData", res);
       })
       .catch((err) => {
         // 認証エラーのときはログイン画面へ遷移させる
-        if(err.response.status === 401) {
-          router.push('/login');
+        if (err.response.status === 401) {
+          router.push("/login");
         }
         commit(
-          'overlay/setData',
+          "overlay/setData",
           {
-            message: 'エラー',
+            message: "エラー",
             status: err.response.status,
           },
           { root: true }
         );
-        commit('setErrors', err.response.data.errors);
+        commit("setErrors", err.response.data.errors);
       });
     setLoading(commit, false);
   },
@@ -181,31 +181,31 @@ const actions = {
     await axios
       .delete(`/api/customers/${id}`)
       .then((res) => {
-        commit('setErrors', {});
+        commit("setErrors", {});
         commit(
-          'overlay/setData',
+          "overlay/setData",
           {
             message: res.data.message,
             status: res.status,
           },
           { root: true }
         );
-        commit('setData', res);
+        commit("setData", res);
       })
       .catch((err) => {
         // 認証エラーのときはログイン画面へ遷移させる
-        if(err.response.status === 401) {
-          router.push('/login');
+        if (err.response.status === 401) {
+          router.push("/login");
         }
         commit(
-          'overlay/setData',
+          "overlay/setData",
           {
             message: err.response.data.message,
             status: err.response.status,
           },
           { root: true }
         );
-        commit('setErrors', err.response.data.errors);
+        commit("setErrors", err.response.data.errors);
       });
     setLoading(commit, false);
   },
@@ -214,35 +214,35 @@ const actions = {
     await axios
       .patch(`/api/customers/${id}/restore`)
       .then((res) => {
-        commit('setErrors', {});
+        commit("setErrors", {});
         commit(
-          'overlay/setData',
+          "overlay/setData",
           {
             message: res.data.message,
             status: res.status,
           },
           { root: true }
         );
-        commit('setData', res);
+        commit("setData", res);
       })
       .catch((err) => {
         // 認証エラーのときはログイン画面へ遷移させる
-        if(err.response.status === 401) {
-          router.push('/login');
+        if (err.response.status === 401) {
+          router.push("/login");
         }
         // 404エラーのときは強制リロードさせる
-        if(err.response.status === 404) {
+        if (err.response.status === 404) {
           window.location.reload();
         }
         commit(
-          'overlay/setData',
+          "overlay/setData",
           {
             message: err.response.data.message,
             status: err.response.status,
           },
           { root: true }
         );
-        commit('setErrors', err.response.data.errors);
+        commit("setErrors", err.response.data.errors);
       });
     setLoading(commit, false);
   },

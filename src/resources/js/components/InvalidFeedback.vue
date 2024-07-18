@@ -2,7 +2,7 @@
 defineProps({
   invalidFeedback: {
     type: String,
-    default: '',
+    default: "",
   },
 });
 </script>

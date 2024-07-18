@@ -1,9 +1,9 @@
-import { scrollToTop } from '@/utils/scrollToTop.js';
+import { scrollToTop } from "@/utils/scrollToTop.js";
 
 const TIMEOUT = 2000;
 const initialData = {
-  message: '',
-  status: '',
+  message: "",
+  status: "",
 };
 
 const state = {

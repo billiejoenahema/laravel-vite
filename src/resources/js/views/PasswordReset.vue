@@ -1,12 +1,12 @@
 <script setup>
-import router from '@/router';
-import { store } from '@/store';
-import { useForm } from 'laravel-precognition-vue';
-import { computed, onMounted, ref } from 'vue';
+import router from "@/router";
+import { store } from "@/store";
+import { useForm } from "laravel-precognition-vue";
+import { computed, onMounted, ref } from "vue";
 
-const isInvalid = computed(() => store.getters['auth/isInvalid']);
-const isNotMatchPassword = ref(false)
-const form = useForm('post', '/api/reset-password', {
+const isInvalid = computed(() => store.getters["auth/isInvalid"]);
+const isNotMatchPassword = ref(false);
+const form = useForm("post", "/api/reset-password", {
   email: null,
   password: null,
   confirm_password: null,
@@ -17,14 +17,14 @@ onMounted(() => {
 });
 const passwordsMatch = () => {
   isNotMatchPassword.value = form.confirm_password !== form.password;
-}
+};
 const submit = async () => {
   const response = await form.submit();
   if (response.request.status !== 200) return;
   setTimeout(() => {
-    router.push('/');
+    router.push("/");
   }, 2000);
-  };
+};
 </script>
 
 <template>
@@ -43,7 +43,7 @@ const submit = async () => {
           @change="form.validate('email')"
         />
         <div v-if="form.invalid('email')" class="invalid-feedback">
-            {{ form.errors.email }}
+          {{ form.errors.email }}
         </div>
       </div>
       <div class="mb-3">
@@ -59,7 +59,7 @@ const submit = async () => {
           @change="form.validate('password')"
         />
         <div v-if="form.invalid('password')" class="invalid-feedback">
-            {{ form.errors.password }}
+          {{ form.errors.password }}
         </div>
       </div>
       <div class="mb-3">
@@ -77,9 +77,7 @@ const submit = async () => {
           パスワードが一致していません
         </div>
       </div>
-      <button class="sign-in btn btn-primary mb-3">
-        Password Reset
-      </button>
+      <button class="sign-in btn btn-primary mb-3">Password Reset</button>
     </form>
   </div>
 </template>

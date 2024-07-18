@@ -1,11 +1,11 @@
-import router from '@/router';
-import axios from 'axios';
+import router from "@/router";
+import axios from "axios";
 
 const setLoading = (commit, bool) =>
-  commit('loading/setLoading', bool, { root: true });
+  commit("loading/setLoading", bool, { root: true });
 
 const defaultParams = {
-  sort_key: 'id',
+  sort_key: "id",
   is_asc: false,
   page: 1,
   per_page: 20,
@@ -38,7 +38,7 @@ const getters = {
   },
   tooltipContent: (state) => (id) => {
     const customer = state.data.data.find((c) => c.id === id);
-    if (!customer) return '';
+    if (!customer) return "";
     return `ID: ${customer.id}\n名前: ${customer.name}\nふりがな: ${customer.name_kana}\n住所: ${customer.address}`;
   },
 };
@@ -47,17 +47,17 @@ const actions = {
   async get({ commit }, params) {
     setLoading(commit, true);
     await axios
-      .get('/api/customers', { params })
+      .get("/api/customers", { params })
       .then((res) => {
-        commit('setErrors', {});
-        commit('setData', res);
+        commit("setErrors", {});
+        commit("setData", res);
       })
       .catch((err) => {
         // 認証エラーのときはログイン画面へ遷移させる
-        if(err.response.status === 401) {
-          router.push('/login');
+        if (err.response.status === 401) {
+          router.push("/login");
         }
-        commit('setErrors', err.response.data.errors);
+        commit("setErrors", err.response.data.errors);
       });
     setLoading(commit, false);
   },

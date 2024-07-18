@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref } from "vue";
 
 defineProps({
   loading: {
@@ -7,7 +7,7 @@ defineProps({
     default: false,
   },
 });
-const color = ref('#fca35a');
+const color = ref("#fca35a");
 </script>
 
 <template>
@@ -53,7 +53,7 @@ const color = ref('#fca35a');
 }
 .loader:before,
 .loader:after {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
 }

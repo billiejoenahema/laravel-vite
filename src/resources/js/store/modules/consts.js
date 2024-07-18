@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 
 const state = {
   data: {},
@@ -25,17 +25,17 @@ const getters = {
 const actions = {
   async get({ commit }) {
     await axios
-      .get('/api/const')
+      .get("/api/const")
       .then((res) => {
-        commit('setData', res.data);
+        commit("setData", res.data);
       })
       .catch(() => {
-        commit('setData', {});
+        commit("setData", {});
       });
   },
   async getIfNeeded({ dispatch, getters }) {
     if (Object.keys(getters.data).length) return;
-    await dispatch('get');
+    await dispatch("get");
   },
 };
 

@@ -1,18 +1,18 @@
 <script setup>
-import { computed } from 'vue';
-import { store } from '../store';
+import { computed } from "vue";
+import { store } from "../store";
 
-const toast = computed(() => store.getters['toast/data']);
+const toast = computed(() => store.getters["toast/data"]);
 const bgColor = () => {
   if (toast.value.status < 300) {
-    return 'bg-success';
+    return "bg-success";
   } else if (toast.value.status >= 400) {
-    return 'bg-danger';
+    return "bg-danger";
   } else {
-    return '';
+    return "";
   }
 };
-const close = () => store.commit('toast/setData', {});
+const close = () => store.commit("toast/setData", {});
 </script>
 
 <template>

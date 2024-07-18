@@ -1,14 +1,14 @@
 <script setup>
-import { ref } from 'vue';
+import { ref } from "vue";
 defineProps({
   content: {
     type: String,
     required: false,
-    default: '',
+    default: "",
   },
 });
 
-const tooltipStyle = ref('');
+const tooltipStyle = ref("");
 const tooltipShow = ref(false);
 const toggleShowTooltip = (e) => {
   tooltipShow.value = !tooltipShow.value;

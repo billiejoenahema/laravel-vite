@@ -1,14 +1,14 @@
 <script setup>
-import InputPostalCode from '@/components/InputPostalCode.vue';
-import InputSelect from '@/components/InputSelect.vue';
-import InputSelectPrefecture from '@/components/InputSelectPrefecture.vue';
-import InputTel from '@/components/InputTel.vue';
-import InputText from '@/components/InputText.vue';
-import InputTextarea from '@/components/InputTextarea.vue';
-import router from '@/router';
-import { store } from '@/store';
-import { computed, onUnmounted, reactive } from 'vue';
-import YubinBango from 'yubinbango-core2';
+import InputPostalCode from "@/components/InputPostalCode.vue";
+import InputSelect from "@/components/InputSelect.vue";
+import InputSelectPrefecture from "@/components/InputSelectPrefecture.vue";
+import InputTel from "@/components/InputTel.vue";
+import InputText from "@/components/InputText.vue";
+import InputTextarea from "@/components/InputTextarea.vue";
+import router from "@/router";
+import { store } from "@/store";
+import { computed, onUnmounted, reactive } from "vue";
+import YubinBango from "yubinbango-core2";
 
 const customer = reactive({
   avatar: null,
@@ -26,24 +26,24 @@ const customer = reactive({
 });
 
 const genderFormOptions = computed(
-  () => store.getters['consts/genderFormOptions']
+  () => store.getters["consts/genderFormOptions"]
 );
-const hasErrors = computed(() => store.getters['customer/hasErrors']);
+const hasErrors = computed(() => store.getters["customer/hasErrors"]);
 const invalidFeedback = computed(
-  () => store.getters['customer/invalidFeedback']
+  () => store.getters["customer/invalidFeedback"]
 );
-const isInvalid = computed(() => store.getters['customer/isInvalid']);
+const isInvalid = computed(() => store.getters["customer/isInvalid"]);
 
 // 住所を自動入力
 const setAddress = (code) => {
   // エラーメッセージを初期化
-  store.commit('customer/setErrors', {});
+  store.commit("customer/setErrors", {});
   // 入力値が空なら処理を終了する
-  if (code === '') return;
+  if (code === "") return;
   // 7桁の数字でなければエラーを表示して処理を終了する
   if (!code.match(/^\d{7}/)) {
-    store.commit('customer/setErrors', {
-      postal_code: ['郵便番号は7桁の半角数字で入力してください。'],
+    store.commit("customer/setErrors", {
+      postal_code: ["郵便番号は7桁の半角数字で入力してください。"],
     });
     return;
   }
@@ -52,8 +52,8 @@ const setAddress = (code) => {
   new YubinBango.Core(code, (address) => {
     // 存在しない郵便番号だった場合はエラーメッセージを表示させる
     if (!address.region) {
-      store.commit('customer/setErrors', {
-        postal_code: ['該当する住所が見つかりませんでした。'],
+      store.commit("customer/setErrors", {
+        postal_code: ["該当する住所が見つかりませんでした。"],
       });
     }
     customer.pref = address.region_id; // Number 都道府県コード
@@ -63,22 +63,22 @@ const setAddress = (code) => {
 };
 
 const moveToIndex = () => {
-  router.push('/customers');
+  router.push("/customers");
 };
 
 // 登録
 const register = async () => {
   // 顧客情報を登録する
-  await store.dispatch('customer/post', customer);
+  await store.dispatch("customer/post", customer);
   if (hasErrors.value) return;
-  const registeredCustomer = store.getters['customer/data'];
+  const registeredCustomer = store.getters["customer/data"];
   setTimeout(() => {
     router.push(`/customers/${registeredCustomer.id}`);
   }, 2000);
 };
 
 onUnmounted(() => {
-  store.commit('customer/setErrors', {});
+  store.commit("customer/setErrors", {});
 });
 </script>
 

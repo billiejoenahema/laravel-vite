@@ -10,6 +10,6 @@ defineProps({
 
 <template>
   <div>
-    {{ meta.from + '-' + meta.to + ' of ' + meta.total }}
+    {{ meta.from + "-" + meta.to + " of " + meta.total }}
   </div>
 </template>

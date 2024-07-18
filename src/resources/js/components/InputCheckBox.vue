@@ -1,9 +1,9 @@
 <script setup>
-import { computed } from 'vue';
+import { computed } from "vue";
 
 const props = defineProps({
   classValue: {
-    default: '',
+    default: "",
     required: false,
     type: String,
   },
@@ -13,22 +13,22 @@ const props = defineProps({
     type: Boolean,
   },
   helperText: {
-    default: '',
+    default: "",
     required: false,
     type: String,
   },
   id: {
-    default: '',
+    default: "",
     required: true,
     type: String,
   },
   invalidFeedback: {
-    default: '',
+    default: "",
     required: false,
     type: String,
   },
   label: {
-    default: '',
+    default: "",
     required: false,
     type: String,
   },
@@ -38,10 +38,10 @@ const props = defineProps({
     type: Boolean,
   },
 });
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(["update:modelValue"]);
 const model = computed({
   get: () => props.modelValue,
-  set: (value) => emit('update:modelValue', value),
+  set: (value) => emit("update:modelValue", value),
 });
 </script>
 
