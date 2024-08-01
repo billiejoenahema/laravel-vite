@@ -219,7 +219,7 @@ const restore = async (customerId) => {
             復元
           </button>
         </td>
-        <td class="align-middle">{{ customer.age }}</td>
+        <td class="align-middle">{{ customer.age }}歳</td>
         <td class="align-middle">{{ customer.gender_value }}</td>
         <td class="align-middle">{{ customer.phone }}</td>
         <td class="align-middle">{{ formatDate(customer.birth_date) }}</td>
