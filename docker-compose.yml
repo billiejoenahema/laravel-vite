@@ -8,7 +8,6 @@ services:
       - ./src:/data
 
   web:
-    restart: always
     build: ./infra/nginx
     ports:
       - 8081:443
